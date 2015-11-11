@@ -1,0 +1,162 @@
+﻿@media all {
+    .frame {
+
+    }
+
+    .frame-absolute {
+        position: absolute;
+    }
+
+    .frame-200 {
+        width: 200px;
+        height: 200px;
+    }
+    .frame .segment {
+        float: left;
+        width: 50%;
+        height: 50%;
+        background: #ffffff;
+        
+    }
+    .frame .segment div {
+        width: 100%;
+        height: 100%;
+        background: #000000;
+    }
+    .frame-200 .segment-top-left .top-blank {
+        height: 94px;
+    }
+    .frame-200 .segment-top-left .side-blank {
+        width: 94px;
+    }
+    .frame-200 .segment-top-right .top-blank {
+        height: 94px;
+    }
+    .frame-200 .segment-top-right .side-blank {
+        margin-left: 6px;
+        width: 94px;
+    }
+    .frame-200 .segment-bottom-left .top-blank {
+        margin-top: 6px;
+        height: 94px;
+    }
+    .frame-200 .segment-bottom-left .side-blank {
+        width: 94px;
+    }
+    .frame-200 .segment-bottom-right .top-blank {
+        margin-top: 6px;
+        height: 94px;
+    }
+    .frame-200 .segment-bottom-right .side-blank {
+        margin-left: 6px;
+        width: 94px;
+    }
+    .frame-200 .content {
+        position: absolute;
+        width: 188px;
+        height: 188px;
+        margin: 6px;
+        background: #ffffff;
+    }
+
+
+
+
+    .frame-100 {
+        width: 100px;
+        height: 100px;
+    }
+    .frame-100 .segment-top-left .top-blank {
+        height: 44px;
+    }
+    .frame-100 .segment-top-left .side-blank {
+        width: 44px;
+    }
+    .frame-100 .segment-top-right .top-blank {
+        height: 44px;
+    }
+    .frame-100 .segment-top-right .side-blank {
+        margin-left: 6px;
+        width: 44px;
+    }
+    .frame-100 .segment-bottom-left .top-blank {
+        margin-top: 6px;
+        height: 44px;
+    }
+    .frame-100 .segment-bottom-left .side-blank {
+        width: 44px;
+    }
+    .frame-100 .segment-bottom-right .top-blank {
+        margin-top: 6px;
+        height: 44px;
+    }
+    .frame-100 .segment-bottom-right .side-blank {
+        margin-left: 6px;
+        width: 44px;
+    }
+    .frame-100 .content {
+        position: absolute;
+        width: 88px;
+        height: 88px;
+        margin: 6px;
+        background: #ffffff;
+    }
+
+    .frame-80 {
+        width: 80px;
+        height: 80px;
+    }
+    .frame-80 .segment-top-left .top-blank {
+        height: 34px;
+    }
+    .frame-80 .segment-top-left .side-blank {
+        width: 34px;
+    }
+    .frame-80 .segment-top-right .top-blank {
+        height: 34px;
+    }
+    .frame-80 .segment-top-right .side-blank {
+        margin-left: 6px;
+        width: 34px;
+    }
+    .frame-80 .segment-bottom-left .top-blank {
+        margin-top: 6px;
+        height: 34px;
+    }
+    .frame-80 .segment-bottom-left .side-blank {
+        width: 34px;
+    }
+    .frame-80 .segment-bottom-right .top-blank {
+        margin-top: 6px;
+        height: 34px;
+    }
+    .frame-80 .segment-bottom-right .side-blank {
+        margin-left: 6px;
+        width: 34px;
+    }
+    .frame-80 .content {
+        position: absolute;
+        width: 68px;
+        height: 68px;
+        margin: 6px;
+        background: #ffffff;
+    }
+
+    .frame h1 {
+        margin: 0;
+        padding: 0;
+        font-size: xx-large;
+        font-weight: 700;
+    }
+    .frame h2 {
+        margin: 0;
+        padding: 0;
+        font-size: x-large;
+        font-weight: 700;
+    }
+    .frame div {
+        margin: 0;
+        padding: 0;
+        font-size: large;
+    }
+}
