@@ -20,9 +20,28 @@
             return this._instance.urlBase;
         }
 
-        public static getDateTimeFormat(): string {
+        public static getTimeFormat1(): string {
             //return "HH:mm:ss ddd MMM Do";
-            return "HH:mm:ss dddd";
+            //return "HH:mm:ss dddd";
+            return "h:mm A";
+        }
+
+        public static getTimeFormat2(): string {
+            //return "HH:mm:ss ddd MMM Do";
+            //return "HH:mm:ss dddd";
+            return "h mm A";
+        }
+
+        public static getDateFormat(): string {
+            return "M/D/YYYY";
+        }
+
+        public static getMainColor(): string {
+            return "#155B38";
+        }
+
+        public static getHighlightColor(): string {
+            return "#bdc3c7";
         }
     }
 }

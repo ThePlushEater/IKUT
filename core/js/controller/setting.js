@@ -18,8 +18,20 @@ var Wakey;
         Setting.getBaseUrl = function () {
             return this._instance.urlBase;
         };
-        Setting.getDateTimeFormat = function () {
-            return "HH:mm:ss dddd";
+        Setting.getTimeFormat1 = function () {
+            return "h:mm A";
+        };
+        Setting.getTimeFormat2 = function () {
+            return "h mm A";
+        };
+        Setting.getDateFormat = function () {
+            return "M/D/YYYY";
+        };
+        Setting.getMainColor = function () {
+            return "#155B38";
+        };
+        Setting.getHighlightColor = function () {
+            return "#bdc3c7";
         };
         Setting._instance = new Setting();
         return Setting;

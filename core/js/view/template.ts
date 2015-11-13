@@ -11,39 +11,25 @@
         public static getInstance(): Template {
             return Template._instance;
         }
-        public static getSplashViewTemplate(): string {
+        public static getBaseViewTemplate(): string {
             var template = "";
-            template += '<div id="wrapper-background"></div>';
-            template += '<div id="wrapper-title">';
-            template += '<div class="title title-1 hidden">I</div>';
-            template += '<div class="title title-2 hidden">K</div>';
-            template += '<div class="title title-3 hidden">U</div>';
-            template += '<div class="title title-4 hidden">T</div>';
-            template += '</div>';
-            template += '<div id="wrapper-start"></div>';
-            return template;
-        }
-        public static getMenuViewTemplate(): string {
-            var template = "";
-            template += '<div id="wrapper-background"></div>';
-            template += '<div id="wrapper-clock"></div>';
-            template += '<div id="wrapper-menu"></div>';
-            template += '<div id="wrapper-menu1"></div>';
-            template += '<div id="wrapper-menu2"></div>';
-            template += '<div id="wrapper-menu3"></div>';
-            template += '<div id="wrapper-menu4"></div>';
-            template += '<div id="wrapper-menu5"></div>';
-            return template;
-        }
-        public static getFrameViewTemplate(): string {
-            var template = "";
-            template += '<div class="frame frame-absolute frame-80">';
-            template += '<div class="segment segment-top-left"><div class="top-blank side-blank"></div></div>';
-            template += '<div class="segment segment-top-right"><div class="top-blank side-blank"></div></div>';
-            template += '<div class="segment segment-bottom-left"><div class="top-blank side-blank"></div></div>';
-            template += '<div class="segment segment-bottom-right"><div class="top-blank side-blank"></div></div>';
-            template += '<div class="content"></div>';
-            template += '</div>';
+            template += "<div id='wrapper-base'>";
+            template +=     "<div id='wrapper-header'>";
+            template +=     "<div id='toggle-menu' class='col-xs-3 row-full'><i class='fa fa-bars fa-3x hightlight-color fa-lineheight-3x fa-inset-shadow'></i></div>";
+            template +=     "<div class='col-xs-9 row-full'>";
+            template +=         "<div id='display-time' class='time'></div>";
+            template +=         "<div id='display-date' class='date'></div>";
+            template +=     "</div>";
+            template +=     "</div>";
+            template +=     "<div id='wrapper-body'>";
+            template +=     "<div id='display-body'>";
+            template +=         "<div id='display-menu'>";
+            template +=         "</div>";
+            template +=     "</div>";
+            template +=     "</div>";
+            template += "</div>";
+            template += "<div id='wall-base-left'></div>";
+            template += "<div id='wall-base-right'></div>";
             return template;
         }
     }

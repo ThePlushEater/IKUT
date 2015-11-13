@@ -69,6 +69,15 @@
     <Content Include="core\lib\jquery-tween\tween.min.js" />
     <Content Include="core\lib\jquery\jquery-2.1.4.js" />
     <Content Include="core\lib\momentjs\moment.js" />
+    <Content Include="core\lib\ratchet\css\ratchet-theme-android.css" />
+    <Content Include="core\lib\ratchet\css\ratchet-theme-android.min.css" />
+    <Content Include="core\lib\ratchet\css\ratchet-theme-ios.css" />
+    <Content Include="core\lib\ratchet\css\ratchet-theme-ios.min.css" />
+    <Content Include="core\lib\ratchet\css\ratchet.css" />
+    <Content Include="core\lib\ratchet\css\ratchet.min.css" />
+    <Content Include="core\lib\ratchet\fonts\ratchicons.svg" />
+    <Content Include="core\lib\ratchet\js\ratchet.js" />
+    <Content Include="core\lib\ratchet\js\ratchet.min.js" />
     <Content Include="core\lib\underscore\underscore.js" />
     <Content Include="index.html" />
     <Content Include="web.config" />
@@ -139,6 +148,9 @@
     </Content>
     <Content Include="core\lib\bootstrap-toggle\js\bootstrap-toggle.min.js.map" />
     <Content Include="core\lib\bootstrap-toggle\js\bootstrap2-toggle.min.js.map" />
+    <Content Include="core\lib\ratchet\fonts\ratchicons.eot" />
+    <Content Include="core\lib\ratchet\fonts\ratchicons.ttf" />
+    <Content Include="core\lib\ratchet\fonts\ratchicons.woff" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

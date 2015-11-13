@@ -17,11 +17,11 @@ var Wakey;
         Controller.getInstance = function () {
             return Controller._instance;
         };
-        Controller.loadSplashPage = function () {
+        Controller.loadHomePage = function () {
             var self = Controller.getInstance();
             if (self.bDebug)
                 console.log(Controller.TAG + "load splash page.");
-            Wakey.View.setViewType(Wakey.MainViewType.SPLASH);
+            Wakey.View.setViewType(Wakey.MainViewType.HOME);
             Wakey.View.getInstance().render();
         };
         Controller.loadMenuPage = function () {
@@ -55,7 +55,7 @@ var Wakey;
         };
         Router.prototype.home = function () {
             console.log(Router.TAG + "we have loaded the home page.");
-            Controller.loadSplashPage();
+            Controller.loadHomePage();
         };
         Router.prototype.menu = function () {
             console.log(Router.TAG + "we have loaded the menu page.");

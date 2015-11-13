@@ -12,10 +12,10 @@
         public static getInstance(): Controller {
             return Controller._instance;
         }
-        public static loadSplashPage(): void {
+        public static loadHomePage(): void {
             var self: Controller = Controller.getInstance();
             if (self.bDebug) console.log(Controller.TAG + "load splash page.");
-            View.setViewType(MainViewType.SPLASH);
+            View.setViewType(MainViewType.HOME);
             View.getInstance().render();
             //if (self.bDebug) console.log("loadTreePage(" + id + ")");
             //View.getInstance().SetViewType(MainViewType.TREE);
@@ -54,7 +54,7 @@
 
         home() {
             console.log(Router.TAG + "we have loaded the home page.");
-            Controller.loadSplashPage();
+            Controller.loadHomePage();
             //Controller.getInstance().loadListPage();
         }
         menu() {

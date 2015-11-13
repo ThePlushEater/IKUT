@@ -23509,8 +23509,20 @@ var Wakey;
         Setting.getBaseUrl = function () {
             return this._instance.urlBase;
         };
-        Setting.getDateTimeFormat = function () {
-            return "HH:mm:ss dddd";
+        Setting.getTimeFormat1 = function () {
+            return "h:mm A";
+        };
+        Setting.getTimeFormat2 = function () {
+            return "h mm A";
+        };
+        Setting.getDateFormat = function () {
+            return "M/D/YYYY";
+        };
+        Setting.getMainColor = function () {
+            return "#155B38";
+        };
+        Setting.getHighlightColor = function () {
+            return "#bdc3c7";
         };
         Setting._instance = new Setting();
         return Setting;
@@ -23538,11 +23550,11 @@ var Wakey;
         Controller.getInstance = function () {
             return Controller._instance;
         };
-        Controller.loadSplashPage = function () {
+        Controller.loadHomePage = function () {
             var self = Controller.getInstance();
             if (self.bDebug)
                 console.log(Controller.TAG + "load splash page.");
-            Wakey.View.setViewType(Wakey.MainViewType.SPLASH);
+            Wakey.View.setViewType(Wakey.MainViewType.HOME);
             Wakey.View.getInstance().render();
         };
         Controller.loadMenuPage = function () {
@@ -23576,7 +23588,7 @@ var Wakey;
         };
         Router.prototype.home = function () {
             console.log(Router.TAG + "we have loaded the home page.");
-            Controller.loadSplashPage();
+            Controller.loadHomePage();
         };
         Router.prototype.menu = function () {
             console.log(Router.TAG + "we have loaded the menu page.");
@@ -23626,22 +23638,24 @@ var Wakey;
 (function (Wakey) {
     (function (MainViewType) {
         MainViewType[MainViewType["NONE"] = 0] = "NONE";
-        MainViewType[MainViewType["SPLASH"] = 1] = "SPLASH";
+        MainViewType[MainViewType["HOME"] = 1] = "HOME";
         MainViewType[MainViewType["MENU"] = 2] = "MENU";
     })(Wakey.MainViewType || (Wakey.MainViewType = {}));
     var MainViewType = Wakey.MainViewType;
     var BaseView = (function (_super) {
         __extends(BaseView, _super);
-        function BaseView() {
-            _super.apply(this, arguments);
+        function BaseView(options) {
+            _super.call(this, options);
             this.bDebug = false;
             this.bRendered = false;
+            var self = this;
+            self.views = new Array();
         }
-        BaseView.prototype.render = function (args) {
+        BaseView.prototype.render = function () {
             this.bRendered = true;
         };
-        BaseView.prototype.update = function (args) {
-            if (this.bRendered) {
+        BaseView.prototype.update = function () {
+            if (!this.bRendered) {
                 this.render();
                 return;
             }
@@ -23658,6 +23672,16 @@ var Wakey;
         BaseView.prototype.getHeight = function () {
             return this.$el.innerHeight();
         };
+        BaseView.prototype.traverse = function (callback) {
+            callback(this);
+            this.views.forEach(function (view) {
+                view.traverse(callback);
+            });
+        };
+        BaseView.prototype.getViews = function () {
+            var self = this;
+            return self.views;
+        };
         return BaseView;
     })(Backbone.View);
     Wakey.BaseView = BaseView;
@@ -23667,249 +23691,44 @@ var Wakey;
             var _this = this;
             _super.call(this, options);
             this.viewType = 0 /* NONE */;
+            this.addMenuOpenListener = function () {
+                var self = _this;
+                self.isMenuOpen = false;
+                $('#display-menu').css({
+                    height: $('#display-body').innerHeight() - 2,
+                    top: $('#display-body').position().top + 1,
+                    left: -$('#display-menu').innerWidth(),
+                });
+                $('#toggle-menu').off('click');
+                $('#toggle-menu').on('click', self.toggleMenu);
+            };
             this.toggleMenu = function () {
                 var self = _this;
-                self.bMenuOpen = !self.bMenuOpen;
-                var framewidth = 80;
-                if (self.bMenuOpen) {
-                    self.fvBackground.animate({
-                        x: -self.getWidth(),
-                        y: 0,
-                        width: self.getWidth(),
-                        height: self.getHeight(),
-                        margin: 0,
-                        padding: 8,
-                        direction: Wakey.Direction.NONE,
-                        bordercolor: "#2c3e50",
-                        backcolor: "#bdc3c7",
-                        fontcolor: "#bdc3c7"
-                    }, 250);
-                    self.btnStart.setDirection(Wakey.Direction.DOWN);
-                    self.btnMenu1.animate({
-                        x: self.getWidth() - framewidth - 16,
-                        y: 16 * 3 + framewidth,
-                        width: framewidth,
-                        height: framewidth,
-                        margin: 12,
-                        padding: 6,
-                        direction: Wakey.Direction.ALL,
-                        bordercolor: "#bdc3c7",
-                        backcolor: "#2c3e50",
-                        fontcolor: "#bdc3c7"
-                    }, 250);
-                    self.btnMenu2.animate({
-                        x: self.getWidth() - framewidth - 16,
-                        y: 16 * 4 + framewidth * 2,
-                        width: framewidth,
-                        height: framewidth,
-                        margin: 12,
-                        padding: 6,
-                        direction: Wakey.Direction.NONE,
-                        bordercolor: "#bdc3c7",
-                        backcolor: "#2c3e50",
-                        fontcolor: "#bdc3c7"
-                    }, 250);
-                    self.btnMenu3.animate({
-                        x: self.getWidth() - framewidth - 16,
-                        y: 16 * 5 + framewidth * 3,
-                        width: framewidth,
-                        height: framewidth,
-                        margin: 12,
-                        padding: 6,
-                        direction: Wakey.Direction.NONE,
-                        bordercolor: "#bdc3c7",
-                        backcolor: "#2c3e50",
-                        fontcolor: "#bdc3c7"
-                    }, 250);
-                    self.btnMenu4.animate({
-                        x: self.getWidth() - framewidth - 16,
-                        y: 16 * 6 + framewidth * 4,
-                        width: framewidth,
-                        height: framewidth,
-                        margin: 12,
-                        padding: 6,
-                        direction: Wakey.Direction.NONE,
-                        bordercolor: "#bdc3c7",
-                        backcolor: "#2c3e50",
-                        fontcolor: "#bdc3c7"
-                    }, 250);
-                    self.btnMenu5.animate({
-                        x: self.getWidth() - framewidth - 16,
-                        y: 16 * 7 + framewidth * 5,
-                        width: framewidth,
-                        height: framewidth,
-                        margin: 12,
-                        padding: 6,
-                        direction: Wakey.Direction.NONE,
-                        bordercolor: "#bdc3c7",
-                        backcolor: "#2c3e50",
-                        fontcolor: "#bdc3c7"
-                    }, 250);
+                if (self.isMenuOpen) {
+                    $('#display-menu').animate({ left: -$('#display-menu').innerWidth() }, 500);
                 }
                 else {
-                    self.btnStart.setDirection(Wakey.Direction.LEFT);
-                    self.fvBackground.animate({
-                        x: 0,
-                        y: 0,
-                        width: self.getWidth(),
-                        height: self.getHeight(),
-                        margin: 0,
-                        padding: 8,
-                        direction: Wakey.Direction.NONE,
-                        bordercolor: "#2c3e50",
-                        backcolor: "#bdc3c7",
-                        fontcolor: "#bdc3c7"
-                    }, 250);
-                    self.btnMenu1.animate({
-                        x: self.getWidth(),
-                        y: 16 * 3 + framewidth,
-                        width: framewidth,
-                        height: framewidth,
-                        margin: 12,
-                        padding: 6,
-                        direction: Wakey.Direction.ALL,
-                        bordercolor: "#bdc3c7",
-                        backcolor: "#2c3e50",
-                        fontcolor: "#bdc3c7"
-                    }, 250);
-                    self.btnMenu2.animate({
-                        x: self.getWidth(),
-                        y: 16 * 4 + framewidth * 2,
-                        width: framewidth,
-                        height: framewidth,
-                        margin: 12,
-                        padding: 6,
-                        direction: Wakey.Direction.NONE,
-                        bordercolor: "#bdc3c7",
-                        backcolor: "#2c3e50",
-                        fontcolor: "#bdc3c7"
-                    }, 250);
-                    self.btnMenu3.animate({
-                        x: self.getWidth(),
-                        y: 16 * 5 + framewidth * 3,
-                        width: framewidth,
-                        height: framewidth,
-                        margin: 12,
-                        padding: 6,
-                        direction: Wakey.Direction.NONE,
-                        bordercolor: "#bdc3c7",
-                        backcolor: "#2c3e50",
-                        fontcolor: "#bdc3c7"
-                    }, 250);
-                    self.btnMenu4.animate({
-                        x: self.getWidth(),
-                        y: 16 * 6 + framewidth * 4,
-                        width: framewidth,
-                        height: framewidth,
-                        margin: 12,
-                        padding: 6,
-                        direction: Wakey.Direction.NONE,
-                        bordercolor: "#bdc3c7",
-                        backcolor: "#2c3e50",
-                        fontcolor: "#bdc3c7"
-                    }, 250);
-                    self.btnMenu5.animate({
-                        x: self.getWidth(),
-                        y: 16 * 7 + framewidth * 5,
-                        width: framewidth,
-                        height: framewidth,
-                        margin: 12,
-                        padding: 6,
-                        direction: Wakey.Direction.NONE,
-                        bordercolor: "#bdc3c7",
-                        backcolor: "#2c3e50",
-                        fontcolor: "#bdc3c7"
-                    }, 250);
+                    $('#display-menu').animate({ left: '15px' }, 500);
                 }
+                self.isMenuOpen = !self.isMenuOpen;
             };
-            this.animateClock = function () {
+            this.tickClock = function () {
                 var self = _this;
-                setTimeout(function () {
-                    self.btnClock.setContent('<h2>' + moment(new Date()).format(Wakey.Setting.getDateTimeFormat()) + '</h2>');
-                    if (self.bAnimated) {
-                        self.animateClock();
+                self.isFlickerOn = true;
+                self.clockInterval = setInterval(function () {
+                    if (self.isFlickerOn) {
+                        $('#display-time').html(moment(new Date()).format(Wakey.Setting.getTimeFormat1()));
                     }
-                }, 1000);
-            };
-            this.animateLogo = function () {
-                var self = _this;
-                setTimeout(function () {
-                    switch (self.btnStart.getDirection()) {
-                        case Wakey.Direction.NONE:
-                            self.$('#wrapper-title .title-1').removeClass('hidden');
-                            self.btnStart.setDirection(Wakey.Direction.TOP);
-                            self.btnStart.setContent("<h1>.</h1>");
-                            break;
-                        case Wakey.Direction.TOP:
-                            self.$('#wrapper-title .title-2').removeClass('hidden');
-                            self.$('#wrapper-title .title-1').addClass('title-inactive');
-                            self.btnStart.setDirection(Wakey.Direction.RIGHT);
-                            self.btnStart.setContent("<h1>..</h1>");
-                            break;
-                        case Wakey.Direction.RIGHT:
-                            self.$('#wrapper-title .title-3').removeClass('hidden');
-                            self.$('#wrapper-title .title-2').addClass('title-inactive');
-                            self.btnStart.setDirection(Wakey.Direction.DOWN);
-                            self.btnStart.setContent("<h1>...</h1>");
-                            break;
-                        case Wakey.Direction.DOWN:
-                            self.$('#wrapper-title .title-4').removeClass('hidden');
-                            self.$('#wrapper-title .title-3').addClass('title-inactive');
-                            self.btnStart.setDirection(Wakey.Direction.LEFT);
-                            self.btnStart.setContent("<h1>....</h1>");
-                            break;
-                        case Wakey.Direction.LEFT:
-                            self.bAnimated = false;
-                            self.$('#wrapper-title .title-4').addClass('title-inactive');
-                            self.btnStart.setContent("<h1>Start</h1>");
-                            self.btnStart.addEventListener(self.transitionFromLogoToMenu);
-                            break;
+                    else {
+                        $('#display-time').html(moment(new Date()).format(Wakey.Setting.getTimeFormat2()));
                     }
-                    if (self.bAnimated) {
-                        self.animateLogo();
-                    }
+                    self.isFlickerOn = !self.isFlickerOn;
+                    $('#display-date').html(moment(new Date()).format(Wakey.Setting.getDateFormat()));
                 }, 500);
             };
-            this.transitionFromLogoToMenu = function () {
+            this.stopClock = function () {
                 var self = _this;
-                setTimeout(function () {
-                    self.$('#wrapper-title .title-1').animate({ top: -200 }, 500);
-                    self.$('#wrapper-title .title-2').animate({ left: self.getWidth() + 200 }, 500);
-                    self.$('#wrapper-title .title-3').animate({ top: self.getHeight() + 200 }, 500);
-                    self.$('#wrapper-title .title-4').animate({ left: -200 }, 500);
-                }, 100);
-                setTimeout(function () {
-                    var fontsize = 50;
-                    var framewidth = 120;
-                    self.btnStart.setContent("");
-                    self.btnStart.render({
-                        x: self.getWidth() - 120 * 2,
-                        y: self.getHeight() - 120 * 2.5,
-                        width: framewidth,
-                        height: framewidth,
-                        margin: 32,
-                        padding: 8,
-                        direction: Wakey.Direction.NONE,
-                        bordercolor: "#bdc3c7",
-                        backcolor: "#bdc3c7",
-                        fontcolor: "#bdc3c7"
-                    });
-                    self.fvBackground.animate({
-                        x: 0,
-                        y: 0,
-                        width: self.getWidth(),
-                        height: self.getHeight(),
-                        margin: 0,
-                        padding: 8,
-                        direction: Wakey.Direction.NONE,
-                        bordercolor: "#2c3e50",
-                        backcolor: "#bdc3c7",
-                        fontcolor: "#bdc3c7"
-                    }, 150);
-                    setTimeout(function () {
-                        Wakey.Router.getInstance().navigate("menu", { trigger: true, replace: false });
-                    }, 150);
-                }, 750);
+                clearInterval(self.clockInterval);
             };
             if (View._instance) {
                 throw new Error("Error: Instantiation failed: Use View.getInstance() instead of new.");
@@ -23932,173 +23751,22 @@ var Wakey;
             if (self.bDebug)
                 console.log(View.TAG + "render()");
             switch (self.viewType) {
-                case 1 /* SPLASH */:
-                    self.renderSplashView();
+                case 1 /* HOME */:
+                    self.renderBaseView();
                     break;
                 case 2 /* MENU */:
-                    self.renderMenuView();
                     break;
             }
         };
-        View.prototype.renderMenuView = function () {
+        View.prototype.renderBaseView = function () {
             var self = this;
             if (self.bDebug)
-                console.log(View.TAG + "renderMenuView()");
-            var template = _.template(Wakey.Template.getMenuViewTemplate());
+                console.log(View.TAG + "renderBaseView()");
+            var template = _.template(Wakey.Template.getBaseViewTemplate());
             var data = {};
             self.$el.html(template(data));
-            self.fvBackground = Wakey.FrameViewFractory.create(self.$('#wrapper-background'));
-            self.fvBackground.render({
-                x: 0,
-                y: 0,
-                width: self.getWidth(),
-                height: self.getHeight(),
-                margin: 0,
-                padding: 8,
-                direction: Wakey.Direction.NONE,
-                bordercolor: "#2c3e50",
-                backcolor: "#bdc3c7",
-                fontcolor: "#bdc3c7"
-            });
-            var framewidth = 80;
-            self.btnStart = Wakey.FrameViewFractory.create(self.$('#wrapper-menu'));
-            self.btnStart.render({
-                x: self.getWidth() - framewidth - 16,
-                y: 16,
-                width: framewidth,
-                height: framewidth,
-                margin: 12,
-                padding: 6,
-                direction: Wakey.Direction.LEFT,
-                bordercolor: "#2c3e50",
-                backcolor: "#bdc3c7",
-                fontcolor: "#2c3e50"
-            });
-            self.btnStart.setContent('<i class="fa fa-list fa-25x"></i>');
-            self.btnMenu1 = Wakey.FrameViewFractory.create(self.$('#wrapper-menu1'));
-            self.btnMenu1.render({
-                x: self.getWidth(),
-                y: 16 * 3 + framewidth,
-                width: framewidth,
-                height: framewidth,
-                margin: 12,
-                padding: 6,
-                direction: Wakey.Direction.ALL,
-                bordercolor: "#bdc3c7",
-                backcolor: "#2c3e50",
-                fontcolor: "#bdc3c7"
-            });
-            self.btnMenu2 = Wakey.FrameViewFractory.create(self.$('#wrapper-menu2'));
-            self.btnMenu2.render({
-                x: self.getWidth(),
-                y: 16 * 4 + framewidth * 2,
-                width: framewidth,
-                height: framewidth,
-                margin: 12,
-                padding: 6,
-                direction: Wakey.Direction.NONE,
-                bordercolor: "#bdc3c7",
-                backcolor: "#2c3e50",
-                fontcolor: "#bdc3c7"
-            });
-            self.btnMenu3 = Wakey.FrameViewFractory.create(self.$('#wrapper-menu3'));
-            self.btnMenu3.render({
-                x: self.getWidth(),
-                y: 16 * 5 + framewidth * 3,
-                width: framewidth,
-                height: framewidth,
-                margin: 12,
-                padding: 6,
-                direction: Wakey.Direction.NONE,
-                bordercolor: "#bdc3c7",
-                backcolor: "#2c3e50",
-                fontcolor: "#bdc3c7"
-            });
-            self.btnMenu4 = Wakey.FrameViewFractory.create(self.$('#wrapper-menu4'));
-            self.btnMenu4.render({
-                x: self.getWidth(),
-                y: 16 * 6 + framewidth * 4,
-                width: framewidth,
-                height: framewidth,
-                margin: 12,
-                padding: 6,
-                direction: Wakey.Direction.NONE,
-                bordercolor: "#bdc3c7",
-                backcolor: "#2c3e50",
-                fontcolor: "#bdc3c7"
-            });
-            self.btnMenu5 = Wakey.FrameViewFractory.create(self.$('#wrapper-menu5'));
-            self.btnMenu5.render({
-                x: self.getWidth(),
-                y: 16 * 7 + framewidth * 5,
-                width: framewidth,
-                height: framewidth,
-                margin: 12,
-                padding: 6,
-                direction: Wakey.Direction.NONE,
-                bordercolor: "#bdc3c7",
-                backcolor: "#2c3e50",
-                fontcolor: "#bdc3c7"
-            });
-            self.btnClock = Wakey.FrameViewFractory.create(self.$('#wrapper-clock'));
-            self.btnClock.render({
-                x: 16,
-                y: 16,
-                width: self.getWidth() - framewidth - 16 * 3,
-                height: framewidth,
-                margin: 12,
-                padding: 6,
-                direction: Wakey.Direction.RIGHT,
-                bordercolor: "#bdc3c7",
-                backcolor: "#2c3e50",
-                fontcolor: "#bdc3c7"
-            });
-            self.bMenuOpen = false;
-            self.btnStart.addEventListener(self.toggleMenu);
-            self.bAnimated = true;
-            self.animateClock();
-        };
-        View.prototype.renderSplashView = function () {
-            var self = this;
-            if (self.bDebug)
-                console.log(View.TAG + "renderSplashView()");
-            var template = _.template(Wakey.Template.getSplashViewTemplate());
-            var data = {};
-            self.$el.html(template(data));
-            self.fvBackground = Wakey.FrameViewFractory.create(self.$('#wrapper-background'));
-            self.fvBackground.render({
-                x: 0,
-                y: 0,
-                width: self.getWidth(),
-                height: self.getHeight(),
-                margin: 0,
-                padding: self.getWidth() / 2,
-                direction: Wakey.Direction.NONE,
-                bordercolor: "#2c3e50",
-                backcolor: "#bdc3c7",
-                fontcolor: "#bdc3c7"
-            });
-            var fontsize = 50;
-            var framewidth = 120;
-            self.$('#wrapper-title .title-1').css({ left: self.getWidth() - framewidth * 2 + fontsize * 0.95, top: self.getHeight() - framewidth * 2.5 - fontsize * 1.25 });
-            self.$('#wrapper-title .title-2').css({ left: self.getWidth() - framewidth + fontsize * 0.25, top: self.getHeight() - framewidth * 2 - fontsize * 0.25 });
-            self.$('#wrapper-title .title-3').css({ left: self.getWidth() - framewidth * 2 + fontsize * 0.65, top: self.getHeight() - framewidth * 1.5 + fontsize * 0.75 });
-            self.$('#wrapper-title .title-4').css({ left: self.getWidth() - framewidth * 2 - fontsize * 1.25, top: self.getHeight() - framewidth * 2 - fontsize * 0.25 });
-            self.btnStart = Wakey.FrameViewFractory.create(self.$('#wrapper-start'));
-            self.btnStart.render({
-                x: self.getWidth() - 120 * 2,
-                y: self.getHeight() - 120 * 2.5,
-                width: framewidth,
-                height: framewidth,
-                margin: 32,
-                padding: 8,
-                direction: Wakey.Direction.NONE,
-                bordercolor: "#bdc3c7",
-                backcolor: "#2c3e50",
-                fontcolor: "#bdc3c7"
-            });
-            self.bAnimated = true;
-            self.animateLogo();
+            self.tickClock();
+            self.addMenuOpenListener();
         };
         View._instance = new View();
         View.TAG = "View - ";
@@ -24120,39 +23788,25 @@ var Wakey;
         Template.getInstance = function () {
             return Template._instance;
         };
-        Template.getSplashViewTemplate = function () {
+        Template.getBaseViewTemplate = function () {
             var template = "";
-            template += '<div id="wrapper-background"></div>';
-            template += '<div id="wrapper-title">';
-            template += '<div class="title title-1 hidden">I</div>';
-            template += '<div class="title title-2 hidden">K</div>';
-            template += '<div class="title title-3 hidden">U</div>';
-            template += '<div class="title title-4 hidden">T</div>';
-            template += '</div>';
-            template += '<div id="wrapper-start"></div>';
-            return template;
-        };
-        Template.getMenuViewTemplate = function () {
-            var template = "";
-            template += '<div id="wrapper-background"></div>';
-            template += '<div id="wrapper-clock"></div>';
-            template += '<div id="wrapper-menu"></div>';
-            template += '<div id="wrapper-menu1"></div>';
-            template += '<div id="wrapper-menu2"></div>';
-            template += '<div id="wrapper-menu3"></div>';
-            template += '<div id="wrapper-menu4"></div>';
-            template += '<div id="wrapper-menu5"></div>';
-            return template;
-        };
-        Template.getFrameViewTemplate = function () {
-            var template = "";
-            template += '<div class="frame frame-absolute frame-80">';
-            template += '<div class="segment segment-top-left"><div class="top-blank side-blank"></div></div>';
-            template += '<div class="segment segment-top-right"><div class="top-blank side-blank"></div></div>';
-            template += '<div class="segment segment-bottom-left"><div class="top-blank side-blank"></div></div>';
-            template += '<div class="segment segment-bottom-right"><div class="top-blank side-blank"></div></div>';
-            template += '<div class="content"></div>';
-            template += '</div>';
+            template += "<div id='wrapper-base'>";
+            template += "<div id='wrapper-header'>";
+            template += "<div id='toggle-menu' class='col-xs-3 row-full'><i class='fa fa-bars fa-3x hightlight-color fa-lineheight-3x fa-inset-shadow'></i></div>";
+            template += "<div class='col-xs-9 row-full'>";
+            template += "<div id='display-time' class='time'></div>";
+            template += "<div id='display-date' class='date'></div>";
+            template += "</div>";
+            template += "</div>";
+            template += "<div id='wrapper-body'>";
+            template += "<div id='display-body'>";
+            template += "<div id='display-menu'>";
+            template += "</div>";
+            template += "</div>";
+            template += "</div>";
+            template += "</div>";
+            template += "<div id='wall-base-left'></div>";
+            template += "<div id='wall-base-right'></div>";
             return template;
         };
         Template._instance = new Template();
@@ -24408,6 +24062,19 @@ var Wakey;
 })(Wakey || (Wakey = {}));
 
 ///#source 1 1 /core/js/app.js
+Backbone.View.prototype.destroy = function () {
+    if (this.views != undefined) {
+        _.invoke(this.views, 'destroy');
+        this.views.length = 0;
+    }
+    this.$el.removeData().unbind();
+    this.remove();
+    this.$el.find("*").remove();
+    Backbone.View.prototype.remove.call(this);
+    if (this.onDestroy) {
+        this.onDestroy();
+    }
+};
 $(document).ready(function () {
     var url = window.location;
     console.log(url.origin + window.location.pathname);
