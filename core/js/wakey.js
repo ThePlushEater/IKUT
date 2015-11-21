@@ -23988,6 +23988,7 @@ var Wakey;
                 backcolor: "#2c3e50",
                 fontcolor: "#bdc3c7"
             });
+            self.btnMenu1.setContent('<i class="fa fa-clock-o fa-25x"></i>');
             self.btnMenu2 = Wakey.FrameViewFractory.create(self.$('#wrapper-menu2'));
             self.btnMenu2.render({
                 x: self.getWidth(),
@@ -24001,6 +24002,7 @@ var Wakey;
                 backcolor: "#2c3e50",
                 fontcolor: "#bdc3c7"
             });
+            self.btnMenu2.setContent('<i class="fa fa-user fa-25x"></i>');
             self.btnMenu3 = Wakey.FrameViewFractory.create(self.$('#wrapper-menu3'));
             self.btnMenu3.render({
                 x: self.getWidth(),
@@ -24014,6 +24016,7 @@ var Wakey;
                 backcolor: "#2c3e50",
                 fontcolor: "#bdc3c7"
             });
+            self.btnMenu3.setContent('<i class="fa fa-users fa-25x"></i>');
             self.btnMenu4 = Wakey.FrameViewFractory.create(self.$('#wrapper-menu4'));
             self.btnMenu4.render({
                 x: self.getWidth(),
@@ -24027,6 +24030,7 @@ var Wakey;
                 backcolor: "#2c3e50",
                 fontcolor: "#bdc3c7"
             });
+            self.btnMenu4.setContent('<i class="fa fa-cog fa-25x"></i>');
             self.btnMenu5 = Wakey.FrameViewFractory.create(self.$('#wrapper-menu5'));
             self.btnMenu5.render({
                 x: self.getWidth(),
@@ -24040,6 +24044,7 @@ var Wakey;
                 backcolor: "#2c3e50",
                 fontcolor: "#bdc3c7"
             });
+            self.btnMenu5.setContent('<i class="fa fa-sign-out fa-25x"></i>');
             self.btnClock = Wakey.FrameViewFractory.create(self.$('#wrapper-clock'));
             self.btnClock.render({
                 x: 16,
