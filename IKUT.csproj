@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{A8C83104-2E05-4C23-AA8A-1828123FF80E}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="core\css\app.css" />
+    <Content Include="core\css\base.css" />
+    <Content Include="core\css\button.css" />
+    <Content Include="core\css\frame.css" />
+    <Content Include="core\css\frame2.css" />
+    <Content Include="core\css\menu.css" />
+    <Content Include="core\image\Fake-Frame-101.png" />
+    <Content Include="core\image\Green-Background-101.jpg" />
+    <Content Include="core\image\Gray-Background-101.jpg" />
+    <Content Include="core\image\Tonal-Art-Map-101.jpg" />
+    <Content Include="core\js\ikut.js">
+      <DependentUpon>ikut.js.bundle</DependentUpon>
+    </Content>
+    <Content Include="core\js\ikut.min.js">
+      <DependentUpon>ikut.js</DependentUpon>
+    </Content>
+    <Content Include="core\lib\backbone\backbone.js" />
+    <Content Include="core\lib\backgrid-moment-cell\backgrid-moment-cell.css" />
+    <Content Include="core\lib\backgrid-moment-cell\backgrid-moment-cell.js" />
+    <Content Include="core\lib\backgrid\backgrid.css" />
+    <Content Include="core\lib\backgrid\backgrid.js" />
+    <Content Include="core\lib\bootstrap-datetimepicker\css\bootstrap-datetimepicker.css" />
+    <Content Include="core\lib\bootstrap-datetimepicker\js\bootstrap-datetimepicker.min.js" />
+    <Content Include="core\lib\bootstrap-select\css\bootstrap-select.css" />
+    <Content Include="core\lib\bootstrap-select\js\bootstrap-select.js" />
+    <Content Include="core\lib\bootstrap-toggle\css\bootstrap-toggle.css" />
+    <Content Include="core\lib\bootstrap-toggle\css\bootstrap-toggle.min.css" />
+    <Content Include="core\lib\bootstrap-toggle\css\bootstrap2-toggle.css" />
+    <Content Include="core\lib\bootstrap-toggle\css\bootstrap2-toggle.min.css" />
+    <Content Include="core\lib\bootstrap-toggle\js\bootstrap-toggle.js" />
+    <Content Include="core\lib\bootstrap-toggle\js\bootstrap-toggle.min.js" />
+    <Content Include="core\lib\bootstrap-toggle\js\bootstrap2-toggle.js" />
+    <Content Include="core\lib\bootstrap-toggle\js\bootstrap2-toggle.min.js" />
+    <Content Include="core\lib\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="core\lib\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="core\lib\bootstrap\css\bootstrap.css" />
+    <Content Include="core\lib\bootstrap\css\bootstrap.min.css" />
+    <Content Include="core\lib\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="core\lib\bootstrap\js\bootstrap.js" />
+    <Content Include="core\lib\bootstrap\js\bootstrap.min.js" />
+    <Content Include="core\lib\bootstrap\js\npm.js" />
+    <Content Include="core\lib\font-awesome\css\font-awesome.css" />
+    <Content Include="core\lib\font-awesome\css\font-awesome.min.css" />
+    <Content Include="core\css\ikut.css">
+      <DependentUpon>ikut.css.bundle</DependentUpon>
+    </Content>
+    <Content Include="core\css\ikut.min.css">
+      <DependentUpon>ikut.css</DependentUpon>
+    </Content>
+    <Content Include="core\lib\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="core\lib\font-awesome\HELP-US-OUT.txt" />
+    <Content Include="core\lib\jquery\jquery-2.1.4.js" />
+    <Content Include="core\lib\momentjs\moment.js" />
+    <Content Include="core\lib\underscore\underscore.js" />
+    <Content Include="index.html" />
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="core\lib\bootstrap-toggle\js\bootstrap-toggle.min.js.map" />
+    <Content Include="core\lib\bootstrap-toggle\js\bootstrap2-toggle.min.js.map" />
+    <Content Include="core\lib\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="core\lib\bootstrap\css\bootstrap.css.map" />
+    <Content Include="core\lib\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="core\lib\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="core\lib\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="core\lib\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="core\lib\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="core\lib\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="core\lib\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="core\lib\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="core\lib\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="core\lib\font-awesome\less\animated.less" />
+    <Content Include="core\lib\font-awesome\less\bordered-pulled.less" />
+    <Content Include="core\lib\font-awesome\less\core.less" />
+    <Content Include="core\lib\font-awesome\less\fixed-width.less" />
+    <Content Include="core\lib\font-awesome\less\font-awesome.less" />
+    <Content Include="core\lib\font-awesome\less\icons.less" />
+    <Content Include="core\lib\font-awesome\less\larger.less" />
+    <Content Include="core\lib\font-awesome\less\list.less" />
+    <Content Include="core\lib\font-awesome\less\mixins.less" />
+    <Content Include="core\lib\font-awesome\less\path.less" />
+    <Content Include="core\lib\font-awesome\less\rotated-flipped.less" />
+    <Content Include="core\lib\font-awesome\less\stacked.less" />
+    <Content Include="core\lib\font-awesome\less\variables.less" />
+    <Content Include="core\lib\font-awesome\scss\font-awesome.scss" />
+    <Content Include="core\lib\font-awesome\scss\_animated.scss" />
+    <Content Include="core\lib\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="core\lib\font-awesome\scss\_core.scss" />
+    <Content Include="core\lib\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="core\lib\font-awesome\scss\_icons.scss" />
+    <Content Include="core\lib\font-awesome\scss\_larger.scss" />
+    <Content Include="core\lib\font-awesome\scss\_list.scss" />
+    <Content Include="core\lib\font-awesome\scss\_mixins.scss" />
+    <Content Include="core\lib\font-awesome\scss\_path.scss" />
+    <Content Include="core\lib\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="core\lib\font-awesome\scss\_stacked.scss" />
+    <Content Include="core\lib\font-awesome\scss\_variables.scss" />
+    <Content Include="core\js\ikut.js.bundle" />
+    <Content Include="core\js\ikut.min.js.map">
+      <DependentUpon>ikut.min.js</DependentUpon>
+    </Content>
+    <Content Include="core\css\ikut.css.bundle" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="core\js\app.ts" />
+    <TypeScriptCompile Include="core\js\controller\alarmsviewfactory.ts" />
+    <TypeScriptCompile Include="core\js\controller\buttonviewfactory.ts" />
+    <TypeScriptCompile Include="core\js\controller\controller.ts" />
+    <TypeScriptCompile Include="core\js\controller\frameviewfactory.ts" />
+    <TypeScriptCompile Include="core\js\controller\homeviewfactory.ts" />
+    <TypeScriptCompile Include="core\js\controller\menusviewfactory.ts" />
+    <TypeScriptCompile Include="core\js\controller\menuviewfactory.ts" />
+    <TypeScriptCompile Include="core\js\controller\setting.ts" />
+    <TypeScriptCompile Include="core\js\model\model.ts" />
+    <TypeScriptCompile Include="core\js\view\alarmsview.ts" />
+    <TypeScriptCompile Include="core\js\view\baseview.ts" />
+    <TypeScriptCompile Include="core\js\view\buttonview.ts" />
+    <TypeScriptCompile Include="core\js\view\frameview.ts" />
+    <TypeScriptCompile Include="core\js\view\homeview.ts" />
+    <TypeScriptCompile Include="core\js\view\menusview.ts" />
+    <TypeScriptCompile Include="core\js\view\menuview.ts" />
+    <TypeScriptCompile Include="core\js\view\template.ts" />
+    <TypeScriptCompile Include="core\js\view\view.ts" />
+    <TypeScriptCompile Include="Scripts\typings\backbone\backbone.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\backgrid\backgrid.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bootstrap.v3.datetimepicker\bootstrap.v3.datetimepicker.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\d3\d3.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\d3\plugins\d3.superformula.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jqueryui\jqueryui.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\leaflet\leaflet.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\underscore\underscore.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="content\file\" />
+    <Folder Include="content\image\" />
+    <Folder Include="core\php\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>IKUT</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>62628</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:62628/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+</Project>

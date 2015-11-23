@@ -1,0 +1,9 @@
+$(document).ready(function () {
+    var url = window.location;
+    console.log(url.origin + window.location.pathname);
+    IKUT.View.setElement({ el: $('#wrapper-main') });
+    IKUT.Setting.setBaseUrl(url.origin + window.location.pathname);
+    // Start Router
+    Backbone.history.start();
+});
+//# sourceMappingURL=app.js.map

@@ -1,0 +1,40 @@
+﻿@media all {
+    .wrapper-menu {
+        position: relative;
+        width: 44px;
+        height: 40px;
+        float: left;
+        /*background: rgba(3,11,51,.1);*/
+        background-color: rgba(0, 0, 0, 1);
+        border-radius: 2px;
+        box-shadow: 0 0 2px 0 rgba(0,0,0,0.75);
+    }
+    .wrapper-menu:first-child {
+        padding-left: 2px;
+        border-bottom-left-radius: 4px;
+    }
+    .wrapper-menu:last-child {
+        padding-right: 2px;
+        border-bottom-right-radius: 4px;
+    }
+
+    .menu {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: 0 2px 4px 2px;
+    }
+
+    .menu-inner {
+        width: 100%;
+        height: 100%;
+        border:2px solid rgba(150, 150, 150, 0.75);
+        border-top: transparent;
+        border-radius: 2px;
+        padding-top: 4px;
+    }
+
+    .menu-inner i {
+        color: rgba(255, 255, 255, 0.5);
+    }
+}
