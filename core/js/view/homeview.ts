@@ -10,10 +10,14 @@
         public render(args?: any): any {
             var self: HomeView = this;
             if (self.bDebug) console.log(HomeView.TAG + "render()");
+
+            // get alarms
+            var alarms: Alarms = Controller.getUpcoming7DaysAlarms();
+
             // apply template
             var template = _.template(Template.getHomeViewTemplate());
             var data = {
-                
+                alarms: alarms,
             }
             self.$el.html(template(data));
 
@@ -21,8 +25,9 @@
             self.animVisible();
 
             $.each(self.$('.wrapper-notification'), function (index: number, item: JQuery) {
-                FrameViewFractory.create($(item)).render();
-            });            
+                var fv: FrameView = FrameViewFractory.create($(item));
+                fv.render(alarms.models[index]);
+            });       
 
             return self;
         }

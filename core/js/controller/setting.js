@@ -18,6 +18,12 @@ var IKUT;
         Setting.getBaseUrl = function () {
             return this._instance.urlBase;
         };
+        Setting.getDateTimeFormat1 = function () {
+            return "YYYY-MM-DD HH:mm:ss";
+        };
+        Setting.getDateTimeFormat2 = function () {
+            return "h:mm A M/D/YYYY";
+        };
         Setting.getTimeFormat1 = function () {
             //return "HH:mm:ss ddd MMM Do";
             //return "HH:mm:ss dddd";
@@ -28,8 +34,14 @@ var IKUT;
             //return "HH:mm:ss dddd";
             return "h mm A";
         };
+        Setting.getTimeFormat3 = function () {
+            return "HH:mm";
+        };
         Setting.getDateFormat = function () {
             return "M/D/YYYY";
+        };
+        Setting.getDateDayFormat = function () {
+            return "M/D/YYYY dddd";
         };
         Setting.getMenuTopActiveOffset = function () {
             return -16;

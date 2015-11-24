@@ -79,6 +79,9 @@ var IKUT;
             self._menusView.setCurrentMenu(View._viewType);
             self.changeBackgroundGradient();
             self.addEventListener();
+            // adjust offset of menu
+            console.log($(document).innerWidth() - self.getWidth());
+            $('#wrapper-menus').css({ right: $(document).innerWidth() - self.getWidth() });
         };
         View.render = function (args) {
             View._instance.render(args);

@@ -108,4 +108,8 @@
         text-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
         font-size: small;
     }
+
+    .frame2-day-inactive {
+        color: rgba(128,128,128,0.7);
+    }
 }

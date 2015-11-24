@@ -52,6 +52,12 @@ var IKUT;
             IKUT.View.setViewType(5 /* STAR */);
             IKUT.View.render();
         };
+        Controller.getUpcoming7DaysAlarms = function () {
+            return IKUT.Model.getAlarms().getUpcoming7DaysAlarmsForUser(IKUT.Model.getCurUser());
+        };
+        Controller.getDailyAlarms = function () {
+            return IKUT.Model.getAlarms().getDailyAlarmsForUser(IKUT.Model.getCurUser());
+        };
         Controller._instance = new Controller();
         Controller.TAG = "Controller - ";
         return Controller;

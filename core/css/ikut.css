@@ -9363,13 +9363,15 @@ button.close {
     body {
         width: 100%;
         height: 100%;
+        max-width: 414px;
+        max-height: 736px;
         font-size: large;
         line-height: 1.6em;
         overflow: hidden;
         font-family: Righteous, sans-serif;
         text-align: center;
         color: rgba(255,255,255,0.7);
-        background-color: #eeeeee;
+        background-color: #000000;
     }
 
     img, div {
@@ -9420,6 +9422,8 @@ button.close {
         background-position:right bottom !important;
         background-size: cover !important;
         background-repeat: no-repeat !important;
+        max-width: 414px;
+        max-height: 736px;
     }
 
     #wrapper-home {
@@ -9431,6 +9435,8 @@ button.close {
         height: 100%;
         overflow-y: auto;
         opacity: 0;
+        max-width: 414px;
+        max-height: 736px;
     }
 
     #wrapper-alarms {
@@ -9442,6 +9448,9 @@ button.close {
         height: 100%;
         overflow-y: auto;
         opacity: 0;
+        max-width: 414px;
+        max-height: 736px;
+        overflow: hidden;
     }
 
     #wrapper-frame {
@@ -9455,6 +9464,8 @@ button.close {
         background-position:left top;
         background-size: cover;
         background-repeat: no-repeat;
+        max-width: 414px;
+        max-height: 736px;
     }
 
     #wrapper-logo {
@@ -9465,6 +9476,8 @@ button.close {
         left: 0;
         padding: 20px;
         color: rgba(255, 255, 255, 1);
+        max-width: 414px;
+        max-height: 736px;
     }
 
     #wrapper-menus {
@@ -9472,6 +9485,8 @@ button.close {
         top: -4px;
         right: 0;
         padding: 0 0 0 0;
+        max-width: 414px;
+        max-height: 736px;
     }
 }
 
@@ -9703,6 +9718,10 @@ button.close {
         color: rgba(225,225,225,0.75);
         text-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
         font-size: small;
+    }
+
+    .frame2-day-inactive {
+        color: rgba(128,128,128,0.7);
     }
 }
 

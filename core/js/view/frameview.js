@@ -1,7 +1,8 @@
-var __extends = (this && this.__extends) || function (d, b) {
+var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    __.prototype = b.prototype;
+    d.prototype = new __();
 };
 var IKUT;
 (function (IKUT) {
@@ -18,12 +19,16 @@ var IKUT;
             if (self.bDebug)
                 console.log(FrameView.TAG + "render()");
             // apply template
-            var template = _.template(IKUT.Template.getFrameViewTemplate());
-            var data = {
-                header: "2:00PM",
-                content: "CONTENT",
-            };
-            self.$el.html(template(data));
+            if (args instanceof IKUT.Alarm) {
+                // apply template
+                var template = _.template(IKUT.Template.getFrameViewTemplate());
+                var data = {
+                    header: args.getFormattedTime(),
+                    content: args.getName(),
+                    collapse: args.getcId(),
+                };
+                self.$el.html(template(data));
+            }
             return self;
         };
         FrameView.TAG = "FrameView - ";
@@ -42,13 +47,60 @@ var IKUT;
             var self = this;
             if (self.bDebug)
                 console.log(Frame2View.TAG + "render()");
-            // apply template
-            var template = _.template(IKUT.Template.getFrame2ViewTemplate());
-            var data = {
-                header: "12:00PM",
-                content: "CONTENT",
-            };
-            self.$el.html(template(data));
+            if (args instanceof IKUT.Alarm) {
+                var days = '';
+                if (args.getIsDailyDayOn(0 /* MONDAY */)) {
+                    days += '<span class="">M</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">M</span>';
+                }
+                if (args.getIsDailyDayOn(1 /* TUESDAY */)) {
+                    days += '<span class="">T</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">T</span>';
+                }
+                if (args.getIsDailyDayOn(2 /* WEDNESDAY */)) {
+                    days += '<span class="">W</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">W</span>';
+                }
+                if (args.getIsDailyDayOn(3 /* THURSDAY */)) {
+                    days += '<span class="">T</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">T</span>';
+                }
+                if (args.getIsDailyDayOn(4 /* FRIDAY */)) {
+                    days += '<span class="">F</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">F</span>';
+                }
+                if (args.getIsDailyDayOn(5 /* SATURDAY */)) {
+                    days += '<span class="">S</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">S</span>';
+                }
+                if (args.getIsDailyDayOn(6 /* SUNDAY */)) {
+                    days += '<span class="">S</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">S</span>';
+                }
+                // apply template
+                var template = _.template(IKUT.Template.getFrame2ViewTemplate());
+                var data = {
+                    header: args.getFormattedTime(),
+                    content: args.getName(),
+                    collapse: args.getcId(),
+                    days: days,
+                };
+                self.$el.html(template(data));
+            }
             return self;
         };
         Frame2View.TAG = "Frame2View - ";

@@ -42,6 +42,14 @@
             View.setViewType(VIEWTYPE_LIST.STAR);
             View.render();
         }
+
+        public static getUpcoming7DaysAlarms(): Alarms {
+            return Model.getAlarms().getUpcoming7DaysAlarmsForUser(Model.getCurUser());
+        }
+
+        public static getDailyAlarms(): Alarms {
+            return Model.getAlarms().getDailyAlarmsForUser(Model.getCurUser());
+        }
     }
 
     export class Router extends Backbone.Router {

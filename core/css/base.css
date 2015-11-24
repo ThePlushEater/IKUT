@@ -6,6 +6,8 @@
         background-position:right bottom !important;
         background-size: cover !important;
         background-repeat: no-repeat !important;
+        max-width: 414px;
+        max-height: 736px;
     }
 
     #wrapper-home {
@@ -17,6 +19,8 @@
         height: 100%;
         overflow-y: auto;
         opacity: 0;
+        max-width: 414px;
+        max-height: 736px;
     }
 
     #wrapper-alarms {
@@ -28,6 +32,9 @@
         height: 100%;
         overflow-y: auto;
         opacity: 0;
+        max-width: 414px;
+        max-height: 736px;
+        overflow: hidden;
     }
 
     #wrapper-frame {
@@ -41,6 +48,8 @@
         background-position:left top;
         background-size: cover;
         background-repeat: no-repeat;
+        max-width: 414px;
+        max-height: 736px;
     }
 
     #wrapper-logo {
@@ -51,6 +60,8 @@
         left: 0;
         padding: 20px;
         color: rgba(255, 255, 255, 1);
+        max-width: 414px;
+        max-height: 736px;
     }
 
     #wrapper-menus {
@@ -58,5 +69,7 @@
         top: -4px;
         right: 0;
         padding: 0 0 0 0;
+        max-width: 414px;
+        max-height: 736px;
     }
 }

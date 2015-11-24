@@ -83,6 +83,10 @@
 
             self.changeBackgroundGradient();
             self.addEventListener();
+
+            // adjust offset of menu
+            console.log($(document).innerWidth() - self.getWidth());
+            $('#wrapper-menus').css({ right: $(document).innerWidth() - self.getWidth() });
         }
         public static render(args?: any): any {
             View._instance.render(args);

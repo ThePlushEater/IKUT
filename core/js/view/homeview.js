@@ -18,14 +18,19 @@ var IKUT;
             var self = this;
             if (self.bDebug)
                 console.log(HomeView.TAG + "render()");
+            // get alarms
+            var alarms = IKUT.Controller.getUpcoming7DaysAlarms();
             // apply template
             var template = _.template(IKUT.Template.getHomeViewTemplate());
-            var data = {};
+            var data = {
+                alarms: alarms,
+            };
             self.$el.html(template(data));
             self.setElement(self.$('#wrapper-home'));
             self.animVisible();
             $.each(self.$('.wrapper-notification'), function (index, item) {
-                IKUT.FrameViewFractory.create($(item)).render();
+                var fv = IKUT.FrameViewFractory.create($(item));
+                fv.render(alarms.models[index]);
             });
             return self;
         };

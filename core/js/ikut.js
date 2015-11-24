@@ -9947,7 +9947,7 @@ return jQuery;
 
     function warn(msg) {
         if (utils_hooks__hooks.suppressDeprecationWarnings === false && typeof console !== 'undefined' && console.warn) {
-            console.warn('Deprecation warning: ' + msg);
+            //console.warn('Deprecation warning: ' + msg);
         }
     }
 
@@ -22388,9 +22388,12 @@ if (typeof jQuery === 'undefined') {
 ///#source 1 1 /core/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js
 !function(a,b){"use strict";if("function"==typeof define&&define.amd)define(["jquery","moment"],b);else if("object"==typeof exports)b(require("jquery"),require("moment"));else{if(!jQuery)throw new Error("bootstrap-datetimepicker requires jQuery to be loaded first");if(!moment)throw new Error("bootstrap-datetimepicker requires moment.js to be loaded first");b(a.jQuery,moment)}}(this,function(a,b){"use strict";if("undefined"==typeof b)throw new Error("momentjs is required");var c=0,d=function(d,e){var f,g=a.fn.datetimepicker.defaults,h={time:"glyphicon glyphicon-time",date:"glyphicon glyphicon-calendar",up:"glyphicon glyphicon-chevron-up",down:"glyphicon glyphicon-chevron-down"},i=this,j=!1,k=function(){var f,j,k=!1;if(i.options=a.extend({},g,e),i.options.icons=a.extend({},h,i.options.icons),i.element=a(d),m(),!i.options.pickTime&&!i.options.pickDate)throw new Error("Must choose at least one picker");if(i.id=c++,b.locale(i.options.language),i.date=b(),i.unset=!1,i.isInput=i.element.is("input"),i.component=!1,i.element.hasClass("input-group")&&(i.component=i.element.find(0===i.element.find(".datepickerbutton").size()?'[class^="input-group-"]':".datepickerbutton")),i.format=i.options.format,f=b().localeData(),i.format||(i.format=i.options.pickDate?f.longDateFormat("L"):"",i.options.pickDate&&i.options.pickTime&&(i.format+=" "),i.format+=i.options.pickTime?f.longDateFormat("LT"):"",i.options.useSeconds&&(-1!==f.longDateFormat("LT").indexOf(" A")?i.format=i.format.split(" A")[0]+":ss A":i.format+=":ss")),i.use24hours=i.format.toLowerCase().indexOf("a")<0&&i.format.indexOf("h")<0,i.component&&(k=i.component.find("span")),i.options.pickTime&&k&&k.addClass(i.options.icons.time),i.options.pickDate&&k&&(k.removeClass(i.options.icons.time),k.addClass(i.options.icons.date)),i.options.widgetParent="string"==typeof i.options.widgetParent&&i.options.widgetParent||i.element.parents().filter(function(){return"scroll"===a(this).css("overflow-y")}).get(0)||"body",i.widget=a(Q()).appendTo(i.options.widgetParent),i.minViewMode=i.options.minViewMode||0,"string"==typeof i.minViewMode)switch(i.minViewMode){case"months":i.minViewMode=1;break;case"years":i.minViewMode=2;break;default:i.minViewMode=0}if(i.viewMode=i.options.viewMode||0,"string"==typeof i.viewMode)switch(i.viewMode){case"months":i.viewMode=1;break;case"years":i.viewMode=2;break;default:i.viewMode=0}i.viewMode=Math.max(i.viewMode,i.minViewMode),i.options.disabledDates=O(i.options.disabledDates),i.options.enabledDates=O(i.options.enabledDates),i.startViewMode=i.viewMode,i.setMinDate(i.options.minDate),i.setMaxDate(i.options.maxDate),r(),s(),u(),v(),w(),q(),E(),l().prop("disabled")||F(),""!==i.options.defaultDate&&""===l().val()&&i.setValue(i.options.defaultDate),1!==i.options.minuteStepping&&(j=i.options.minuteStepping,i.date.minutes(Math.round(i.date.minutes()/j)*j%60).seconds(0))},l=function(){var a;if(i.isInput)return i.element;if(a=i.element.find(".datepickerinput"),0===a.size())a=i.element.find("input");else if(!a.is("input"))throw new Error('CSS class "datepickerinput" cannot be applied to non input element');return a},m=function(){var a;a=i.element.is("input")?i.element.data():i.element.find("input").data(),void 0!==a.dateFormat&&(i.options.format=a.dateFormat),void 0!==a.datePickdate&&(i.options.pickDate=a.datePickdate),void 0!==a.datePicktime&&(i.options.pickTime=a.datePicktime),void 0!==a.dateUseminutes&&(i.options.useMinutes=a.dateUseminutes),void 0!==a.dateUseseconds&&(i.options.useSeconds=a.dateUseseconds),void 0!==a.dateUsecurrent&&(i.options.useCurrent=a.dateUsecurrent),void 0!==a.calendarWeeks&&(i.options.calendarWeeks=a.calendarWeeks),void 0!==a.dateMinutestepping&&(i.options.minuteStepping=a.dateMinutestepping),void 0!==a.dateMindate&&(i.options.minDate=a.dateMindate),void 0!==a.dateMaxdate&&(i.options.maxDate=a.dateMaxdate),void 0!==a.dateShowtoday&&(i.options.showToday=a.dateShowtoday),void 0!==a.dateCollapse&&(i.options.collapse=a.dateCollapse),void 0!==a.dateLanguage&&(i.options.language=a.dateLanguage),void 0!==a.dateDefaultdate&&(i.options.defaultDate=a.dateDefaultdate),void 0!==a.dateDisableddates&&(i.options.disabledDates=a.dateDisableddates),void 0!==a.dateEnableddates&&(i.options.enabledDates=a.dateEnableddates),void 0!==a.dateIcons&&(i.options.icons=a.dateIcons),void 0!==a.dateUsestrict&&(i.options.useStrict=a.dateUsestrict),void 0!==a.dateDirection&&(i.options.direction=a.dateDirection),void 0!==a.dateSidebyside&&(i.options.sideBySide=a.dateSidebyside),void 0!==a.dateDaysofweekdisabled&&(i.options.daysOfWeekDisabled=a.dateDaysofweekdisabled)},n=function(){var b,c="absolute",d=i.component?i.component.offset():i.element.offset(),e=a(window);i.width=i.component?i.component.outerWidth():i.element.outerWidth(),d.top=d.top+i.element.outerHeight(),"up"===i.options.direction?b="top":"bottom"===i.options.direction?b="bottom":"auto"===i.options.direction&&(b=d.top+i.widget.height()>e.height()+e.scrollTop()&&i.widget.height()+i.element.outerHeight()<d.top?"top":"bottom"),"top"===b?(d.bottom=e.height()-d.top+i.element.outerHeight()+3,i.widget.addClass("top").removeClass("bottom")):(d.top+=1,i.widget.addClass("bottom").removeClass("top")),void 0!==i.options.width&&i.widget.width(i.options.width),"left"===i.options.orientation&&(i.widget.addClass("left-oriented"),d.left=d.left-i.widget.width()+20),J()&&(c="fixed",d.top-=e.scrollTop(),d.left-=e.scrollLeft()),e.width()<d.left+i.widget.outerWidth()?(d.right=e.width()-d.left-i.width,d.left="auto",i.widget.addClass("pull-right")):(d.right="auto",i.widget.removeClass("pull-right")),i.widget.css("top"===b?{position:c,bottom:d.bottom,top:"auto",left:d.left,right:d.right}:{position:c,top:d.top,bottom:"auto",left:d.left,right:d.right})},o=function(a,c){(!b(i.date).isSame(b(a))||j)&&(j=!1,i.element.trigger({type:"dp.change",date:b(i.date),oldDate:b(a)}),"change"!==c&&i.element.change())},p=function(a){j=!0,i.element.trigger({type:"dp.error",date:b(a,i.format,i.options.useStrict)})},q=function(a){b.locale(i.options.language);var c=a;c||(c=l().val(),c&&(i.date=b(c,i.format,i.options.useStrict)),i.date||(i.date=b())),i.viewDate=b(i.date).startOf("month"),t(),x()},r=function(){b.locale(i.options.language);var c,d=a("<tr>"),e=b.weekdaysMin();if(i.options.calendarWeeks===!0&&d.append('<th class="cw">#</th>'),0===b().localeData()._week.dow)for(c=0;7>c;c++)d.append('<th class="dow">'+e[c]+"</th>");else for(c=1;8>c;c++)d.append(7===c?'<th class="dow">'+e[0]+"</th>":'<th class="dow">'+e[c]+"</th>");i.widget.find(".datepicker-days thead").append(d)},s=function(){b.locale(i.options.language);var a,c="",d=b.monthsShort();for(a=0;12>a;a++)c+='<span class="month">'+d[a]+"</span>";i.widget.find(".datepicker-months td").append(c)},t=function(){if(i.options.pickDate){b.locale(i.options.language);var c,d,e,f,g,h,j,k,l,m=i.viewDate.year(),n=i.viewDate.month(),o=i.options.minDate.year(),p=i.options.minDate.month(),q=i.options.maxDate.year(),r=i.options.maxDate.month(),s=[],t=b.months();for(i.widget.find(".datepicker-days").find(".disabled").removeClass("disabled"),i.widget.find(".datepicker-months").find(".disabled").removeClass("disabled"),i.widget.find(".datepicker-years").find(".disabled").removeClass("disabled"),i.widget.find(".datepicker-days th:eq(1)").text(t[n]+" "+m),d=b(i.viewDate,i.format,i.options.useStrict).subtract(1,"months"),j=d.daysInMonth(),d.date(j).startOf("week"),(m===o&&p>=n||o>m)&&i.widget.find(".datepicker-days th:eq(0)").addClass("disabled"),(m===q&&n>=r||m>q)&&i.widget.find(".datepicker-days th:eq(2)").addClass("disabled"),e=b(d).add(42,"d");d.isBefore(e);){if(d.weekday()===b().startOf("week").weekday()&&(f=a("<tr>"),s.push(f),i.options.calendarWeeks===!0&&f.append('<td class="cw">'+d.week()+"</td>")),g="",d.year()<m||d.year()===m&&d.month()<n?g+=" old":(d.year()>m||d.year()===m&&d.month()>n)&&(g+=" new"),d.isSame(b({y:i.date.year(),M:i.date.month(),d:i.date.date()}))&&(g+=" active"),(M(d,"day")||!N(d))&&(g+=" disabled"),i.options.showToday===!0&&d.isSame(b(),"day")&&(g+=" today"),i.options.daysOfWeekDisabled)for(h=0;h<i.options.daysOfWeekDisabled.length;h++)if(d.day()===i.options.daysOfWeekDisabled[h]){g+=" disabled";break}f.append('<td class="day'+g+'">'+d.date()+"</td>"),c=d.date(),d.add(1,"d"),c===d.date()&&d.add(1,"d")}for(i.widget.find(".datepicker-days tbody").empty().append(s),l=i.date.year(),t=i.widget.find(".datepicker-months").find("th:eq(1)").text(m).end().find("span").removeClass("active"),l===m&&t.eq(i.date.month()).addClass("active"),o>m-1&&i.widget.find(".datepicker-months th:eq(0)").addClass("disabled"),m+1>q&&i.widget.find(".datepicker-months th:eq(2)").addClass("disabled"),h=0;12>h;h++)m===o&&p>h||o>m?a(t[h]).addClass("disabled"):(m===q&&h>r||m>q)&&a(t[h]).addClass("disabled");for(s="",m=10*parseInt(m/10,10),k=i.widget.find(".datepicker-years").find("th:eq(1)").text(m+"-"+(m+9)).parents("table").find("td"),i.widget.find(".datepicker-years").find("th").removeClass("disabled"),o>m&&i.widget.find(".datepicker-years").find("th:eq(0)").addClass("disabled"),m+9>q&&i.widget.find(".datepicker-years").find("th:eq(2)").addClass("disabled"),m-=1,h=-1;11>h;h++)s+='<span class="year'+(-1===h||10===h?" old":"")+(l===m?" active":"")+(o>m||m>q?" disabled":"")+'">'+m+"</span>",m+=1;k.html(s)}},u=function(){b.locale(i.options.language);var a,c,d,e=i.widget.find(".timepicker .timepicker-hours table"),f="";if(e.parent().hide(),i.use24hours)for(a=0,c=0;6>c;c+=1){for(f+="<tr>",d=0;4>d;d+=1)f+='<td class="hour">'+P(a.toString())+"</td>",a++;f+="</tr>"}else for(a=1,c=0;3>c;c+=1){for(f+="<tr>",d=0;4>d;d+=1)f+='<td class="hour">'+P(a.toString())+"</td>",a++;f+="</tr>"}e.html(f)},v=function(){var a,b,c=i.widget.find(".timepicker .timepicker-minutes table"),d="",e=0,f=i.options.minuteStepping;for(c.parent().hide(),1===f&&(f=5),a=0;a<Math.ceil(60/f/4);a++){for(d+="<tr>",b=0;4>b;b+=1)60>e?(d+='<td class="minute">'+P(e.toString())+"</td>",e+=f):d+="<td></td>";d+="</tr>"}c.html(d)},w=function(){var a,b,c=i.widget.find(".timepicker .timepicker-seconds table"),d="",e=0;for(c.parent().hide(),a=0;3>a;a++){for(d+="<tr>",b=0;4>b;b+=1)d+='<td class="second">'+P(e.toString())+"</td>",e+=5;d+="</tr>"}c.html(d)},x=function(){if(i.date){var a=i.widget.find(".timepicker span[data-time-component]"),b=i.date.hours(),c=i.date.format("A");i.use24hours||(0===b?b=12:12!==b&&(b%=12),i.widget.find(".timepicker [data-action=togglePeriod]").text(c)),a.filter("[data-time-component=hours]").text(P(b)),a.filter("[data-time-component=minutes]").text(P(i.date.minutes())),a.filter("[data-time-component=seconds]").text(P(i.date.second()))}},y=function(c){c.stopPropagation(),c.preventDefault(),i.unset=!1;var d,e,f,g,h=a(c.target).closest("span, td, th"),j=b(i.date);if(1===h.length&&!h.is(".disabled"))switch(h[0].nodeName.toLowerCase()){case"th":switch(h[0].className){case"picker-switch":E(1);break;case"prev":case"next":f=R.modes[i.viewMode].navStep,"prev"===h[0].className&&(f=-1*f),i.viewDate.add(f,R.modes[i.viewMode].navFnc),t()}break;case"span":h.is(".month")?(d=h.parent().find("span").index(h),i.viewDate.month(d)):(e=parseInt(h.text(),10)||0,i.viewDate.year(e)),i.viewMode===i.minViewMode&&(i.date=b({y:i.viewDate.year(),M:i.viewDate.month(),d:i.viewDate.date(),h:i.date.hours(),m:i.date.minutes(),s:i.date.seconds()}),K(),o(j,c.type)),E(-1),t();break;case"td":h.is(".day")&&(g=parseInt(h.text(),10)||1,d=i.viewDate.month(),e=i.viewDate.year(),h.is(".old")?0===d?(d=11,e-=1):d-=1:h.is(".new")&&(11===d?(d=0,e+=1):d+=1),i.date=b({y:e,M:d,d:g,h:i.date.hours(),m:i.date.minutes(),s:i.date.seconds()}),i.viewDate=b({y:e,M:d,d:Math.min(28,g)}),t(),K(),o(j,c.type))}},z={incrementHours:function(){L("add","hours",1)},incrementMinutes:function(){L("add","minutes",i.options.minuteStepping)},incrementSeconds:function(){L("add","seconds",1)},decrementHours:function(){L("subtract","hours",1)},decrementMinutes:function(){L("subtract","minutes",i.options.minuteStepping)},decrementSeconds:function(){L("subtract","seconds",1)},togglePeriod:function(){var a=i.date.hours();a>=12?a-=12:a+=12,i.date.hours(a)},showPicker:function(){i.widget.find(".timepicker > div:not(.timepicker-picker)").hide(),i.widget.find(".timepicker .timepicker-picker").show()},showHours:function(){i.widget.find(".timepicker .timepicker-picker").hide(),i.widget.find(".timepicker .timepicker-hours").show()},showMinutes:function(){i.widget.find(".timepicker .timepicker-picker").hide(),i.widget.find(".timepicker .timepicker-minutes").show()},showSeconds:function(){i.widget.find(".timepicker .timepicker-picker").hide(),i.widget.find(".timepicker .timepicker-seconds").show()},selectHour:function(b){var c=parseInt(a(b.target).text(),10);i.use24hours||(i.date.hours()>=12?12!==c&&(c+=12):12===c&&(c=0)),i.date.hours(c),z.showPicker.call(i)},selectMinute:function(b){i.date.minutes(parseInt(a(b.target).text(),10)),z.showPicker.call(i)},selectSecond:function(b){i.date.seconds(parseInt(a(b.target).text(),10)),z.showPicker.call(i)}},A=function(c){var d=b(i.date),e=a(c.currentTarget).data("action"),f=z[e].apply(i,arguments);return B(c),i.date||(i.date=b({y:1970})),K(),x(),o(d,c.type),f},B=function(a){a.stopPropagation(),a.preventDefault()},C=function(a){27===a.keyCode&&i.hide()},D=function(c){b.locale(i.options.language);var d=a(c.target),e=b(i.date),f=b(d.val(),i.format,i.options.useStrict);f.isValid()&&!M(f)&&N(f)?(q(),i.setValue(f),o(e,c.type),K()):(i.viewDate=e,i.unset=!0,o(e,c.type),p(f))},E=function(a){a&&(i.viewMode=Math.max(i.minViewMode,Math.min(2,i.viewMode+a))),i.widget.find(".datepicker > div").hide().filter(".datepicker-"+R.modes[i.viewMode].clsName).show()},F=function(){var b,c,d,e,f;i.widget.on("click",".datepicker *",a.proxy(y,this)),i.widget.on("click","[data-action]",a.proxy(A,this)),i.widget.on("mousedown",a.proxy(B,this)),i.element.on("keydown",a.proxy(C,this)),i.options.pickDate&&i.options.pickTime&&i.widget.on("click.togglePicker",".accordion-toggle",function(g){if(g.stopPropagation(),b=a(this),c=b.closest("ul"),d=c.find(".in"),e=c.find(".collapse:not(.in)"),d&&d.length){if(f=d.data("collapse"),f&&f.transitioning)return;d.collapse("hide"),e.collapse("show"),b.find("span").toggleClass(i.options.icons.time+" "+i.options.icons.date),i.component&&i.component.find("span").toggleClass(i.options.icons.time+" "+i.options.icons.date)}}),i.isInput?i.element.on({click:a.proxy(i.show,this),focus:a.proxy(i.show,this),change:a.proxy(D,this),blur:a.proxy(i.hide,this)}):(i.element.on({change:a.proxy(D,this)},"input"),i.component?(i.component.on("click",a.proxy(i.show,this)),i.component.on("mousedown",a.proxy(B,this))):i.element.on("click",a.proxy(i.show,this)))},G=function(){a(window).on("resize.datetimepicker"+i.id,a.proxy(n,this)),i.isInput||a(document).on("mousedown.datetimepicker"+i.id,a.proxy(i.hide,this))},H=function(){i.widget.off("click",".datepicker *",i.click),i.widget.off("click","[data-action]"),i.widget.off("mousedown",i.stopEvent),i.options.pickDate&&i.options.pickTime&&i.widget.off("click.togglePicker"),i.isInput?i.element.off({focus:i.show,change:D,click:i.show,blur:i.hide}):(i.element.off({change:D},"input"),i.component?(i.component.off("click",i.show),i.component.off("mousedown",i.stopEvent)):i.element.off("click",i.show))},I=function(){a(window).off("resize.datetimepicker"+i.id),i.isInput||a(document).off("mousedown.datetimepicker"+i.id)},J=function(){if(i.element){var b,c=i.element.parents(),d=!1;for(b=0;b<c.length;b++)if("fixed"===a(c[b]).css("position")){d=!0;break}return d}return!1},K=function(){b.locale(i.options.language);var a="";i.unset||(a=b(i.date).format(i.format)),l().val(a),i.element.data("date",a),i.options.pickTime||i.hide()},L=function(a,c,d){b.locale(i.options.language);var e;return"add"===a?(e=b(i.date),23===e.hours()&&e.add(d,c),e.add(d,c)):e=b(i.date).subtract(d,c),M(b(e.subtract(d,c)))||M(e)?void p(e.format(i.format)):("add"===a?i.date.add(d,c):i.date.subtract(d,c),void(i.unset=!1))},M=function(a,c){b.locale(i.options.language);var d=b(i.options.maxDate,i.format,i.options.useStrict),e=b(i.options.minDate,i.format,i.options.useStrict);return c&&(d=d.endOf(c),e=e.startOf(c)),a.isAfter(d)||a.isBefore(e)?!0:i.options.disabledDates===!1?!1:i.options.disabledDates[a.format("YYYY-MM-DD")]===!0},N=function(a){return b.locale(i.options.language),i.options.enabledDates===!1?!0:i.options.enabledDates[a.format("YYYY-MM-DD")]===!0},O=function(a){var c,d={},e=0;for(c=0;c<a.length;c++)f=b.isMoment(a[c])||a[c]instanceof Date?b(a[c]):b(a[c],i.format,i.options.useStrict),f.isValid()&&(d[f.format("YYYY-MM-DD")]=!0,e++);return e>0?d:!1},P=function(a){return a=a.toString(),a.length>=2?a:"0"+a},Q=function(){var a='<thead><tr><th class="prev">&lsaquo;</th><th colspan="'+(i.options.calendarWeeks?"6":"5")+'" class="picker-switch"></th><th class="next">&rsaquo;</th></tr></thead>',b='<tbody><tr><td colspan="'+(i.options.calendarWeeks?"8":"7")+'"></td></tr></tbody>',c='<div class="datepicker-days"><table class="table-condensed">'+a+'<tbody></tbody></table></div><div class="datepicker-months"><table class="table-condensed">'+a+b+'</table></div><div class="datepicker-years"><table class="table-condensed">'+a+b+"</table></div>",d="";return i.options.pickDate&&i.options.pickTime?(d='<div class="bootstrap-datetimepicker-widget'+(i.options.sideBySide?" timepicker-sbs":"")+(i.use24hours?" usetwentyfour":"")+' dropdown-menu" style="z-index:9999 !important;">',d+=i.options.sideBySide?'<div class="row"><div class="col-sm-6 datepicker">'+c+'</div><div class="col-sm-6 timepicker">'+S.getTemplate()+"</div></div>":'<ul class="list-unstyled"><li'+(i.options.collapse?' class="collapse in"':"")+'><div class="datepicker">'+c+'</div></li><li class="picker-switch accordion-toggle"><a class="btn" style="width:100%"><span class="'+i.options.icons.time+'"></span></a></li><li'+(i.options.collapse?' class="collapse"':"")+'><div class="timepicker">'+S.getTemplate()+"</div></li></ul>",d+="</div>"):i.options.pickTime?'<div class="bootstrap-datetimepicker-widget dropdown-menu"><div class="timepicker">'+S.getTemplate()+"</div></div>":'<div class="bootstrap-datetimepicker-widget dropdown-menu"><div class="datepicker">'+c+"</div></div>"},R={modes:[{clsName:"days",navFnc:"month",navStep:1},{clsName:"months",navFnc:"year",navStep:1},{clsName:"years",navFnc:"year",navStep:10}]},S={hourTemplate:'<span data-action="showHours"   data-time-component="hours"   class="timepicker-hour"></span>',minuteTemplate:'<span data-action="showMinutes" data-time-component="minutes" class="timepicker-minute"></span>',secondTemplate:'<span data-action="showSeconds"  data-time-component="seconds" class="timepicker-second"></span>'};S.getTemplate=function(){return'<div class="timepicker-picker"><table class="table-condensed"><tr><td><a href="#" class="btn" data-action="incrementHours"><span class="'+i.options.icons.up+'"></span></a></td><td class="separator"></td><td>'+(i.options.useMinutes?'<a href="#" class="btn" data-action="incrementMinutes"><span class="'+i.options.icons.up+'"></span></a>':"")+"</td>"+(i.options.useSeconds?'<td class="separator"></td><td><a href="#" class="btn" data-action="incrementSeconds"><span class="'+i.options.icons.up+'"></span></a></td>':"")+(i.use24hours?"":'<td class="separator"></td>')+"</tr><tr><td>"+S.hourTemplate+'</td> <td class="separator">:</td><td>'+(i.options.useMinutes?S.minuteTemplate:'<span class="timepicker-minute">00</span>')+"</td> "+(i.options.useSeconds?'<td class="separator">:</td><td>'+S.secondTemplate+"</td>":"")+(i.use24hours?"":'<td class="separator"></td><td><button type="button" class="btn btn-primary" data-action="togglePeriod"></button></td>')+'</tr><tr><td><a href="#" class="btn" data-action="decrementHours"><span class="'+i.options.icons.down+'"></span></a></td><td class="separator"></td><td>'+(i.options.useMinutes?'<a href="#" class="btn" data-action="decrementMinutes"><span class="'+i.options.icons.down+'"></span></a>':"")+"</td>"+(i.options.useSeconds?'<td class="separator"></td><td><a href="#" class="btn" data-action="decrementSeconds"><span class="'+i.options.icons.down+'"></span></a></td>':"")+(i.use24hours?"":'<td class="separator"></td>')+'</tr></table></div><div class="timepicker-hours" data-action="selectHour"><table class="table-condensed"></table></div><div class="timepicker-minutes" data-action="selectMinute"><table class="table-condensed"></table></div>'+(i.options.useSeconds?'<div class="timepicker-seconds" data-action="selectSecond"><table class="table-condensed"></table></div>':"")},i.destroy=function(){H(),I(),i.widget.remove(),i.element.removeData("DateTimePicker"),i.component&&i.component.removeData("DateTimePicker")},i.show=function(a){if(!l().prop("disabled")){if(i.options.useCurrent&&""===l().val()){if(1!==i.options.minuteStepping){var c=b(),d=i.options.minuteStepping;c.minutes(Math.round(c.minutes()/d)*d%60).seconds(0),i.setValue(c.format(i.format))}else i.setValue(b().format(i.format));o("",a.type)}a&&"click"===a.type&&i.isInput&&i.widget.hasClass("picker-open")||(i.widget.hasClass("picker-open")?(i.widget.hide(),i.widget.removeClass("picker-open")):(i.widget.show(),i.widget.addClass("picker-open")),i.height=i.component?i.component.outerHeight():i.element.outerHeight(),n(),i.element.trigger({type:"dp.show",date:b(i.date)}),G(),a&&B(a))}},i.disable=function(){var a=l();a.prop("disabled")||(a.prop("disabled",!0),H())},i.enable=function(){var a=l();a.prop("disabled")&&(a.prop("disabled",!1),F())},i.hide=function(){var a,c,d=i.widget.find(".collapse");for(a=0;a<d.length;a++)if(c=d.eq(a).data("collapse"),c&&c.transitioning)return;i.widget.hide(),i.widget.removeClass("picker-open"),i.viewMode=i.startViewMode,E(),i.element.trigger({type:"dp.hide",date:b(i.date)}),I()},i.setValue=function(a){b.locale(i.options.language),a?i.unset=!1:(i.unset=!0,K()),a=b.isMoment(a)?a.locale(i.options.language):a instanceof Date?b(a):b(a,i.format,i.options.useStrict),a.isValid()?(i.date=a,K(),i.viewDate=b({y:i.date.year(),M:i.date.month()}),t(),x()):p(a)},i.getDate=function(){return i.unset?null:b(i.date)},i.setDate=function(a){var c=b(i.date);i.setValue(a?a:null),o(c,"function")},i.setDisabledDates=function(a){i.options.disabledDates=O(a),i.viewDate&&q()},i.setEnabledDates=function(a){i.options.enabledDates=O(a),i.viewDate&&q()},i.setMaxDate=function(a){void 0!==a&&(i.options.maxDate=b.isMoment(a)||a instanceof Date?b(a):b(a,i.format,i.options.useStrict),i.viewDate&&q())},i.setMinDate=function(a){void 0!==a&&(i.options.minDate=b.isMoment(a)||a instanceof Date?b(a):b(a,i.format,i.options.useStrict),i.viewDate&&q())},k()};a.fn.datetimepicker=function(b){return this.each(function(){var c=a(this),e=c.data("DateTimePicker");e||c.data("DateTimePicker",new d(this,b))})},a.fn.datetimepicker.defaults={format:!1,pickDate:!0,pickTime:!0,useMinutes:!0,useSeconds:!1,useCurrent:!0,calendarWeeks:!1,minuteStepping:1,minDate:b({y:1900}),maxDate:b().add(100,"y"),showToday:!0,collapse:!0,language:b.locale(),defaultDate:"",disabledDates:!1,enabledDates:!1,icons:{},useStrict:!1,direction:"auto",sideBySide:!1,daysOfWeekDisabled:[],widgetParent:!1}});
 ///#source 1 1 /core/js/app.js
+var replaceAt = function (str, index, character) {
+    return str.substr(0, index) + character + str.substr(index + character.length);
+};
 $(document).ready(function () {
     var url = window.location;
-    console.log(url.origin + window.location.pathname);
+    IKUT.Model.MockupData();
     IKUT.View.setElement({ el: $('#wrapper-main') });
     IKUT.Setting.setBaseUrl(url.origin + window.location.pathname);
     // Start Router
@@ -22451,6 +22454,12 @@ var IKUT;
                 console.log(Controller.TAG + "load star page.");
             IKUT.View.setViewType(5 /* STAR */);
             IKUT.View.render();
+        };
+        Controller.getUpcoming7DaysAlarms = function () {
+            return IKUT.Model.getAlarms().getUpcoming7DaysAlarmsForUser(IKUT.Model.getCurUser());
+        };
+        Controller.getDailyAlarms = function () {
+            return IKUT.Model.getAlarms().getDailyAlarmsForUser(IKUT.Model.getCurUser());
         };
         Controller._instance = new Controller();
         Controller.TAG = "Controller - ";
@@ -22537,6 +22546,12 @@ var IKUT;
         Setting.getBaseUrl = function () {
             return this._instance.urlBase;
         };
+        Setting.getDateTimeFormat1 = function () {
+            return "YYYY-MM-DD HH:mm:ss";
+        };
+        Setting.getDateTimeFormat2 = function () {
+            return "h:mm A M/D/YYYY";
+        };
         Setting.getTimeFormat1 = function () {
             //return "HH:mm:ss ddd MMM Do";
             //return "HH:mm:ss dddd";
@@ -22547,8 +22562,14 @@ var IKUT;
             //return "HH:mm:ss dddd";
             return "h mm A";
         };
+        Setting.getTimeFormat3 = function () {
+            return "HH:mm";
+        };
         Setting.getDateFormat = function () {
             return "M/D/YYYY";
+        };
+        Setting.getDateDayFormat = function () {
+            return "M/D/YYYY dddd";
         };
         Setting.getMenuTopActiveOffset = function () {
             return -16;
@@ -22749,7 +22770,8 @@ var IKUT;
 (function (IKUT) {
     var Model = (function () {
         function Model() {
-            this.bDebug = false;
+            this.bDebug = true;
+            this.TAG = "Model - ";
             if (Model._instance) {
                 throw new Error("Error: Instantiation failed: Use Model.getInstance() instead of new.");
             }
@@ -22758,12 +22780,477 @@ var IKUT;
         Model.getInstance = function () {
             return Model._instance;
         };
+        Model.MockupData = function () {
+            var self = this._instance;
+            if (self.bDebug)
+                console.log(self.TAG + "MockupData()");
+            self.users = new IKUT.Users();
+            self.alarms = new IKUT.Alarms();
+            var karl = new IKUT.User({ username: '1', password: '1', name: 'Karl', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06' });
+            var john = new IKUT.User({ username: '2', password: '2', name: 'John', recent: '2015-10-06 08:08:08', created: '2014-08-08 08:08:08' });
+            var michael = new IKUT.User({ username: '3', password: '3', name: 'Michael', recent: '2015-11-25 05:05:05', created: '2015-06-06 12:12:12' });
+            self.users.add(karl);
+            self.users.add(john);
+            self.users.add(michael);
+            var alarm1 = new IKUT.Alarm({ name: 'Weekdays Wake Up', users: "", type: 1 /* DAILY */, date: '2015-11-25 07:05:15', days: "0000000" });
+            alarm1.addUsercId(karl.getcId());
+            alarm1.addDailyDay(0 /* MONDAY */);
+            alarm1.addDailyDay(2 /* WEDNESDAY */);
+            alarm1.addDailyDay(4 /* FRIDAY */);
+            self.alarms.add(alarm1);
+            var alarm2 = new IKUT.Alarm({ name: 'LMC 3710', users: "", type: 1 /* DAILY */, date: '2015-11-25 15:05:15', days: "0000000" });
+            alarm2.addUsercId(karl.getcId());
+            alarm2.addDailyDay(0 /* MONDAY */);
+            alarm2.addDailyDay(2 /* WEDNESDAY */);
+            self.alarms.add(alarm2);
+            var alarm3 = new IKUT.Alarm({ name: 'LMC 4803', users: "", type: 1 /* DAILY */, date: '2015-11-25 12:05:15', days: "0000000" });
+            alarm3.addUsercId(karl.getcId());
+            alarm3.addDailyDay(0 /* MONDAY */);
+            alarm3.addDailyDay(2 /* WEDNESDAY */);
+            self.alarms.add(alarm3);
+            var alarm4 = new IKUT.Alarm({ name: 'Weekends Wake Up', users: "", type: 1 /* DAILY */, date: '2015-11-25 10:05:15', days: "0000000" });
+            alarm4.addUsercId(karl.getcId());
+            alarm4.addDailyDay(5 /* SATURDAY */);
+            alarm4.addDailyDay(6 /* SUNDAY */);
+            self.alarms.add(alarm4);
+            // Set CurUser
+            Model.setCurUser(karl);
+            console.log(Model.getCurUser());
+            //console.log(alarm1.generateUpcoming7DaysDailyAlarmList());
+        };
+        Model.getCurUser = function () {
+            var self = this._instance;
+            return self.curUser;
+        };
+        Model.setCurUser = function (user) {
+            var self = this._instance;
+            self.curUser = user;
+        };
+        Model.getUsers = function () {
+            var self = this._instance;
+            if (!self.users) {
+                self.users = new IKUT.Users();
+            }
+            return self.users;
+        };
+        Model.getAlarms = function () {
+            var self = this._instance;
+            if (!self.alarms) {
+                self.alarms = new IKUT.Alarms();
+            }
+            return self.alarms;
+        };
         Model._instance = new Model();
         return Model;
     })();
     IKUT.Model = Model;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=model.js.map
+///#source 1 1 /core/js/model/user.js
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var IKUT;
+(function (IKUT) {
+    var User = (function (_super) {
+        __extends(User, _super);
+        function User(attributes, options) {
+            _super.call(this, attributes, options);
+            this.url = "";
+            this.isSavable = true;
+            var self = this;
+            this.defaults = {
+                "id": 0,
+                "username": "",
+                "password": "",
+                "name": "",
+                "recent": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
+                "created": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
+            };
+            self.off("change");
+            self.on("change", function (model, options) {
+                if (self.isSavable == false)
+                    return;
+                self.isSavable = false;
+                model.save({}, {
+                    wait: true,
+                    success: function (model, response) {
+                        model.isSavable = true;
+                    },
+                    error: function (error, response) {
+                    },
+                });
+            });
+        }
+        // non-url mode
+        User.prototype.sync = function () {
+            var arg = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                arg[_i - 0] = arguments[_i];
+            }
+            return null;
+        };
+        User.prototype.fetch = function (options) {
+            return null;
+        };
+        User.prototype.save = function (attributes, options) {
+            return null;
+        };
+        User.prototype.parse = function (response, options) {
+            if (response.id != undefined) {
+                response.id = parseInt(response.id);
+            }
+            response.recent = moment(response.recent).format(IKUT.Setting.getDateTimeFormat1());
+            response.created = moment(response.created).format(IKUT.Setting.getDateTimeFormat1());
+            return _super.prototype.parse.call(this, response, options);
+        };
+        User.prototype.toJSON = function (options) {
+            var clone = this.clone().attributes;
+            if (this.id != null) {
+                clone["id"] = this.id;
+            }
+            return clone;
+        };
+        User.prototype.getId = function () {
+            return Math.floor(this.id);
+        };
+        User.prototype.getcId = function () {
+            return this.cid;
+        };
+        User.prototype.getUsername = function () {
+            var self = this;
+            return this.get('username');
+        };
+        User.prototype.getPassword = function () {
+            var self = this;
+            return this.get('password');
+        };
+        User.prototype.getName = function () {
+            var self = this;
+            return this.get('name');
+        };
+        User.prototype.getFormattedRecentDate = function () {
+            var self = this;
+            return moment(self.get('recent')).format(IKUT.Setting.getDateTimeFormat2());
+        };
+        User.prototype.getFormattedCreatedDate = function () {
+            var self = this;
+            return moment(self.get('created')).format(IKUT.Setting.getDateTimeFormat2());
+        };
+        return User;
+    })(Backbone.Model);
+    IKUT.User = User;
+    var Users = (function (_super) {
+        __extends(Users, _super);
+        function Users(models, options) {
+            _super.call(this, models, options);
+            this.url = "";
+            this.model = User;
+        }
+        Users.prototype.getIds = function () {
+            var self = this;
+            var result = Array();
+            $.each(self.models, function (index, model) {
+                if (result.indexOf(model.getId()) == -1) {
+                    result.push(model.getId());
+                }
+            });
+            return result;
+        };
+        return Users;
+    })(Backbone.Collection);
+    IKUT.Users = Users;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=user.js.map
+///#source 1 1 /core/js/model/alarm.js
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var IKUT;
+(function (IKUT) {
+    (function (ALARM_LIST) {
+        ALARM_LIST[ALARM_LIST["NONE"] = 0] = "NONE";
+        ALARM_LIST[ALARM_LIST["DAILY"] = 1] = "DAILY";
+        ALARM_LIST[ALARM_LIST["ONETIME"] = 2] = "ONETIME";
+    })(IKUT.ALARM_LIST || (IKUT.ALARM_LIST = {}));
+    var ALARM_LIST = IKUT.ALARM_LIST;
+    (function (DAY_LIST) {
+        DAY_LIST[DAY_LIST["MONDAY"] = 0] = "MONDAY";
+        DAY_LIST[DAY_LIST["TUESDAY"] = 1] = "TUESDAY";
+        DAY_LIST[DAY_LIST["WEDNESDAY"] = 2] = "WEDNESDAY";
+        DAY_LIST[DAY_LIST["THURSDAY"] = 3] = "THURSDAY";
+        DAY_LIST[DAY_LIST["FRIDAY"] = 4] = "FRIDAY";
+        DAY_LIST[DAY_LIST["SATURDAY"] = 5] = "SATURDAY";
+        DAY_LIST[DAY_LIST["SUNDAY"] = 6] = "SUNDAY";
+    })(IKUT.DAY_LIST || (IKUT.DAY_LIST = {}));
+    var DAY_LIST = IKUT.DAY_LIST;
+    var Alarm = (function (_super) {
+        __extends(Alarm, _super);
+        function Alarm(attributes, options) {
+            _super.call(this, attributes, options);
+            this.url = "";
+            this.isSavable = true;
+            this.bBeginingOfTheDay = false;
+            var self = this;
+            this.defaults = {
+                "id": 0,
+                "type": 0 /* NONE */,
+                "name": "",
+                "users": "",
+                "date": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
+                "days": "0000000",
+            };
+            self.off("change");
+            self.on("change", function (model, options) {
+                if (self.isSavable == false)
+                    return;
+                self.isSavable = false;
+                model.save({}, {
+                    wait: true,
+                    success: function (model, response) {
+                        model.isSavable = true;
+                    },
+                    error: function (error, response) {
+                    },
+                });
+            });
+        }
+        Alarm.prototype.setIsBeggingOfTheDay = function (_bBeginingOfTheDay) {
+            var self = this;
+            self.bBeginingOfTheDay = _bBeginingOfTheDay;
+        };
+        Alarm.prototype.getIsBeggingOfTheDay = function () {
+            var self = this;
+            return self.bBeginingOfTheDay;
+        };
+        // non-url mode
+        Alarm.prototype.sync = function () {
+            var arg = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                arg[_i - 0] = arguments[_i];
+            }
+            return null;
+        };
+        Alarm.prototype.fetch = function (options) {
+            return null;
+        };
+        Alarm.prototype.save = function (attributes, options) {
+            return null;
+        };
+        Alarm.prototype.parse = function (response, options) {
+            if (response.id != null) {
+                response.id = parseInt(response.id);
+            }
+            response.date = moment(response.date).format(IKUT.Setting.getDateTimeFormat1());
+            return _super.prototype.parse.call(this, response, options);
+        };
+        Alarm.prototype.toJSON = function (options) {
+            var clone = this.clone().attributes;
+            if (this.id != null) {
+                clone["id"] = this.id;
+            }
+            return clone;
+        };
+        Alarm.prototype.getId = function () {
+            return Math.floor(this.id);
+        };
+        Alarm.prototype.getcId = function () {
+            return this.cid;
+        };
+        Alarm.prototype.getName = function () {
+            var self = this;
+            return this.get('name');
+        };
+        Alarm.prototype.getType = function () {
+            var self = this;
+            return this.get('type');
+        };
+        Alarm.prototype.getUsers = function () {
+            var self = this;
+            return this.get('users');
+        };
+        Alarm.prototype.getDays = function () {
+            var self = this;
+            return this.get('days');
+        };
+        Alarm.prototype.getDate = function () {
+            var self = this;
+            return moment(self.get('date'));
+        };
+        Alarm.prototype.getFormattedDate = function () {
+            var self = this;
+            return moment(self.get('date')).format(IKUT.Setting.getDateFormat());
+        };
+        Alarm.prototype.getFormattedDateDay = function () {
+            var self = this;
+            console.log(moment(self.get('date')).format(IKUT.Setting.getDateDayFormat()));
+            return moment(self.get('date')).format(IKUT.Setting.getDateDayFormat());
+        };
+        Alarm.prototype.getFormattedTime = function () {
+            var self = this;
+            return moment(self.get('date')).format(IKUT.Setting.getTimeFormat1());
+        };
+        Alarm.prototype.getUserIds = function () {
+            var self = this;
+            var result = Array();
+            var temp = self.get('users').split(",");
+            $.each(temp, function (index, item) {
+                result.push(parseInt(item));
+            });
+            return result;
+        };
+        Alarm.prototype.getUsercIds = function () {
+            var self = this;
+            var result = self.get('users').split(",");
+            return result;
+        };
+        Alarm.prototype.addUsercId = function (cid) {
+            var self = this;
+            if (cid != "") {
+                var users = self.get('users').split(",");
+                users.push(cid);
+                var result = _.uniq(users);
+                if (result[0] == "") {
+                    result.splice(0, 1);
+                }
+                self.set("users", result.toString());
+            }
+        };
+        Alarm.prototype.addDailyDay = function (day) {
+            var self = this;
+            self.set("days", replaceAt(self.get("days"), day, "1"));
+        };
+        Alarm.prototype.removeDailyDay = function (day) {
+            var self = this;
+            self.set("days", replaceAt(self.get("days"), day, "0"));
+        };
+        Alarm.prototype.getIsDailyDayOn = function (day) {
+            var self = this;
+            if (self.get("days")[day] == "1") {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        Alarm.prototype.getHasUsercId = function (cid) {
+            var self = this;
+            var cids = self.getUsercIds();
+            if (cids.indexOf(cid) >= 0) {
+                return true;
+            }
+            return false;
+        };
+        Alarm.prototype.generateUpcoming7DaysDailyAlarmList = function () {
+            var self = this;
+            var result = new Array();
+            for (var i = 0; i < 6; i++) {
+                if (self.getIsDailyDayOn(i)) {
+                    var alarm = new Alarm({ name: self.getName(), users: self.getUsers(), type: self.getType(), date: '2015-11-25 07:05:15', days: self.getDays() });
+                    var date = moment(moment().day(i + 1).format(IKUT.Setting.getDateFormat()) + " " + self.getFormattedTime());
+                    if (moment(new Date()).valueOf() > moment(date).valueOf()) {
+                        var date = moment(moment().day(i + 1 + 7).format(IKUT.Setting.getDateFormat()) + " " + self.getFormattedTime());
+                    }
+                    alarm.set("date", date.format(IKUT.Setting.getDateTimeFormat1()));
+                    result.push(alarm);
+                }
+            }
+            return result;
+        };
+        return Alarm;
+    })(Backbone.Model);
+    IKUT.Alarm = Alarm;
+    (function (ALARM_SORT_LIST) {
+        ALARM_SORT_LIST[ALARM_SORT_LIST["DAY"] = 0] = "DAY";
+        ALARM_SORT_LIST[ALARM_SORT_LIST["TIME"] = 1] = "TIME";
+    })(IKUT.ALARM_SORT_LIST || (IKUT.ALARM_SORT_LIST = {}));
+    var ALARM_SORT_LIST = IKUT.ALARM_SORT_LIST;
+    var Alarms = (function (_super) {
+        __extends(Alarms, _super);
+        function Alarms(models, options) {
+            _super.call(this, models, options);
+            this.url = "";
+            this.sortType = 0 /* DAY */;
+            this.model = Alarm;
+        }
+        Alarms.prototype.getIds = function () {
+            var self = this;
+            var result = Array();
+            $.each(self.models, function (index, model) {
+                if (result.indexOf(model.getId()) == -1) {
+                    result.push(model.getId());
+                }
+            });
+            return result;
+        };
+        Alarms.prototype.getUpcoming7DaysAlarmsForUser = function (user) {
+            var self = this;
+            var alarms = new Alarms();
+            $.each(self.models, function (index, model) {
+                if (model.getHasUsercId(user.getcId())) {
+                    if (model.getType() == 1 /* DAILY */) {
+                        var temp = model.generateUpcoming7DaysDailyAlarmList();
+                        alarms.add(temp);
+                    }
+                }
+            });
+            self.setSortType(0 /* DAY */);
+            alarms.sort();
+            if (alarms.models.length > 1) {
+                var date = moment(alarms.models[0].getDate());
+                $.each(alarms.models, function (index, model) {
+                    model.setIsBeggingOfTheDay(false);
+                    var temp = moment(model.getDate());
+                    if (temp.isAfter(date, "day")) {
+                        date = temp;
+                        model.setIsBeggingOfTheDay(true);
+                    }
+                });
+            }
+            alarms.models[0].setIsBeggingOfTheDay(false);
+            if (alarms.models.length >= 2) {
+                alarms.models[1].setIsBeggingOfTheDay(true);
+            }
+            return alarms;
+        };
+        Alarms.prototype.setSortType = function (_type) {
+            var self = this;
+            self.sortType = _type;
+        };
+        Alarms.prototype.getDailyAlarmsForUser = function (user) {
+            var self = this;
+            var alarms = new Alarms();
+            $.each(self.models, function (index, model) {
+                if (model.getHasUsercId(user.getcId())) {
+                    if (model.getType() == 1 /* DAILY */) {
+                        alarms.add(model);
+                    }
+                }
+            });
+            self.setSortType(1 /* TIME */);
+            alarms.sort();
+            return alarms;
+        };
+        Alarms.prototype.comparator = function (model) {
+            var self = this;
+            if (self.sortType == 0 /* DAY */) {
+                return moment(model.get("date")).valueOf();
+            }
+            else if (self.sortType == 1 /* TIME */) {
+                return moment(moment(model.get("date")).format(IKUT.Setting.getTimeFormat3())).valueOf();
+            }
+        };
+        return Alarms;
+    })(Backbone.Collection);
+    IKUT.Alarms = Alarms;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=alarm.js.map
 ///#source 1 1 /core/js/view/baseview.js
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -22858,7 +23345,14 @@ var IKUT;
         Template.getHomeViewTemplate = function () {
             var template = "";
             template += '<div id="wrapper-home">';
-            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-UPCOMING ALARM-</div></div>';
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Upcoming Alarm-</div></div>';
+            template += '<% _.each(alarms.models, function (alarm) { %>';
+            template += '<% if (alarm.getIsBeggingOfTheDay()) { %>';
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-<%= alarm.getFormattedDateDay() %>-</div></div>';
+            template += '<% } %>';
+            template += '<div class="wrapper-notification"></div>';
+            template += '<% }); %>';
+            /*
             template += '<div class="wrapper-notification"></div>';
             template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-11/22/2015 WEDNESDAY-</div></div>';
             template += '<div class="wrapper-notification"></div>';
@@ -22873,6 +23367,7 @@ var IKUT;
             template += '<div class="wrapper-notification"></div>';
             template += '<div class="wrapper-notification"></div>';
             template += '<div class="wrapper-notification"></div>';
+            */
             template += '</div>';
             return template;
         };
@@ -22883,9 +23378,9 @@ var IKUT;
             template += '<div class="frame-stroke-left"></div>';
             template += '<div class="frame-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x"></i></span></div>';
             template += '<div class="frame-text-center col-xs-10"><%= content %></div>';
-            template += '<div class="frame-text-right col-xs-1"><i class="fa fa-angle-down fa-2x" data-toggle="collapse" data-target="#demo"></i></div>';
+            template += '<div class="frame-text-right col-xs-1"><i class="fa fa-angle-down fa-2x" data-toggle="collapse" data-target="#<%= collapse %>"></i></div>';
             template += '<div class="clear"></div>';
-            template += '<div id="demo" class="frame-text-detail collapse">ALARM DETAIL</div>';
+            template += '<div id="<%= collapse %>" class="frame-text-detail collapse">ALARM EDIT MODE</div>';
             template += '<span class="frame-text-top"><%= header %></span>';
             template += '<div class="frame-stroke-right"></div>';
             template += '</div>';
@@ -22899,12 +23394,12 @@ var IKUT;
             template += '<div class="frame2-stroke-left"></div>';
             template += '<div class="frame2-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x"></i></span></div>';
             template += '<div class="frame2-text-center col-xs-10"><%= content %></div>';
-            template += '<div class="frame2-text-right col-xs-1"><i class="fa fa-angle-down fa-2x" data-toggle="collapse" data-target="#demo"></i></div>';
+            template += '<div class="frame2-text-right col-xs-1"><i class="fa fa-angle-down fa-2x" data-toggle="collapse" data-target="#<%= collapse %>"></i></div>';
             template += '<div class="clear"></div>';
-            template += '<div id="demo" class="frame2-text-detail collapse">ALARM DETAIL</div>';
+            template += '<div id="<%= collapse %>" class="frame2-text-detail collapse">ALARM EDIT MODE</div>';
             template += '<span class="frame2-text-top"><%= header %></span>';
             template += '<div class="frame2-stroke-center"></div>';
-            template += '<span class="frame2-text-top2">MTWTFSS</span>';
+            template += '<span class="frame2-text-top2"><%= days %></span>';
             template += '<div class="frame2-stroke-right"></div>';
             template += '</div>';
             template += '</div>';
@@ -22927,10 +23422,14 @@ var IKUT;
             var template = "";
             template += '<div id="wrapper-alarms">';
             // add button
-            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-ADD A NEW DAILY ALARM-</div></div>';
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Add a New Daily Alarm-</div></div>';
             template += '<div class="wrapper-button"></div>';
             // notifications
-            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-LIST OF DAILY ALARMS-</div></div>';
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-List of Daily Alarms-</div></div>';
+            template += '<% _.each(alarms.models, function (alarm) { %>';
+            template += '<div class="wrapper-notification"></div>';
+            template += '<% }); %>';
+            /*
             template += '<div class="wrapper-notification"></div>';
             template += '<div class="wrapper-notification"></div>';
             template += '<div class="wrapper-notification"></div>';
@@ -22942,6 +23441,7 @@ var IKUT;
             template += '<div class="wrapper-notification"></div>';
             template += '<div class="wrapper-notification"></div>';
             template += '<div class="wrapper-notification"></div>';
+            */
             template += '</div>';
             return template;
         };
@@ -23051,6 +23551,9 @@ var IKUT;
             self._menusView.setCurrentMenu(View._viewType);
             self.changeBackgroundGradient();
             self.addEventListener();
+            // adjust offset of menu
+            console.log($(document).innerWidth() - self.getWidth());
+            $('#wrapper-menus').css({ right: $(document).innerWidth() - self.getWidth() });
         };
         View.render = function (args) {
             View._instance.render(args);
@@ -23124,14 +23627,19 @@ var IKUT;
             var self = this;
             if (self.bDebug)
                 console.log(HomeView.TAG + "render()");
+            // get alarms
+            var alarms = IKUT.Controller.getUpcoming7DaysAlarms();
             // apply template
             var template = _.template(IKUT.Template.getHomeViewTemplate());
-            var data = {};
+            var data = {
+                alarms: alarms,
+            };
             self.$el.html(template(data));
             self.setElement(self.$('#wrapper-home'));
             self.animVisible();
             $.each(self.$('.wrapper-notification'), function (index, item) {
-                IKUT.FrameViewFractory.create($(item)).render();
+                var fv = IKUT.FrameViewFractory.create($(item));
+                fv.render(alarms.models[index]);
             });
             return self;
         };
@@ -23150,10 +23658,11 @@ var IKUT;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=homeview.js.map
 ///#source 1 1 /core/js/view/frameview.js
-var __extends = (this && this.__extends) || function (d, b) {
+var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    __.prototype = b.prototype;
+    d.prototype = new __();
 };
 var IKUT;
 (function (IKUT) {
@@ -23170,12 +23679,16 @@ var IKUT;
             if (self.bDebug)
                 console.log(FrameView.TAG + "render()");
             // apply template
-            var template = _.template(IKUT.Template.getFrameViewTemplate());
-            var data = {
-                header: "2:00PM",
-                content: "CONTENT",
-            };
-            self.$el.html(template(data));
+            if (args instanceof IKUT.Alarm) {
+                // apply template
+                var template = _.template(IKUT.Template.getFrameViewTemplate());
+                var data = {
+                    header: args.getFormattedTime(),
+                    content: args.getName(),
+                    collapse: args.getcId(),
+                };
+                self.$el.html(template(data));
+            }
             return self;
         };
         FrameView.TAG = "FrameView - ";
@@ -23194,13 +23707,60 @@ var IKUT;
             var self = this;
             if (self.bDebug)
                 console.log(Frame2View.TAG + "render()");
-            // apply template
-            var template = _.template(IKUT.Template.getFrame2ViewTemplate());
-            var data = {
-                header: "12:00PM",
-                content: "CONTENT",
-            };
-            self.$el.html(template(data));
+            if (args instanceof IKUT.Alarm) {
+                var days = '';
+                if (args.getIsDailyDayOn(0 /* MONDAY */)) {
+                    days += '<span class="">M</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">M</span>';
+                }
+                if (args.getIsDailyDayOn(1 /* TUESDAY */)) {
+                    days += '<span class="">T</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">T</span>';
+                }
+                if (args.getIsDailyDayOn(2 /* WEDNESDAY */)) {
+                    days += '<span class="">W</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">W</span>';
+                }
+                if (args.getIsDailyDayOn(3 /* THURSDAY */)) {
+                    days += '<span class="">T</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">T</span>';
+                }
+                if (args.getIsDailyDayOn(4 /* FRIDAY */)) {
+                    days += '<span class="">F</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">F</span>';
+                }
+                if (args.getIsDailyDayOn(5 /* SATURDAY */)) {
+                    days += '<span class="">S</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">S</span>';
+                }
+                if (args.getIsDailyDayOn(6 /* SUNDAY */)) {
+                    days += '<span class="">S</span>';
+                }
+                else {
+                    days += '<span class="frame2-day-inactive">S</span>';
+                }
+                // apply template
+                var template = _.template(IKUT.Template.getFrame2ViewTemplate());
+                var data = {
+                    header: args.getFormattedTime(),
+                    content: args.getName(),
+                    collapse: args.getcId(),
+                    days: days,
+                };
+                self.$el.html(template(data));
+            }
             return self;
         };
         Frame2View.TAG = "Frame2View - ";
@@ -23438,15 +23998,20 @@ var IKUT;
             var self = this;
             if (self.bDebug)
                 console.log(AlarmsView.TAG + "render()");
+            // get alarms
+            var alarms = IKUT.Controller.getDailyAlarms();
             // apply template
             var template = _.template(IKUT.Template.getAlarmsViewTemplate());
-            var data = {};
+            var data = {
+                alarms: alarms,
+            };
             self.$el.html(template(data));
             $.each(self.$('.wrapper-button'), function (index, item) {
                 IKUT.ButtonViewFractory.create($(item)).render();
             });
             $.each(self.$('.wrapper-notification'), function (index, item) {
-                IKUT.Frame2ViewFractory.create($(item)).render();
+                var f2v = IKUT.Frame2ViewFractory.create($(item));
+                f2v.render(alarms.models[index]);
             });
             // Make the view slowly visible.
             self.setElement(self.$('#wrapper-alarms'));

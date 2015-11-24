@@ -10,10 +10,14 @@
         public render(args?: any): any {
             var self: AlarmsView = this;
             if (self.bDebug) console.log(AlarmsView.TAG + "render()");
+
+            // get alarms
+            var alarms: Alarms = Controller.getDailyAlarms();
+
             // apply template
             var template = _.template(Template.getAlarmsViewTemplate());
             var data = {
-
+                alarms: alarms,
             }
             self.$el.html(template(data));
 
@@ -23,7 +27,8 @@
             });       
 
             $.each(self.$('.wrapper-notification'), function (index: number, item: JQuery) {
-                Frame2ViewFractory.create($(item)).render();
+                var f2v: Frame2View = Frame2ViewFractory.create($(item));
+                f2v.render(alarms.models[index]);
             });       
 
             // Make the view slowly visible.

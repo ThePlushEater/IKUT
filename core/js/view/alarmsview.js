@@ -18,15 +18,20 @@ var IKUT;
             var self = this;
             if (self.bDebug)
                 console.log(AlarmsView.TAG + "render()");
+            // get alarms
+            var alarms = IKUT.Controller.getDailyAlarms();
             // apply template
             var template = _.template(IKUT.Template.getAlarmsViewTemplate());
-            var data = {};
+            var data = {
+                alarms: alarms,
+            };
             self.$el.html(template(data));
             $.each(self.$('.wrapper-button'), function (index, item) {
                 IKUT.ButtonViewFractory.create($(item)).render();
             });
             $.each(self.$('.wrapper-notification'), function (index, item) {
-                IKUT.Frame2ViewFractory.create($(item)).render();
+                var f2v = IKUT.Frame2ViewFractory.create($(item));
+                f2v.render(alarms.models[index]);
             });
             // Make the view slowly visible.
             self.setElement(self.$('#wrapper-alarms'));

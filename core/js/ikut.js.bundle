@@ -39,6 +39,8 @@
 
     <!-- Model -->
     <file>/core/js/model/model.js</file>
+    <file>/core/js/model/user.js</file>
+    <file>/core/js/model/alarm.js</file>
 
     <!-- View -->
     <file>/core/js/view/baseview.js</file>

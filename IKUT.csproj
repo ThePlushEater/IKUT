@@ -137,7 +137,9 @@
     <TypeScriptCompile Include="core\js\controller\menusviewfactory.ts" />
     <TypeScriptCompile Include="core\js\controller\menuviewfactory.ts" />
     <TypeScriptCompile Include="core\js\controller\setting.ts" />
+    <TypeScriptCompile Include="core\js\model\alarm.ts" />
     <TypeScriptCompile Include="core\js\model\model.ts" />
+    <TypeScriptCompile Include="core\js\model\user.ts" />
     <TypeScriptCompile Include="core\js\view\alarmsview.ts" />
     <TypeScriptCompile Include="core\js\view\baseview.ts" />
     <TypeScriptCompile Include="core\js\view\buttonview.ts" />
