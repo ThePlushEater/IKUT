@@ -40,6 +40,9 @@ var IKUT;
         Setting.getDateFormat = function () {
             return "M/D/YYYY";
         };
+        Setting.getShortDateFormat = function () {
+            return "M/D";
+        };
         Setting.getDateDayFormat = function () {
             return "M/D/YYYY dddd";
         };

@@ -22462,7 +22462,7 @@ if("function"!=typeof a)throw new TypeError("parseInputDate() sholud be as funct
 		}
 
 		self.reset = function() {
-			inputEl$.val('').trigger(opts.eventKey);
+			//inputEl$.val('').trigger(opts.eventKey);
 		};
 
 		if($.isFunction(opts.cancelNode)) {
@@ -22630,6 +22630,9 @@ var IKUT;
         Controller.getDailyAlarms = function () {
             return IKUT.Model.getAlarms().getDailyAlarmsForUser(IKUT.Model.getCurUser());
         };
+        Controller.getGroupAlarms = function () {
+            return IKUT.Model.getAlarms().getGroupAlarmsForUser(IKUT.Model.getCurUser());
+        };
         Controller._instance = new Controller();
         Controller.TAG = "Controller - ";
         return Controller;
@@ -22736,6 +22739,9 @@ var IKUT;
         };
         Setting.getDateFormat = function () {
             return "M/D/YYYY";
+        };
+        Setting.getShortDateFormat = function () {
+            return "M/D";
         };
         Setting.getDateDayFormat = function () {
             return "M/D/YYYY dddd";
@@ -23022,6 +23028,29 @@ var IKUT;
     IKUT.UsersViewFractory = UsersViewFractory;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=usersviewfactory.js.map
+///#source 1 1 /core/js/controller/pushesviewfactory.js
+var IKUT;
+(function (IKUT) {
+    var PushesViewFractory = (function () {
+        function PushesViewFractory(args) {
+            if (PushesViewFractory._instance) {
+                throw new Error("Error: Instantiation failed: Use PushesViewFractory.getInstance() instead of new.");
+            }
+            PushesViewFractory._instance = this;
+        }
+        PushesViewFractory.getInstance = function () {
+            return PushesViewFractory._instance;
+        };
+        PushesViewFractory.create = function (el) {
+            var view = new IKUT.PushesView({ el: el });
+            return view;
+        };
+        PushesViewFractory._instance = new PushesViewFractory();
+        return PushesViewFractory;
+    })();
+    IKUT.PushesViewFractory = PushesViewFractory;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=pushesviewfactory.js.map
 ///#source 1 1 /core/js/model/model.js
 var IKUT;
 (function (IKUT) {
@@ -23043,9 +23072,10 @@ var IKUT;
                 console.log(self.TAG + "MockupData()");
             self.users = new IKUT.Users();
             self.alarms = new IKUT.Alarms();
+            self.nonAddedUsers = new IKUT.Users();
             var karl = new IKUT.User({ username: 'jkim848', password: '1', firstname: 'Karl', lastname: 'Kim', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: 'My Best Friend' });
-            var john = new IKUT.User({ username: 'jfiorentino3', password: '2', firstname: 'John', lastname: 'Fiorentino', recent: '2015-10-06 08:08:08', created: '2014-08-08 08:08:08', description: 'LMC 3710 Classmate' });
-            var michael = new IKUT.User({ username: 'michaelchi95', password: '3', firstname: 'Michael', lastname: 'Chi', recent: '2015-11-25 05:05:05', created: '2015-06-06 12:12:12', description: 'League Friend' });
+            var john = new IKUT.User({ username: 'jfiorentino3', password: '1', firstname: 'John', lastname: 'Fiorentino', recent: '2015-10-06 08:08:08', created: '2014-08-08 08:08:08', description: 'LMC 3710 Classmate' });
+            var michael = new IKUT.User({ username: 'michaelchi95', password: '1', firstname: 'Michael', lastname: 'Chi', recent: '2015-11-25 05:05:05', created: '2015-06-06 12:12:12', description: 'League Friend' });
             self.users.add(john);
             self.users.add(michael);
             var alarm1 = new IKUT.Alarm({ name: 'Weekdays Wake Up', users: "", type: 1 /* DAILY */, date: '2015-11-25 07:05:15', end: '2015-11-25 07:05:15', days: "0000000", category: 3 });
@@ -23065,15 +23095,22 @@ var IKUT;
             alarm3.addDailyDay(2 /* WEDNESDAY */);
             alarm3.addDailyDay(4 /* FRIDAY */);
             self.alarms.add(alarm3);
-            var alarm4 = new IKUT.Alarm({ name: 'Weekends Wake Up', users: "", type: 2 /* ONETIME */, date: '2015-11-25 10:05:15', end: '2015-11-25 10:05:15', days: "0000000", category: 3 });
+            var alarm4 = new IKUT.Alarm({ name: 'LMC 3710 Meeting', users: "", type: 2 /* GROUP */, date: '2015-11-30 10:05:15', end: '2015-11-25 10:05:15', days: "0000000", category: 3 });
             alarm4.addUsercId(karl.getcId());
-            alarm4.addDailyDay(5 /* SATURDAY */);
-            alarm4.addDailyDay(6 /* SUNDAY */);
+            alarm4.addUsercId(john.getcId());
             self.alarms.add(alarm4);
+            var alarm5 = new IKUT.Alarm({ name: 'HappyKarl Meeting', users: "", type: 2 /* GROUP */, date: '2015-11-20 10:05:15', end: '2015-11-25 10:05:15', days: "0000000", category: 3 });
+            alarm5.addUsercId(karl.getcId());
+            alarm5.addUsercId(michael.getcId());
+            self.alarms.add(alarm5);
             // Set CurUser
             Model.setCurUser(karl);
             console.log(Model.getCurUser());
             //console.log(alarm1.generateUpcoming7DaysDailyAlarmList());
+            // add non-added users
+            self.nonAddedUsers.add(new IKUT.User({ username: 'tthomas45', password: '1', firstname: 'Tre\'Saun', lastname: 'Thomas', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: '' }));
+            self.nonAddedUsers.add(new IKUT.User({ username: 'skucheryavykh', password: '1', firstname: 'Slava', lastname: 'Kucheryavykh', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: '' }));
+            self.nonAddedUsers.add(new IKUT.User({ username: 'rramon3', password: '1', firstname: 'Luisito', lastname: 'Ramon', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: '' }));
         };
         Model.getCurUser = function () {
             var self = this._instance;
@@ -23089,6 +23126,13 @@ var IKUT;
                 self.users = new IKUT.Users();
             }
             return self.users;
+        };
+        Model.getNonAddedUsers = function () {
+            var self = this._instance;
+            if (!self.nonAddedUsers) {
+                self.nonAddedUsers = new IKUT.Users();
+            }
+            return self.nonAddedUsers;
         };
         Model.getAlarms = function () {
             var self = this._instance;
@@ -23226,18 +23270,17 @@ var IKUT;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=user.js.map
 ///#source 1 1 /core/js/model/alarm.js
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var IKUT;
 (function (IKUT) {
     (function (ALARM_LIST) {
         ALARM_LIST[ALARM_LIST["NONE"] = 0] = "NONE";
         ALARM_LIST[ALARM_LIST["DAILY"] = 1] = "DAILY";
-        ALARM_LIST[ALARM_LIST["ONETIME"] = 2] = "ONETIME";
+        ALARM_LIST[ALARM_LIST["GROUP"] = 2] = "GROUP";
     })(IKUT.ALARM_LIST || (IKUT.ALARM_LIST = {}));
     var ALARM_LIST = IKUT.ALARM_LIST;
     (function (DAY_LIST) {
@@ -23268,8 +23311,8 @@ var IKUT;
             var self = this;
             this.defaults = {
                 "cid": "",
-                "category": 0 /* NONE */,
-                "type": 0 /* NONE */,
+                "category": CATEGORY_LIST.NONE,
+                "type": ALARM_LIST.NONE,
                 "name": "",
                 "users": "",
                 "date": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
@@ -23361,13 +23404,19 @@ var IKUT;
             var self = this;
             return moment(self.get('date'));
         };
-        Alarm.prototype.getEnd = function () {
-            var self = this;
+        /*
+        public getEnd(): Moment {
+            var self: Alarm = this;
             return moment(self.get('end'));
-        };
+        }
+        */
         Alarm.prototype.getFormattedDate = function () {
             var self = this;
             return moment(self.get('date')).format(IKUT.Setting.getDateFormat());
+        };
+        Alarm.prototype.getShortFormattedDate = function () {
+            var self = this;
+            return moment(self.get('date')).format(IKUT.Setting.getShortDateFormat());
         };
         Alarm.prototype.getFormattedDateDay = function () {
             var self = this;
@@ -23377,10 +23426,12 @@ var IKUT;
             var self = this;
             return moment(self.get('date')).format(IKUT.Setting.getTimeFormat1());
         };
-        Alarm.prototype.getFormattedEndTime = function () {
-            var self = this;
-            return moment(self.get('end')).format(IKUT.Setting.getTimeFormat1());
-        };
+        /*
+        public getFormattedEndTime(): string {
+            var self: Alarm = this;
+            return moment(self.get('end')).format(Setting.getTimeFormat1());
+        }
+        */
         Alarm.prototype.getUserIds = function () {
             var self = this;
             var result = Array();
@@ -23406,6 +23457,10 @@ var IKUT;
                 }
                 self.set("users", result.toString());
             }
+        };
+        Alarm.prototype.removeAllUsers = function () {
+            var self = this;
+            self.set("users", "");
         };
         Alarm.prototype.addDailyDay = function (day) {
             var self = this;
@@ -23465,7 +23520,7 @@ var IKUT;
         function Alarms(models, options) {
             _super.call(this, models, options);
             this.url = "";
-            this.sortType = 0 /* DAY */;
+            this.sortType = ALARM_SORT_LIST.DAY;
             this.model = Alarm;
         }
         Alarms.prototype.getUpcoming7DaysAlarmsForUser = function (user) {
@@ -23473,13 +23528,13 @@ var IKUT;
             var alarms = new Alarms();
             $.each(self.models, function (index, model) {
                 if (model.getHasUsercId(user.getcId())) {
-                    if (model.getType() == 1 /* DAILY */) {
+                    if (model.getType() == ALARM_LIST.DAILY) {
                         var temp = model.generateUpcoming7DaysDailyAlarmList();
                         alarms.add(temp);
                     }
                 }
             });
-            self.setSortType(0 /* DAY */);
+            self.setSortType(ALARM_SORT_LIST.DAY);
             alarms.sort();
             if (alarms.models.length > 1) {
                 var date = moment(alarms.models[0].getDate());
@@ -23509,21 +23564,53 @@ var IKUT;
             var alarms = new Alarms();
             $.each(self.models, function (index, model) {
                 if (model.getHasUsercId(user.getcId())) {
-                    if (model.getType() == 1 /* DAILY */) {
+                    if (model.getType() == ALARM_LIST.DAILY) {
                         alarms.add(model);
                     }
                 }
             });
-            self.setSortType(1 /* TIME */);
+            self.setSortType(ALARM_SORT_LIST.TIME);
+            alarms.sort();
+            return alarms;
+        };
+        Alarms.prototype.getGroupAlarmsForUser = function (user) {
+            var self = this;
+            var alarms = new Alarms();
+            $.each(self.models, function (index, model) {
+                if (model.getHasUsercId(user.getcId())) {
+                    if (model.getType() == ALARM_LIST.GROUP) {
+                        if (moment(model.getDate()).valueOf() > moment(new Date()).valueOf()) {
+                            alarms.add(model);
+                        }
+                    }
+                }
+            });
+            self.setSortType(ALARM_SORT_LIST.DAY);
+            alarms.sort();
+            return alarms;
+        };
+        Alarms.prototype.getPastGroupAlarmsForUsers = function (user1, user2) {
+            var self = this;
+            var alarms = new Alarms();
+            $.each(self.models, function (index, model) {
+                if (model.getHasUsercId(user1.getcId()) && model.getHasUsercId(user2.getcId())) {
+                    if (model.getType() == ALARM_LIST.GROUP) {
+                        if (moment(model.getDate()).valueOf() <= moment(new Date()).valueOf()) {
+                            alarms.add(model);
+                        }
+                    }
+                }
+            });
+            self.setSortType(ALARM_SORT_LIST.DAY);
             alarms.sort();
             return alarms;
         };
         Alarms.prototype.comparator = function (model) {
             var self = this;
-            if (self.sortType == 0 /* DAY */) {
+            if (self.sortType == ALARM_SORT_LIST.DAY) {
                 return moment(model.get("date")).valueOf();
             }
-            else if (self.sortType == 1 /* TIME */) {
+            else if (self.sortType == ALARM_SORT_LIST.TIME) {
                 return moment(moment(model.get("date")).format(IKUT.Setting.getTimeFormat3())).valueOf();
             }
         };
@@ -23720,6 +23807,23 @@ var IKUT;
             template += '</div>';
             return template;
         };
+        Template.getFrame2ViewTemplate2 = function () {
+            var template = "";
+            template += '<div class="frame2">';
+            template += '<div class="frame2-inner">';
+            template += '<div class="frame2-stroke-left"></div>';
+            template += '<div class="frame2-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa <%= icon %> fa-stack-1x"></i></span></div>';
+            template += '<div class="frame2-text-center col-xs-10"><%= content %> <span class="badge"><%= users %></span></div>';
+            template += '<div class="frame2-text-right col-xs-1 btn-detail" data-cid="<%= cid %>"><i class="fa fa-angle-right fa-1-7x"></i></div>';
+            template += '<div class="clear"></div>';
+            template += '<span class="frame2-text-top"><%= header %></span>';
+            template += '<div class="frame2-stroke-center"></div>';
+            template += '<span class="frame2-text-top2"><%= days %></span>';
+            template += '<div class="frame2-stroke-right"></div>';
+            template += '</div>';
+            template += '</div>';
+            return template;
+        };
         Template.getButtonViewTemplate = function () {
             var template = "";
             template += '<div class="button">';
@@ -23756,6 +23860,32 @@ var IKUT;
             template += '<div class="wrapper-notification"></div>';
             template += '<% }); %>';
             template += '</div>';
+            return template;
+        };
+        Template.getPushesViewTemplate = function () {
+            var template = "";
+            template += '<div id="wrapper-pushes">';
+            // add button
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Add a New Group Alarm-</div></div>';
+            template += '<div class="wrapper-button"></div>';
+            // notifications
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-List of Group Alarms-</div></div>';
+            template += '<% _.each(alarms.models, function (alarm) { %>';
+            template += '<div class="wrapper-notification"></div>';
+            template += '<% }); %>';
+            template += '</div>';
+            return template;
+        };
+        Template.getPushesViewTemplate2 = function () {
+            var template = "";
+            // add button
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Add a New Group Alarm-</div></div>';
+            template += '<div class="wrapper-button"></div>';
+            // notifications
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-List of Group Alarms-</div></div>';
+            template += '<% _.each(alarms.models, function (alarm) { %>';
+            template += '<div class="wrapper-notification"></div>';
+            template += '<% }); %>';
             return template;
         };
         Template.getUsersViewTemplate = function () {
@@ -24024,35 +24154,151 @@ var IKUT;
             template += '<span class="input-group-addon">';
             template += '<i class="fa fa-search fa-1-5x"></i>';
             template += '</span>';
-            template += '<input type="text" class="form-control" id="username" value=""/>';
+            template += '<input type="text" class="form-control" id="searchname" value=""/>';
             template += '</div>';
             template += '</div>';
-            template += '<div class="user-list">';
+            template += '<div id="wrapper-userlist" class="user-list hidden">';
             template += '<div id="userlist" class="user-list-inner">';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '</div>';
+            template += '</div>';
+            return template;
+        };
+        Template.getUserItemTemplate = function () {
+            var template = "";
+            template += '<% _.each(users.models, function (user) { %>';
+            template += '<div class="user-item"><span class="col-xs-10 "><%= user.getUsername() %></span><i class="col-xs-2 fa fa-plus-square fa-1x btn-add" data-cid="<%= user.getId() %>"></i></div><div class="clear" />';
+            template += '<% }); %>';
+            return template;
+        };
+        Template.getGroupAlarmEditTemplate = function () {
+            var template = "";
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Date & Time-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group date">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-clock-o fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="datetime"/>';
+            template += '</div>';
+            template += '<div class="warn-datetime warn hidden">Please choose a future time.</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Name-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-pencil-square fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="name" value="<%= name %>"/>';
+            template += '</div>';
+            template += '<div class="warn-name warn hidden">Please put an event name.</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Participants-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-users fa-1-5x"></i>';
+            template += '</span>';
+            template += '<select class="selectpicker" id="participants" multiple data-selected-text-format="count">';
+            template += '<option value="<%= curUser.getcId() %>" disabled="disabled"><%= curUser.getFirstname() %> <%= curUser.getLastname() %></option>';
+            template += '<% _.each(users.models, function (user) { %>';
+            template += '<option value="<%= user.getcId() %>"><%= user.getFirstname() %> <%= user.getLastname() %></option>';
+            template += '<% }); %>';
+            template += '</select>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Category-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon" id="category-icon">';
+            template += '<i class="fa fa-tag fa-1-5x"></i>';
+            template += '</span>';
+            template += '<select class="selectpicker" id="category">';
+            template += '<option value="0">Nothing Selected</option>';
+            template += '<option value="1">Lesure</option>';
+            template += '<option value="2">School</option>';
+            template += '<option value="3">Work</option>';
+            template += '<option value="4">Etc</option>';
+            template += '</select>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Save-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-save fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-save" id="btn-save">SAVE</div>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Delete-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-remove fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-delete" id="btn-delete">DELETE</div>';
+            template += '</div>';
+            template += '</div>';
+            return template;
+        };
+        Template.getGroupAlarmEditTemplate2 = function () {
+            var template = "";
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Date & Time-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group date">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-clock-o fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="datetime"/>';
+            template += '</div>';
+            template += '<div class="warn-datetime warn hidden">Please choose a future time.</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Name-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-pencil-square fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="name" value="<%= name %>"/>';
+            template += '</div>';
+            template += '<div class="warn-name warn hidden">Please put an event name.</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Participants-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-users fa-1-5x"></i>';
+            template += '</span>';
+            template += '<select class="selectpicker" id="participants" multiple data-selected-text-format="count">';
+            template += '<option value="<%= curUser.getcId() %>" disabled="disabled"><%= curUser.getFirstname() %> <%= curUser.getLastname() %></option>';
+            template += '<% _.each(users.models, function (user) { %>';
+            template += '<option value="<%= user.getcId() %>"><%= user.getFirstname() %> <%= user.getLastname() %></option>';
+            template += '<% }); %>';
+            template += '</select>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Category-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon" id="category-icon">';
+            template += '<i class="fa fa-tag fa-1-5x"></i>';
+            template += '</span>';
+            template += '<select class="selectpicker" id="category">';
+            template += '<option value="0">Nothing Selected</option>';
+            template += '<option value="1">Lesure</option>';
+            template += '<option value="2">School</option>';
+            template += '<option value="3">Work</option>';
+            template += '<option value="4">Etc</option>';
+            template += '</select>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Save-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-save fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-save" id="btn-create">CREATE</div>';
             template += '</div>';
             template += '</div>';
             return template;
@@ -24137,6 +24383,15 @@ var IKUT;
                             self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
                         }
                     }
+                    else if (self._pushesView) {
+                        self._pushesView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._pushesView.destroy();
+                            self._pushesView = null;
+                        });
+                        if (self._pushesView.sideView) {
+                            self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
                     break;
                 case 2 /* ALARMS */:
                     setTimeout(function () {
@@ -24161,6 +24416,15 @@ var IKUT;
                             self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
                         }
                     }
+                    else if (self._pushesView) {
+                        self._pushesView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._pushesView.destroy();
+                            self._pushesView = null;
+                        });
+                        if (self._pushesView.sideView) {
+                            self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
                     break;
                 case 3 /* FRIENDS */:
                     setTimeout(function () {
@@ -24183,6 +24447,48 @@ var IKUT;
                         });
                         if (self._homeView.sideView) {
                             self._homeView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._pushesView) {
+                        self._pushesView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._pushesView.destroy();
+                            self._pushesView = null;
+                        });
+                        if (self._pushesView.sideView) {
+                            self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    break;
+                case 4 /* PUSHES */:
+                    setTimeout(function () {
+                        self._pushesView = IKUT.PushesViewFractory.create($('#wrapper-main')).render();
+                    }, IKUT.Setting.getViewTransitionDuration());
+                    // remove other views
+                    if (self._alarmsView) {
+                        self._alarmsView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._alarmsView.destroy();
+                            self._alarmsView = null;
+                        });
+                        if (self._alarmsView.sideView) {
+                            self._alarmsView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._homeView) {
+                        self._homeView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._homeView.destroy();
+                            self._homeView = null;
+                        });
+                        if (self._homeView.sideView) {
+                            self._homeView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._usersView) {
+                        self._usersView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._usersView.destroy();
+                            self._usersView = null;
+                        });
+                        if (self._usersView.sideView) {
+                            self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
                         }
                     }
                     break;
@@ -24423,6 +24729,23 @@ var IKUT;
             self.bDebug = true;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
+        Frame2View.prototype.render2 = function (args) {
+            var self = this;
+            if (args instanceof IKUT.Alarm) {
+                // apply template
+                var template = _.template(IKUT.Template.getFrame2ViewTemplate2());
+                var data = {
+                    header: args.getFormattedTime(),
+                    content: args.getName(),
+                    cid: args.getId(),
+                    icon: IKUT.Setting.getCategoryIcon(args.getCategory()),
+                    days: args.getFormattedDate(),
+                    users: args.getUsercIds().length,
+                };
+                self.$el.html(template(data));
+            }
+            return self;
+        };
         Frame2View.prototype.render = function (args) {
             var self = this;
             if (self.bDebug)
@@ -24586,7 +24909,7 @@ var IKUT;
                         self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-paper-plane-o', color: '#5C8A7A', hash: 'pushes' }).render());
                         break;
                     case 4:
-                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-star-half-o', color: '#5d7422', hash: 'star' }).render());
+                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-gear', color: '#5d7422', hash: 'star' }).render());
                         break;
                 }
             });
@@ -24720,10 +25043,11 @@ var IKUT;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=menuview.js.map
 ///#source 1 1 /core/js/view/alarmsview.js
-var __extends = (this && this.__extends) || function (d, b) {
+var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    __.prototype = b.prototype;
+    d.prototype = new __();
 };
 var IKUT;
 (function (IKUT) {
@@ -24747,9 +25071,6 @@ var IKUT;
                 alarms: alarms,
             };
             self.$el.html(template(data));
-            //$.each(self.$('.wrapper-button'), function (index: number, item: JQuery) {
-            //   ButtonViewFractory.create($(item), {icon: ').render();
-            //});       
             var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Daily Alarm', behavior: 'btn-add', isLeft: false });
             bf.render();
             $.each(self.$('.wrapper-notification'), function (index, item) {
@@ -24835,7 +25156,7 @@ var IKUT;
                     self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
                     self.sideView.setParentView(self);
                     var today = moment(new Date());
-                    var alarm = new IKUT.Alarm({ name: '', users: "", type: IKUT.ALARM_LIST.DAILY, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
+                    var alarm = new IKUT.Alarm({ name: '', users: "", type: 1 /* DAILY */, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
                     alarm.addDailyDay(moment().day());
                     alarm.addUsercId(IKUT.Model.getCurUser().getcId());
                     //var cid = $(this).attr('data-cid');
@@ -24972,14 +25293,14 @@ var IKUT;
                 self.curAlarm = args;
                 var exist = IKUT.Model.getAlarms().findWhere({ cid: self.curAlarm.getcId() });
                 if (exist) {
-                    // detail
-                    var template2 = _.template(IKUT.Template.getDarilyAlarmEditTemplate());
-                    var data2 = {
-                        name: self.curAlarm.getName(),
-                    };
                     // apply template
                     var template = _.template(IKUT.Template.getDetailViewTemplate());
                     if (self.curAlarm.getType() == IKUT.ALARM_LIST.DAILY) {
+                        // detail
+                        var template2 = _.template(IKUT.Template.getDarilyAlarmEditTemplate());
+                        var data2 = {
+                            name: self.curAlarm.getName(),
+                        };
                         var data = {
                             header: "Daily Alarm Detail",
                             //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
@@ -24987,30 +25308,58 @@ var IKUT;
                         };
                     }
                     else {
+                        // detail
+                        var template5 = _.template(IKUT.Template.getGroupAlarmEditTemplate());
+                        var data5 = {
+                            name: self.curAlarm.getName(),
+                            users: IKUT.Model.getUsers(),
+                            curUser: IKUT.Model.getCurUser(),
+                        };
+                        var data = {
+                            header: "Group Alarm Detail",
+                            //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
+                            content: template5(data5),
+                        };
                     }
                 }
                 else {
-                    // detail
-                    var template2 = _.template(IKUT.Template.getDarilyAlarmEditTemplate2());
-                    var data2 = {
-                        name: self.curAlarm.getName(),
-                    };
                     // apply template
                     var template = _.template(IKUT.Template.getDetailViewTemplate());
                     if (self.curAlarm.getType() == IKUT.ALARM_LIST.DAILY) {
+                        // detail
+                        var template2 = _.template(IKUT.Template.getDarilyAlarmEditTemplate2());
+                        var data2 = {
+                            name: self.curAlarm.getName(),
+                        };
                         var data = {
-                            header: "Create a New Alarm",
+                            header: "New Dairly Alarm",
                             //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
                             content: template2(data2),
                         };
                     }
                     else {
+                        // detail
+                        var template5 = _.template(IKUT.Template.getGroupAlarmEditTemplate2());
+                        var data5 = {
+                            name: self.curAlarm.getName(),
+                            users: IKUT.Model.getUsers(),
+                            curUser: IKUT.Model.getCurUser(),
+                        };
+                        var data = {
+                            header: "New Group Alarm",
+                            //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
+                            content: template5(data5),
+                        };
                     }
                 }
                 self.$el.html(template(data));
                 // add time picker
                 $('#time-start').datetimepicker({
                     format: 'LT',
+                    defaultDate: self.curAlarm.getDate(),
+                });
+                // add datetime picker
+                $('#datetime').datetimepicker({
                     defaultDate: self.curAlarm.getDate(),
                 });
                 /*
@@ -25022,12 +25371,21 @@ var IKUT;
                     size: 'false',
                     mobile: true,
                 });
-                console.log(self.curAlarm.getCategory());
                 $('#category').selectpicker('val', self.curAlarm.getCategory());
                 $('#days').selectpicker({
                     size: 'false',
                     mobile: true,
                 });
+                $('#participants').selectpicker({
+                    size: 'false',
+                    mobile: true,
+                    countSelectedText: function (numSelected, numTotal) {
+                        return (numSelected == 1) ? "{0} member added" : "{0} members added";
+                    },
+                });
+                var cids = self.curAlarm.getUsercIds();
+                $('#participants').selectpicker('val', cids);
+                // composite days
                 var days = new Array();
                 if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.MONDAY)) {
                     days.push(0);
@@ -25074,6 +25432,15 @@ var IKUT;
                         content: template3(data3),
                     };
                     self.$el.html(template(data));
+                    // add recent group alarm
+                    var alarms = IKUT.Model.getAlarms().getPastGroupAlarmsForUsers(IKUT.Model.getCurUser(), self.curUser);
+                    if (alarms.models.length > 0) {
+                        var recent = alarms.models[0];
+                        self.$('#recent').val(recent.getFormattedTime() + " " + recent.getFormattedDate() + " - " + recent.getName());
+                    }
+                    else {
+                        self.$('#recent').val("No Recent Group Alarm");
+                    }
                     // add event listener
                     self.addEventListener2();
                 }
@@ -25088,9 +25455,29 @@ var IKUT;
                         content: template4(data4),
                     };
                     self.$el.html(template(data));
+                    self.renderNonAddedUsers();
+                    // add event listener
+                    self.addEventListener3();
                 }
             }
             return self;
+        };
+        DetailView.prototype.renderNonAddedUsers = function () {
+            var self = this;
+            var users = IKUT.Model.getNonAddedUsers();
+            var template = _.template(IKUT.Template.getUserItemTemplate());
+            var data = {
+                users: users,
+            };
+            self.$('#userlist').html(template(data));
+            $('#userlist').btsListFilter('#searchname', {
+                itemChild: 'span',
+                sourceTmpl: '<div class="user-item"><span class="col-xs-10 ">{title}</span><i class="col-xs-2 fa fa-plus-square fa-1x btn-add"></i></div><div class="clear" />',
+                itemEl: '.user-item',
+                emptyNode: function (data) {
+                    return '<div class="user-item-none">No Result</div><div class="clear" />';
+                },
+            });
         };
         DetailView.prototype.setParentView = function (view) {
             var self = this;
@@ -25100,16 +25487,37 @@ var IKUT;
             var self = this;
             self.$('#btn-save').off('click');
             self.$('#btn-save').on('click', function () {
+                // remove all warnings
+                self.$('.warn').addClass('hidden');
+                // check valid time.
+                var isError = false;
+                if (self.$('#datetime').length) {
+                    if (moment(self.$('#datetime').data("date")).valueOf() < moment(new Date()).valueOf()) {
+                        self.$('.warn-datetime').removeClass('hidden');
+                        isError = true;
+                    }
+                    if (self.$('#name').val() == "") {
+                        self.$('.warn-name').removeClass('hidden');
+                        isError = true;
+                    }
+                    if (isError) {
+                        return;
+                    }
+                }
                 var orig = IKUT.Model.getAlarms().findWhere({ cid: self.curAlarm.getcId() });
                 // set name
                 self.curAlarm.set('name', self.$('#name').val());
                 orig.set('name', self.$('#name').val());
                 // set time
-                //console.log(self.curAlarm.getFormattedTime());
-                self.curAlarm.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
-                orig.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
-                //console.log(self.curAlarm.getFormattedTime());
-                //console.log($('#time-start').data("date"));
+                if (self.$('#datetime').length) {
+                    self.curAlarm.set('date', moment(self.$('#datetime').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
+                    orig.set('date', moment(self.$('#datetime').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
+                }
+                else {
+                    //console.log(self.curAlarm.getFormattedTime());
+                    self.curAlarm.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
+                    orig.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
+                }
                 // category
                 self.curAlarm.set('category', parseInt($('#category option:selected').val()));
                 orig.set('category', parseInt($('#category option:selected').val()));
@@ -25119,6 +25527,14 @@ var IKUT;
                     self.curAlarm.addDailyDay(parseInt($(item).val()));
                     orig.addDailyDay(parseInt($(item).val()));
                 });
+                // participants
+                if (self.$('#participants').length) {
+                    self.curAlarm.removeAllUsers();
+                    //self.curAlarm.addUsercId(Model.getCurUser().getcId());
+                    $.each(self.$('#participants option:selected'), function (index, item) {
+                        self.curAlarm.addUsercId($(item).val());
+                    });
+                }
                 // back to parentview
                 self.parentView.animInactive();
             });
@@ -25131,14 +25547,37 @@ var IKUT;
             });
             self.$('#btn-create').off('click');
             self.$('#btn-create').on('click', function () {
+                // remove all warnings
+                self.$('.warn').addClass('hidden');
+                // check valid time.
+                var isError = false;
+                if (self.$('#datetime').length) {
+                    if (moment(self.$('#datetime').data("date")).valueOf() < moment(new Date()).valueOf()) {
+                        self.$('.warn-datetime').removeClass('hidden');
+                        isError = true;
+                    }
+                    if (self.$('#name').val() == "") {
+                        self.$('.warn-name').removeClass('hidden');
+                        isError = true;
+                    }
+                    if (isError) {
+                        return;
+                    }
+                }
                 IKUT.Model.getAlarms().add(self.curAlarm);
                 //var orig: Alarm = self.curAlarm;
                 // set name
                 self.curAlarm.set('name', self.$('#name').val());
                 //orig.set('name', self.$('#name').val());
                 // set time
+                if (self.$('#datetime').length) {
+                    self.curAlarm.set('date', moment(self.$('#datetime').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
+                }
+                else {
+                    //console.log(self.curAlarm.getFormattedTime());
+                    self.curAlarm.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
+                }
                 //console.log(self.curAlarm.getFormattedTime());
-                self.curAlarm.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
                 //orig.set('date', moment(moment(new Date()).format(Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(Setting.getDateTimeFormat1()));
                 //console.log(self.curAlarm.getFormattedTime());
                 //console.log($('#time-start').data("date"));
@@ -25151,6 +25590,14 @@ var IKUT;
                     self.curAlarm.addDailyDay(parseInt($(item).val()));
                     //orig.addDailyDay(parseInt($(item).val()));
                 });
+                // participants
+                if (self.$('#participants').length) {
+                    self.curAlarm.removeAllUsers();
+                    //self.curAlarm.addUsercId(Model.getCurUser().getcId());
+                    $.each(self.$('#participants option:selected'), function (index, item) {
+                        self.curAlarm.addUsercId($(item).val());
+                    });
+                }
                 // back to parentview
                 self.parentView.animInactive();
             });
@@ -25167,6 +25614,38 @@ var IKUT;
             self.$('#btn-delete').on('click', function () {
                 IKUT.View.setIsLoading(true);
                 IKUT.Model.getUsers().remove(self.curUser);
+                IKUT.Model.getNonAddedUsers().add(self.curUser);
+                self.parentView.animInactive();
+            });
+        };
+        DetailView.prototype.addEventListener3 = function () {
+            var self = this;
+            self.$('#searchname').off('keydown');
+            self.$('#searchname').on('keydown', function () {
+                IKUT.View.setIsLoading(true);
+                setTimeout(function () {
+                    if (self.$('#searchname').val() != "") {
+                        self.$('#wrapper-userlist').removeClass('hidden');
+                    }
+                    else {
+                        self.$('#wrapper-userlist').addClass('hidden');
+                    }
+                    IKUT.View.setIsLoading(false);
+                }, 250);
+            });
+            self.$('.btn-add').off('click');
+            self.$('.btn-add').on('click', function () {
+                IKUT.View.setIsLoading(true);
+                var cid = $(this).attr('data-cid');
+                var user = IKUT.Model.getNonAddedUsers().findWhere({ cid: cid });
+                user.set("created", moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()));
+                IKUT.Model.getNonAddedUsers().remove(user);
+                IKUT.Model.getUsers().add(user);
+                $('#searchname').val("");
+                self.$('#wrapper-userlist').addClass('hidden');
+                self.renderNonAddedUsers();
+                self.addEventListener3();
+                // back to parentview
                 self.parentView.animInactive();
             });
         };
@@ -25177,10 +25656,11 @@ var IKUT;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=detailview.js.map
 ///#source 1 1 /core/js/view/usersview.js
-var __extends = (this && this.__extends) || function (d, b) {
+var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    __.prototype = b.prototype;
+    d.prototype = new __();
 };
 var IKUT;
 (function (IKUT) {
@@ -25310,3 +25790,137 @@ var IKUT;
     IKUT.UsersView = UsersView;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=usersview.js.map
+///#source 1 1 /core/js/view/pushesview.js
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var IKUT;
+(function (IKUT) {
+    var PushesView = (function (_super) {
+        __extends(PushesView, _super);
+        function PushesView(options) {
+            _super.call(this, options);
+            var self = this;
+            self.bDebug = true;
+            //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
+        }
+        PushesView.prototype.render = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(PushesView.TAG + "render()");
+            // get alarms
+            var alarms = IKUT.Controller.getGroupAlarms();
+            // apply template
+            var template = _.template(IKUT.Template.getPushesViewTemplate());
+            var data = {
+                alarms: alarms,
+            };
+            self.$el.html(template(data));
+            var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Group Alarm', behavior: 'btn-add', isLeft: false });
+            bf.render();
+            $.each(self.$('.wrapper-notification'), function (index, item) {
+                var f2v = IKUT.Frame2ViewFractory.create($(item));
+                f2v.render2(alarms.models[index]);
+            });
+            // Make the view slowly visible.
+            self.setElement(self.$('#wrapper-pushes'));
+            self.animVisible();
+            self.addEventListener();
+            return self;
+        };
+        PushesView.prototype.update = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(PushesView.TAG + "update()");
+            // get alarms
+            var alarms = IKUT.Controller.getGroupAlarms();
+            // apply template
+            var template = _.template(IKUT.Template.getPushesViewTemplate2());
+            var data = {
+                alarms: alarms,
+            };
+            self.$el.html(template(data));
+            var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Group Alarm', behavior: 'btn-add', isLeft: false });
+            bf.render();
+            $.each(self.$('.wrapper-notification'), function (index, item) {
+                var f2v = IKUT.Frame2ViewFractory.create($(item));
+                f2v.render2(alarms.models[index]);
+            });
+            self.addEventListener();
+            return self;
+        };
+        PushesView.prototype.animVisible = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ opacity: 1 }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        PushesView.prototype.animActive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: 0 }, function () {
+                    IKUT.View.setIsLoading(false);
+                    self.sideView.destroy();
+                    self.sideView = null;
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        PushesView.prototype.animInactive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: -self.getWidth() }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        PushesView.prototype.addEventListener = function () {
+            var self = this;
+            self.$('.btn-detail').off('click');
+            self.$('.btn-detail').on('click', function () {
+                if (!IKUT.View.getIsLoading()) {
+                    IKUT.View.setIsLoading(true);
+                    self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
+                    self.sideView.setParentView(self);
+                    var cid = $(this).attr('data-cid');
+                    var alarm = IKUT.Model.getAlarms().findWhere({ cid: cid });
+                    if (alarm) {
+                        self.sideView.render(alarm);
+                        self.animInactive();
+                        self.sideView.animActive();
+                    }
+                    else {
+                    }
+                }
+            });
+            self.$('.btn-add').off('click');
+            self.$('.btn-add').on('click', function () {
+                if (!IKUT.View.getIsLoading()) {
+                    IKUT.View.setIsLoading(true);
+                    self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
+                    self.sideView.setParentView(self);
+                    var today = moment(new Date());
+                    var alarm = new IKUT.Alarm({ name: '', users: "", type: 2 /* GROUP */, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
+                    alarm.addUsercId(IKUT.Model.getCurUser().getcId());
+                    //var cid = $(this).attr('data-cid');
+                    //var alarm: Alarm = Model.getAlarms().findWhere({ cid: cid });
+                    if (alarm) {
+                        self.sideView.render(alarm);
+                        self.animInactive();
+                        self.sideView.animActive();
+                    }
+                    else {
+                    }
+                }
+            });
+        };
+        PushesView.TAG = "PushesView - ";
+        return PushesView;
+    })(IKUT.BaseView);
+    IKUT.PushesView = PushesView;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=pushesview.js.map

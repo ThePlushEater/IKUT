@@ -5,6 +5,8 @@
  */
 .bootstrap-datetimepicker-widget {
   list-style: none;
+  color: rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 1px rgba(0, 0, 0, 1);
 }
 .bootstrap-datetimepicker-widget.dropdown-menu {
   margin: 2px 0;
@@ -307,7 +309,7 @@
   display: inline-block;
   border: solid transparent;
   border-width: 0 0 7px 7px;
-  border-bottom-color: #337ab7;
+  border-bottom-color: rgba(0, 0, 0, 0.75);
   border-top-color: rgba(0, 0, 0, 0.2);
   position: absolute;
   bottom: 4px;
@@ -315,7 +317,7 @@
 }
 .bootstrap-datetimepicker-widget table td.active,
 .bootstrap-datetimepicker-widget table td.active:hover {
-  background-color: #337ab7;
+  background-color: rgba(0, 0, 0, 0.75);
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
@@ -342,7 +344,7 @@
   background: #eeeeee;
 }
 .bootstrap-datetimepicker-widget table td span.active {
-  background-color: #337ab7;
+  background-color: rgba(0, 0, 0, 0.75);
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }

@@ -53,6 +53,28 @@
             self.bDebug = true;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
+
+        public render2(args?: any): any {
+            var self: Frame2View = this;
+
+            if (args instanceof Alarm) {
+                // apply template
+                var template = _.template(Template.getFrame2ViewTemplate2());
+                var data = {
+                    header: (<Alarm>args).getFormattedTime(),
+                    content: (<Alarm>args).getName(),
+                    cid: (<Alarm>args).getId(),
+                    icon: Setting.getCategoryIcon((<Alarm>args).getCategory()),
+                    days: (<Alarm>args).getFormattedDate(),
+                    users: (<Alarm>args).getUsercIds().length,
+                }
+                self.$el.html(template(data));
+
+            }
+
+            return self;
+        }
+
         public render(args?: any): any {
             var self: Frame2View = this;
             if (self.bDebug) console.log(Frame2View.TAG + "render()");

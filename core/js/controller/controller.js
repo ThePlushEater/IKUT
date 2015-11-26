@@ -58,6 +58,9 @@ var IKUT;
         Controller.getDailyAlarms = function () {
             return IKUT.Model.getAlarms().getDailyAlarmsForUser(IKUT.Model.getCurUser());
         };
+        Controller.getGroupAlarms = function () {
+            return IKUT.Model.getAlarms().getGroupAlarmsForUser(IKUT.Model.getCurUser());
+        };
         Controller._instance = new Controller();
         Controller.TAG = "Controller - ";
         return Controller;

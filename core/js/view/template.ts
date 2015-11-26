@@ -125,6 +125,28 @@
             return template;
         }
 
+        public static getFrame2ViewTemplate2(): string {
+            var template = "";
+            template += '<div class="frame2">';
+            template += '<div class="frame2-inner">';
+            template += '<div class="frame2-stroke-left"></div>';
+
+            template += '<div class="frame2-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa <%= icon %> fa-stack-1x"></i></span></div>';
+            template += '<div class="frame2-text-center col-xs-10"><%= content %> <span class="badge"><%= users %></span></div>';
+            template += '<div class="frame2-text-right col-xs-1 btn-detail" data-cid="<%= cid %>"><i class="fa fa-angle-right fa-1-7x"></i></div>';
+            template += '<div class="clear"></div>';
+
+            template += '<span class="frame2-text-top"><%= header %></span>';
+            template += '<div class="frame2-stroke-center"></div>';
+            template += '<span class="frame2-text-top2"><%= days %></span>';
+
+            template += '<div class="frame2-stroke-right"></div>';
+
+            template += '</div>';
+            template += '</div>';
+            return template;
+        }
+
         public static getButtonViewTemplate(): string {
             var template = "";
             template += '<div class="button">';
@@ -170,6 +192,44 @@
             template += '<% }); %>';
 
             template += '</div>';
+            return template;
+        }
+
+        public static getPushesViewTemplate(): string {
+            var template = "";
+            template += '<div id="wrapper-pushes">';
+            // add button
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Add a New Group Alarm-</div></div>';
+            template += '<div class="wrapper-button"></div>';
+
+
+            // notifications
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-List of Group Alarms-</div></div>';
+
+
+            template += '<% _.each(alarms.models, function (alarm) { %>';
+            template += '<div class="wrapper-notification"></div>';
+            template += '<% }); %>';
+
+            template += '</div>';
+            return template;
+        }
+
+        public static getPushesViewTemplate2(): string {
+            var template = "";
+            // add button
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Add a New Group Alarm-</div></div>';
+            template += '<div class="wrapper-button"></div>';
+
+
+            // notifications
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-List of Group Alarms-</div></div>';
+
+
+            template += '<% _.each(alarms.models, function (alarm) { %>';
+            template += '<div class="wrapper-notification"></div>';
+            template += '<% }); %>';
+
             return template;
         }
 
@@ -511,38 +571,189 @@
             template += '<span class="input-group-addon">';
             template += '<i class="fa fa-search fa-1-5x"></i>';
             template += '</span>';
-            template += '<input type="text" class="form-control" id="username" value=""/>';
+            template += '<input type="text" class="form-control" id="searchname" value=""/>';
             template += '</div>';
             template += '</div>';
 
-            template += '<div class="user-list">';
+            template += '<div id="wrapper-userlist" class="user-list hidden">';
             template += '<div id="userlist" class="user-list-inner">';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
-            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            
             template += '</div>';
             template += '</div>';
+
+            return template;
+        }
+
+        public static getUserItemTemplate(): string {
+            var template = "";
+
+            template += '<% _.each(users.models, function (user) { %>';
+            template += '<div class="user-item"><span class="col-xs-10 "><%= user.getUsername() %></span><i class="col-xs-2 fa fa-plus-square fa-1x btn-add" data-cid="<%= user.getId() %>"></i></div><div class="clear" />';
+            template += '<% }); %>';
+
+            return template;
+        }
+
+
+
+        public static getGroupAlarmEditTemplate(): string {
+            var template = "";
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Date & Time-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group date">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-clock-o fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="datetime"/>';
+            template += '</div>';
+            template += '<div class="warn-datetime warn hidden">Please choose a future time.</div>';
+            template += '</div>';
+
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Name-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-pencil-square fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="name" value="<%= name %>"/>';
+            template += '</div>';
+            template += '<div class="warn-name warn hidden">Please put an event name.</div>';
+            template += '</div>';
+
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Participants-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-users fa-1-5x"></i>';
+            template += '</span>';
+            template += '<select class="selectpicker" id="participants" multiple data-selected-text-format="count">';
+            template += '<option value="<%= curUser.getcId() %>" disabled="disabled"><%= curUser.getFirstname() %> <%= curUser.getLastname() %></option>';
+            template += '<% _.each(users.models, function (user) { %>';
+            template += '<option value="<%= user.getcId() %>"><%= user.getFirstname() %> <%= user.getLastname() %></option>';
+            template += '<% }); %>';
+            template += '</select>';
+            template += '</div>';
+            template += '</div>';
+
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Category-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon" id="category-icon">';
+            template += '<i class="fa fa-tag fa-1-5x"></i>';
+            template += '</span>';
+            template += '<select class="selectpicker" id="category">';
+            template += '<option value="0">Nothing Selected</option>';
+            template += '<option value="1">Lesure</option>';
+            template += '<option value="2">School</option>';
+            template += '<option value="3">Work</option>';
+            template += '<option value="4">Etc</option>';
+            template += '</select>';
+            template += '</div>';
+            template += '</div>';
+
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Save-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-save fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-save" id="btn-save">SAVE</div>';
+            template += '</div>';
+            template += '</div>';
+
+
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Delete-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-remove fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-delete" id="btn-delete">DELETE</div>';
+            template += '</div>';
+            template += '</div>';
+
+
+
+            return template;
+        }
+
+
+        public static getGroupAlarmEditTemplate2(): string {
+            var template = "";
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Date & Time-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group date">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-clock-o fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="datetime"/>';
+            template += '</div>';
+            template += '<div class="warn-datetime warn hidden">Please choose a future time.</div>';
+            template += '</div>';
+
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Name-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-pencil-square fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="name" value="<%= name %>"/>';
+            template += '</div>';
+            template += '<div class="warn-name warn hidden">Please put an event name.</div>';
+            template += '</div>';
+
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Participants-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-users fa-1-5x"></i>';
+            template += '</span>';
+            template += '<select class="selectpicker" id="participants" multiple data-selected-text-format="count">';
+            template += '<option value="<%= curUser.getcId() %>" disabled="disabled"><%= curUser.getFirstname() %> <%= curUser.getLastname() %></option>';
+            template += '<% _.each(users.models, function (user) { %>';
+            template += '<option value="<%= user.getcId() %>"><%= user.getFirstname() %> <%= user.getLastname() %></option>';
+            template += '<% }); %>';
+            template += '</select>';
+            template += '</div>';
+            template += '</div>';
+
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Category-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon" id="category-icon">';
+            template += '<i class="fa fa-tag fa-1-5x"></i>';
+            template += '</span>';
+            template += '<select class="selectpicker" id="category">';
+            template += '<option value="0">Nothing Selected</option>';
+            template += '<option value="1">Lesure</option>';
+            template += '<option value="2">School</option>';
+            template += '<option value="3">Work</option>';
+            template += '<option value="4">Etc</option>';
+            template += '</select>';
+            template += '</div>';
+            template += '</div>';
+
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Save-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-save fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-save" id="btn-create">CREATE</div>';
+            template += '</div>';
+            template += '</div>';
+
 
             return template;
         }

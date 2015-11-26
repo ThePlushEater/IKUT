@@ -18,9 +18,10 @@ var IKUT;
                 console.log(self.TAG + "MockupData()");
             self.users = new IKUT.Users();
             self.alarms = new IKUT.Alarms();
+            self.nonAddedUsers = new IKUT.Users();
             var karl = new IKUT.User({ username: 'jkim848', password: '1', firstname: 'Karl', lastname: 'Kim', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: 'My Best Friend' });
-            var john = new IKUT.User({ username: 'jfiorentino3', password: '2', firstname: 'John', lastname: 'Fiorentino', recent: '2015-10-06 08:08:08', created: '2014-08-08 08:08:08', description: 'LMC 3710 Classmate' });
-            var michael = new IKUT.User({ username: 'michaelchi95', password: '3', firstname: 'Michael', lastname: 'Chi', recent: '2015-11-25 05:05:05', created: '2015-06-06 12:12:12', description: 'League Friend' });
+            var john = new IKUT.User({ username: 'jfiorentino3', password: '1', firstname: 'John', lastname: 'Fiorentino', recent: '2015-10-06 08:08:08', created: '2014-08-08 08:08:08', description: 'LMC 3710 Classmate' });
+            var michael = new IKUT.User({ username: 'michaelchi95', password: '1', firstname: 'Michael', lastname: 'Chi', recent: '2015-11-25 05:05:05', created: '2015-06-06 12:12:12', description: 'League Friend' });
             self.users.add(john);
             self.users.add(michael);
             var alarm1 = new IKUT.Alarm({ name: 'Weekdays Wake Up', users: "", type: 1 /* DAILY */, date: '2015-11-25 07:05:15', end: '2015-11-25 07:05:15', days: "0000000", category: 3 });
@@ -40,15 +41,22 @@ var IKUT;
             alarm3.addDailyDay(2 /* WEDNESDAY */);
             alarm3.addDailyDay(4 /* FRIDAY */);
             self.alarms.add(alarm3);
-            var alarm4 = new IKUT.Alarm({ name: 'Weekends Wake Up', users: "", type: 2 /* ONETIME */, date: '2015-11-25 10:05:15', end: '2015-11-25 10:05:15', days: "0000000", category: 3 });
+            var alarm4 = new IKUT.Alarm({ name: 'LMC 3710 Meeting', users: "", type: 2 /* GROUP */, date: '2015-11-30 10:05:15', end: '2015-11-25 10:05:15', days: "0000000", category: 3 });
             alarm4.addUsercId(karl.getcId());
-            alarm4.addDailyDay(5 /* SATURDAY */);
-            alarm4.addDailyDay(6 /* SUNDAY */);
+            alarm4.addUsercId(john.getcId());
             self.alarms.add(alarm4);
+            var alarm5 = new IKUT.Alarm({ name: 'HappyKarl Meeting', users: "", type: 2 /* GROUP */, date: '2015-11-20 10:05:15', end: '2015-11-25 10:05:15', days: "0000000", category: 3 });
+            alarm5.addUsercId(karl.getcId());
+            alarm5.addUsercId(michael.getcId());
+            self.alarms.add(alarm5);
             // Set CurUser
             Model.setCurUser(karl);
             console.log(Model.getCurUser());
             //console.log(alarm1.generateUpcoming7DaysDailyAlarmList());
+            // add non-added users
+            self.nonAddedUsers.add(new IKUT.User({ username: 'tthomas45', password: '1', firstname: 'Tre\'Saun', lastname: 'Thomas', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: '' }));
+            self.nonAddedUsers.add(new IKUT.User({ username: 'skucheryavykh', password: '1', firstname: 'Slava', lastname: 'Kucheryavykh', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: '' }));
+            self.nonAddedUsers.add(new IKUT.User({ username: 'rramon3', password: '1', firstname: 'Luisito', lastname: 'Ramon', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: '' }));
         };
         Model.getCurUser = function () {
             var self = this._instance;
@@ -64,6 +72,13 @@ var IKUT;
                 self.users = new IKUT.Users();
             }
             return self.users;
+        };
+        Model.getNonAddedUsers = function () {
+            var self = this._instance;
+            if (!self.nonAddedUsers) {
+                self.nonAddedUsers = new IKUT.Users();
+            }
+            return self.nonAddedUsers;
         };
         Model.getAlarms = function () {
             var self = this._instance;

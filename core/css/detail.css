@@ -1,0 +1,278 @@
+﻿@media all {
+    .wrapper-detail {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+
+    .wrapper-edit-connector {
+        height: 30px;
+        margin: 0 4px;
+        padding: 0 20px;
+    }
+    .wrapper-edit-connector div {
+        height: 100%;
+        float: left;
+    }
+    .edit-connector-vertical-line {
+        width: 10px;
+        padding: 0 4px;
+        background: rgba(3,11,51,.1);
+    }
+    .edit-connector-line {
+        margin: auto;
+        border-left: 2px solid rgba(255,255,255,.6);
+    }
+    .edit-connector-content {
+        padding: 5px 0 0 10px;
+        color: rgba(255,255,255,0.7);
+        font-weight: 700;
+        font-size: small;
+        letter-spacing: .15em;
+        text-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
+    }
+
+    
+
+    .detail {
+        position: relative;
+        padding: 8px;
+        /*background: linear-gradient(0, rgba(3,11,51,.1), rgba(3,11,51,.1)), url(../image/Tonal-Art-Map-101.jpg) repeat;*/
+        background: rgba(3,11,51,.1);
+        border-radius: 2px;
+        height: 100%;
+        /*box-shadow: inset 0 0 1px 0 rgba(0,0,0,0.25);*/
+    }
+
+    .detail-inner {
+        position: relative;
+        padding: 8px 8px 1px 0;
+        border: 3px solid rgba(255,255,255,.6);
+        border-top: transparent;
+        border-radius: 2px;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    .detail-stroke-left {
+        position: absolute;
+        content: '';
+        height: 3px;
+        background-color: rgba(255,255,255,0.6);
+        top: 0;
+        left: 0;
+        width: 25%;
+    }
+
+    .detail-stroke-right {
+        position: absolute;
+        content: '';
+        height: 3px;
+        background-color: rgba(255,255,255,0.6);
+        top: 0;
+        right: 0;
+        width: 25%;
+    }
+
+    .detail-text-top {
+        position: absolute;
+        text-transform: uppercase;
+        top: -9px;
+        left: 0;
+        padding: 0;
+        width: 100%;
+        letter-spacing: .1em;
+        font-size: small;
+        font-weight: 700;
+        color: rgba(255,255,255,0.75);
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.75);
+    }
+
+    .detail-text-left {
+        height: 100%;
+        padding: 0;
+    }
+    .detail-text-left i {
+        padding-left: 8px;
+        color: rgba(255,255,255,0.7);
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.75);
+    }
+
+    .detail-text-center {
+        padding: 0 0 0 8px;
+        letter-spacing: .1em;
+        text-align: center;
+        font-weight: 700;
+        color: rgba(255,255,255,0.75);
+        text-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
+    }
+
+    .form-control {
+        background-color: transparent;
+        border: 2px solid rgba(255,255,255,0.65);
+        border-radius: 2px !important;
+        height: 40px;
+        color: rgba(255,255,255,0.75);
+        letter-spacing: .1em;
+    }
+
+    .form-control[disabled], fieldset[disabled] .form-control {
+        background-color: transparent;
+        border: 2px solid rgba(255,255,255,0.65);
+        border-radius: 2px !important;
+        height: 40px;
+        color: rgba(255,255,255,0.5);
+        letter-spacing: .1em;
+    }
+
+    .input-group {
+        width: 100%;
+    }
+
+    .input-group-addon {
+        background-color: transparent;
+        border-radius: 2px;
+        color: rgba(255,255,255,0.75);
+        border: 2px solid rgba(255,255,255,0.65);
+    }
+    /*
+    .input-group-addon:active {
+        border-color: #66afe9;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+    }
+    */
+
+    .form-group {
+        padding: 4px;
+        background: rgba(3,11,51,.1);
+        border-radius: 2px;
+        margin-bottom: 0;
+    }
+
+    .selectpicker {
+        border-radius: 2px;
+        /*height: 40px;*/
+        letter-spacing: .1em;
+        font-weight: 700;
+        background-color: transparent;
+        color: rgba(255,255,255,0.75);
+        border: 2px solid rgba(255,255,255,0.65);
+    }
+
+    .dropdown-toggle {
+        height: 40px;
+    }
+
+    .bootstrap-select {
+        width: 220px;
+    }
+
+    .btn-save {
+        padding-right: 42px;
+        font-weight: 700;
+        background-color: hsla(159,30%,25%,0.35);
+    }
+
+    .btn-save:active {
+        padding-right: 42px;
+        font-weight: 700;
+        background-color: hsla(159,30%,25%,0.5);
+    }
+
+    .btn-delete {
+        padding-right: 42px;
+        font-weight: 700;
+        background-color: hsla(14, 59%, 27%, 0.35);
+    }
+
+    .btn-delete:active {
+        padding-right: 42px;
+        font-weight: 700;
+        background-color: hsla(14, 59%, 27%, 0.5);
+    }
+
+
+
+
+
+
+
+    .user-list {
+        position: relative;
+        padding: 4px;
+        background: rgba(3,11,51,.1);
+        border-radius: 2px;
+        color: rgba(255,255,255,0.75);
+    }
+
+    .user-list-inner {
+        padding: 0 8px 2px 8px;
+        border: 2px solid rgba(255,255,255,.6);
+        border-top: transparent;
+        border-radius: 2px;
+        color: rgba(255,255,255,0.75);
+    }
+
+    .user-list-inner .user-item {
+        text-transform: lowercase;
+        font-size: medium;
+        font-weight: 700;
+        padding-top: 8px;
+        padding-bottom: 16px;
+        color: rgba(255,255,255,0.75);
+    }
+
+    .user-list-inner .user-item-none {
+        text-transform: lowercase;
+        font-size: medium;
+        font-weight: 700;
+        padding-top: 8px;
+        padding-bottom: 16px;
+        color: rgba(255,255,255,0.75);
+        border: none;
+    }
+
+    .form-control-feedback {
+        top: 2px !important;
+    }
+
+    .user-list-inner .col-xs-10 {
+        padding: 4px 0;
+        text-align: left;
+    }
+
+    .user-list-inner .col-xs-2 {
+        padding-right: 0;
+    }
+
+    .user-list-inner div i {
+        text-align: right;
+        padding-top: 10px;
+        height: 100%;
+    }
+
+    .user-list-inner .user-item:nth-last-of-type(n+2) {
+        padding: 0 4px;
+        border-bottom: 1px solid rgba(255,255,255,.6);
+    }
+
+    .user-list-inner .user-item:first-child {
+        padding: 0 4px;
+        border-bottom: transparent;
+    }
+
+    .badge {
+        padding-left: 10px;
+    }
+
+    .warn {
+        font-weight: 700;
+        font-size: small;
+        font-style: italic;
+        color: rgb(171, 131, 73);
+        text-shadow: none;
+    }
+}

@@ -6,60 +6,64 @@ var __extends = this.__extends || function (d, b) {
 };
 var IKUT;
 (function (IKUT) {
-    var AlarmsView = (function (_super) {
-        __extends(AlarmsView, _super);
-        function AlarmsView(options) {
+    var UsersView = (function (_super) {
+        __extends(UsersView, _super);
+        function UsersView(options) {
             _super.call(this, options);
             var self = this;
             self.bDebug = true;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
-        AlarmsView.prototype.render = function (args) {
+        UsersView.prototype.render = function (args) {
             var self = this;
             if (self.bDebug)
-                console.log(AlarmsView.TAG + "render()");
+                console.log(UsersView.TAG + "render()");
             // get alarms
-            var alarms = IKUT.Controller.getDailyAlarms();
+            var curUser = IKUT.Model.getCurUser();
+            var users = IKUT.Model.getUsers();
             // apply template
-            var template = _.template(IKUT.Template.getAlarmsViewTemplate());
+            var template = _.template(IKUT.Template.getUsersViewTemplate());
             var data = {
-                alarms: alarms,
+                curUser: curUser,
+                users: users,
             };
             self.$el.html(template(data));
-            var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Daily Alarm', behavior: 'btn-add', isLeft: false });
+            var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-user-plus', content: 'Add a New Friend', behavior: 'btn-add', isLeft: false });
             bf.render();
-            $.each(self.$('.wrapper-notification'), function (index, item) {
-                var f2v = IKUT.Frame2ViewFractory.create($(item));
-                f2v.render(alarms.models[index]);
+            $.each(self.$('.wrapper-user'), function (index, item) {
+                var fv = IKUT.FrameViewFractory.create($(item));
+                fv.render(users.models[index]);
             });
             // Make the view slowly visible.
-            self.setElement(self.$('#wrapper-alarms'));
+            self.setElement(self.$('#wrapper-users'));
             self.animVisible();
             self.addEventListener();
             return self;
         };
-        AlarmsView.prototype.update = function (args) {
+        UsersView.prototype.update = function (args) {
             var self = this;
             if (self.bDebug)
-                console.log(AlarmsView.TAG + "update()");
+                console.log(UsersView.TAG + "update()");
             // get alarms
-            var alarms = IKUT.Controller.getDailyAlarms();
+            var curUser = IKUT.Model.getCurUser();
+            var users = IKUT.Model.getUsers();
             // apply template
-            var template = _.template(IKUT.Template.getAlarmsViewTemplate2());
+            var template = _.template(IKUT.Template.getUsersViewTemplate2());
             var data = {
-                alarms: alarms,
+                curUser: curUser,
+                users: users,
             };
             self.$el.html(template(data));
-            var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Daily Alarm', behavior: 'btn-add', isLeft: false });
+            var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-user-plus', content: 'Add a New Friend', behavior: 'btn-add', isLeft: false });
             bf.render();
-            $.each(self.$('.wrapper-notification'), function (index, item) {
-                var f2v = IKUT.Frame2ViewFractory.create($(item));
-                f2v.render(alarms.models[index]);
+            $.each(self.$('.wrapper-user'), function (index, item) {
+                var fv = IKUT.FrameViewFractory.create($(item));
+                fv.render(users.models[index]);
             });
             self.addEventListener();
             return self;
         };
-        AlarmsView.prototype.animVisible = function () {
+        UsersView.prototype.animVisible = function () {
             var self = this;
             setTimeout(function () {
                 self.$el.animate({ opacity: 1 }, function () {
@@ -67,7 +71,7 @@ var IKUT;
                 });
             }, IKUT.Setting.getViewTransitionDuration() * 2);
         };
-        AlarmsView.prototype.animActive = function () {
+        UsersView.prototype.animActive = function () {
             var self = this;
             setTimeout(function () {
                 self.$el.animate({ left: 0 }, function () {
@@ -77,7 +81,7 @@ var IKUT;
                 });
             }, IKUT.Setting.getViewTransitionDuration() * 2);
         };
-        AlarmsView.prototype.animInactive = function () {
+        UsersView.prototype.animInactive = function () {
             var self = this;
             setTimeout(function () {
                 self.$el.animate({ left: -self.getWidth() }, function () {
@@ -85,7 +89,7 @@ var IKUT;
                 });
             }, IKUT.Setting.getViewTransitionDuration() * 2);
         };
-        AlarmsView.prototype.addEventListener = function () {
+        UsersView.prototype.addEventListener = function () {
             var self = this;
             self.$('.btn-detail').off('click');
             self.$('.btn-detail').on('click', function () {
@@ -94,9 +98,9 @@ var IKUT;
                     self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
                     self.sideView.setParentView(self);
                     var cid = $(this).attr('data-cid');
-                    var alarm = IKUT.Model.getAlarms().findWhere({ cid: cid });
-                    if (alarm) {
-                        self.sideView.render(alarm);
+                    var user = IKUT.Model.getUsers().findWhere({ cid: cid });
+                    if (user) {
+                        self.sideView.render(user);
                         self.animInactive();
                         self.sideView.animActive();
                     }
@@ -111,13 +115,9 @@ var IKUT;
                     self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
                     self.sideView.setParentView(self);
                     var today = moment(new Date());
-                    var alarm = new IKUT.Alarm({ name: '', users: "", type: 1 /* DAILY */, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
-                    alarm.addDailyDay(moment().day());
-                    alarm.addUsercId(IKUT.Model.getCurUser().getcId());
-                    //var cid = $(this).attr('data-cid');
-                    //var alarm: Alarm = Model.getAlarms().findWhere({ cid: cid });
-                    if (alarm) {
-                        self.sideView.render(alarm);
+                    var user = new IKUT.User({ username: '', password: '', firstname: '', lastname: '', recent: today.format(IKUT.Setting.getDateTimeFormat1()), created: today.format(IKUT.Setting.getDateTimeFormat1()), description: '' });
+                    if (user) {
+                        self.sideView.render(user);
                         self.animInactive();
                         self.sideView.animActive();
                     }
@@ -126,9 +126,9 @@ var IKUT;
                 }
             });
         };
-        AlarmsView.TAG = "AlarmsView - ";
-        return AlarmsView;
+        UsersView.TAG = "UsersView - ";
+        return UsersView;
     })(IKUT.BaseView);
-    IKUT.AlarmsView = AlarmsView;
+    IKUT.UsersView = UsersView;
 })(IKUT || (IKUT = {}));
-//# sourceMappingURL=alarmsview.js.map
+//# sourceMappingURL=usersview.js.map

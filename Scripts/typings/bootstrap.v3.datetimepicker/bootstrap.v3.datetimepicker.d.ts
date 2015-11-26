@@ -48,7 +48,7 @@ declare module BootstrapV3DatetimePicker {
         direction?: string;
         sideBySide?: boolean;
         daysOfWeekDisabled?: Array<any>;
-        format: any;
+        format?: any;
     }
 
     interface Datetimepicker {

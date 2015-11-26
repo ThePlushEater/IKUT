@@ -1,6 +1,6 @@
 ﻿module IKUT {
     export enum ALARM_LIST {
-        NONE, DAILY, ONETIME,
+        NONE, DAILY, GROUP,
     }
     export enum DAY_LIST {
         MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
@@ -114,13 +114,19 @@
             var self: Alarm = this;
             return moment(self.get('date'));
         }
+        /*
         public getEnd(): Moment {
             var self: Alarm = this;
             return moment(self.get('end'));
         }
+        */
         public getFormattedDate(): string {
             var self: Alarm = this;
             return moment(self.get('date')).format(Setting.getDateFormat());
+        }
+        public getShortFormattedDate(): string {
+            var self: Alarm = this;
+            return moment(self.get('date')).format(Setting.getShortDateFormat());
         }
         public getFormattedDateDay(): string {
             var self: Alarm = this;
@@ -130,10 +136,12 @@
             var self: Alarm = this;
             return moment(self.get('date')).format(Setting.getTimeFormat1());
         }
+        /*
         public getFormattedEndTime(): string {
             var self: Alarm = this;
             return moment(self.get('end')).format(Setting.getTimeFormat1());
         }
+        */
         public getUserIds(): Array<number> {
             var self: Alarm = this;
             var result = Array<number>();
@@ -159,6 +167,10 @@
                 }
                 self.set("users", result.toString());
             }
+        }
+        public removeAllUsers(): void {
+            var self: Alarm = this;
+            self.set("users", "");
         }
         public addDailyDay(day: DAY_LIST): void {
             var self: Alarm = this;
@@ -269,6 +281,42 @@
                 }
             });
             self.setSortType(ALARM_SORT_LIST.TIME);
+            alarms.sort();
+
+            return alarms;
+        }
+
+        public getGroupAlarmsForUser(user: User): Alarms {
+            var self: Alarms = this;
+            var alarms: Alarms = new Alarms();
+            $.each(self.models, function (index: number, model: Alarm) {
+                if (model.getHasUsercId(user.getcId())) {
+                    if (model.getType() == ALARM_LIST.GROUP) {
+                        if (moment(model.getDate()).valueOf() > moment(new Date()).valueOf()) {
+                            alarms.add(model);
+                        }
+                    }
+                }
+            });
+            self.setSortType(ALARM_SORT_LIST.DAY);
+            alarms.sort();
+
+            return alarms;
+        }
+
+        public getPastGroupAlarmsForUsers(user1: User, user2: User): Alarms {
+            var self: Alarms = this;
+            var alarms: Alarms = new Alarms();
+            $.each(self.models, function (index: number, model: Alarm) {
+                if (model.getHasUsercId(user1.getcId()) && model.getHasUsercId(user2.getcId())) {
+                    if (model.getType() == ALARM_LIST.GROUP) {
+                        if (moment(model.getDate()).valueOf() <= moment(new Date()).valueOf()) {
+                            alarms.add(model);
+                        }
+                    }
+                }
+            });
+            self.setSortType(ALARM_SORT_LIST.DAY);
             alarms.sort();
 
             return alarms;

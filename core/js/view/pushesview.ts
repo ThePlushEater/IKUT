@@ -1,38 +1,38 @@
 ﻿module IKUT {
-    export class AlarmsView extends BaseView {
-        private static TAG: string = "AlarmsView - ";
+    export class PushesView extends BaseView {
+        private static TAG: string = "PushesView - ";
         public sideView: SideView;
         constructor(options?: Backbone.ViewOptions<Backbone.Model>) {
             super(options);
-            var self: AlarmsView = this;
+            var self: PushesView = this;
             self.bDebug = true;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
         public render(args?: any): any {
-            var self: AlarmsView = this;
-            if (self.bDebug) console.log(AlarmsView.TAG + "render()");
+            var self: PushesView = this;
+            if (self.bDebug) console.log(PushesView.TAG + "render()");
 
             // get alarms
-            var alarms: Alarms = Controller.getDailyAlarms();
+            var alarms: Alarms = Controller.getGroupAlarms();
+
 
             // apply template
-            var template = _.template(Template.getAlarmsViewTemplate());
+            var template = _.template(Template.getPushesViewTemplate());
             var data = {
                 alarms: alarms,
             }
             self.$el.html(template(data));
 
-
-            var bf: ButtonView = ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Daily Alarm', behavior: 'btn-add', isLeft: false });
+            var bf: ButtonView = ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Group Alarm', behavior: 'btn-add', isLeft: false });
             bf.render();
 
             $.each(self.$('.wrapper-notification'), function (index: number, item: JQuery) {
                 var f2v: Frame2View = Frame2ViewFractory.create($(item));
-                f2v.render(alarms.models[index]);
+                f2v.render2(alarms.models[index]);
             });
 
             // Make the view slowly visible.
-            self.setElement(self.$('#wrapper-alarms'));
+            self.setElement(self.$('#wrapper-pushes'));
             self.animVisible();
 
             self.addEventListener();
@@ -41,26 +41,26 @@
         }
 
         public update(args?: any): any {
-            var self: AlarmsView = this;
-            if (self.bDebug) console.log(AlarmsView.TAG + "update()");
+            var self: PushesView = this;
+            if (self.bDebug) console.log(PushesView.TAG + "update()");
 
             // get alarms
-            var alarms: Alarms = Controller.getDailyAlarms();
+            var alarms: Alarms = Controller.getGroupAlarms();
+
 
             // apply template
-            var template = _.template(Template.getAlarmsViewTemplate2());
+            var template = _.template(Template.getPushesViewTemplate2());
             var data = {
                 alarms: alarms,
             }
             self.$el.html(template(data));
 
-
-            var bf: ButtonView = ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Daily Alarm', behavior: 'btn-add', isLeft: false });
-            bf.render();    
+            var bf: ButtonView = ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Group Alarm', behavior: 'btn-add', isLeft: false });
+            bf.render();
 
             $.each(self.$('.wrapper-notification'), function (index: number, item: JQuery) {
                 var f2v: Frame2View = Frame2ViewFractory.create($(item));
-                f2v.render(alarms.models[index]);
+                f2v.render2(alarms.models[index]);
             });
 
             self.addEventListener();
@@ -69,7 +69,7 @@
         }
 
         public animVisible(): void {
-            var self: AlarmsView = this;
+            var self: PushesView = this;
             setTimeout(function () {
                 self.$el.animate({ opacity: 1 }, function () {
                     View.setIsLoading(false);
@@ -78,7 +78,7 @@
         }
 
         public animActive(): void {
-            var self: AlarmsView = this;
+            var self: PushesView = this;
             setTimeout(function () {
                 self.$el.animate({ left: 0 }, function () {
                     View.setIsLoading(false);
@@ -89,7 +89,7 @@
         }
 
         public animInactive(): void {
-            var self: AlarmsView = this;
+            var self: PushesView = this;
             setTimeout(function () {
                 self.$el.animate({ left: -self.getWidth() }, function () {
                     View.setIsLoading(false);
@@ -98,7 +98,7 @@
         }
 
         public addEventListener(): void {
-            var self: AlarmsView = this;
+            var self: PushesView = this;
             self.$('.btn-detail').off('click');
             self.$('.btn-detail').on('click', function () {
                 if (!View.getIsLoading()) {
@@ -126,8 +126,7 @@
                     self.sideView = SideViewFractory.create($('#wrapper-main'));
                     self.sideView.setParentView(self);
                     var today: Moment = moment(new Date());
-                    var alarm: Alarm = new Alarm({ name: '', users: "", type: ALARM_LIST.DAILY, date: today.format(Setting.getDateTimeFormat1()), end: today.format(Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
-                    alarm.addDailyDay(moment().day());
+                    var alarm: Alarm = new Alarm({ name: '', users: "", type: ALARM_LIST.GROUP, date: today.format(Setting.getDateTimeFormat1()), end: today.format(Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
                     alarm.addUsercId(Model.getCurUser().getcId());
                     //var cid = $(this).attr('data-cid');
                     //var alarm: Alarm = Model.getAlarms().findWhere({ cid: cid });

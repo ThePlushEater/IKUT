@@ -59,6 +59,23 @@ var IKUT;
             self.bDebug = true;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
+        Frame2View.prototype.render2 = function (args) {
+            var self = this;
+            if (args instanceof IKUT.Alarm) {
+                // apply template
+                var template = _.template(IKUT.Template.getFrame2ViewTemplate2());
+                var data = {
+                    header: args.getFormattedTime(),
+                    content: args.getName(),
+                    cid: args.getId(),
+                    icon: IKUT.Setting.getCategoryIcon(args.getCategory()),
+                    days: args.getFormattedDate(),
+                    users: args.getUsercIds().length,
+                };
+                self.$el.html(template(data));
+            }
+            return self;
+        };
         Frame2View.prototype.render = function (args) {
             var self = this;
             if (self.bDebug)

@@ -50,6 +50,10 @@
         public static getDailyAlarms(): Alarms {
             return Model.getAlarms().getDailyAlarmsForUser(Model.getCurUser());
         }
+
+        public static getGroupAlarms(): Alarms {
+            return Model.getAlarms().getGroupAlarmsForUser(Model.getCurUser());
+        }
     }
 
     export class Router extends Backbone.Router {

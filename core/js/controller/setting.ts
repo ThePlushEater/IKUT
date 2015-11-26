@@ -48,6 +48,10 @@
             return "M/D/YYYY";
         }
 
+        public static getShortDateFormat(): string {
+            return "M/D";
+        }
+
         public static getDateDayFormat(): string {
             return "M/D/YYYY dddd";
         }

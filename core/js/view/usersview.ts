@@ -1,38 +1,41 @@
 ﻿module IKUT {
-    export class AlarmsView extends BaseView {
-        private static TAG: string = "AlarmsView - ";
+    export class UsersView extends BaseView {
+        private static TAG: string = "UsersView - ";
         public sideView: SideView;
         constructor(options?: Backbone.ViewOptions<Backbone.Model>) {
             super(options);
-            var self: AlarmsView = this;
+            var self: UsersView = this;
             self.bDebug = true;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
         public render(args?: any): any {
-            var self: AlarmsView = this;
-            if (self.bDebug) console.log(AlarmsView.TAG + "render()");
+            var self: UsersView = this;
+            if (self.bDebug) console.log(UsersView.TAG + "render()");
 
             // get alarms
-            var alarms: Alarms = Controller.getDailyAlarms();
+            var curUser: User = Model.getCurUser();
+            var users: Users = Model.getUsers();
 
             // apply template
-            var template = _.template(Template.getAlarmsViewTemplate());
+            var template = _.template(Template.getUsersViewTemplate());
             var data = {
-                alarms: alarms,
+                curUser: curUser,
+                users: users,
             }
             self.$el.html(template(data));
 
-
-            var bf: ButtonView = ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Daily Alarm', behavior: 'btn-add', isLeft: false });
+            var bf: ButtonView = ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-user-plus', content: 'Add a New Friend', behavior: 'btn-add', isLeft: false });
             bf.render();
 
-            $.each(self.$('.wrapper-notification'), function (index: number, item: JQuery) {
-                var f2v: Frame2View = Frame2ViewFractory.create($(item));
-                f2v.render(alarms.models[index]);
+
+            $.each(self.$('.wrapper-user'), function (index: number, item: JQuery) {
+                var fv: FrameView = FrameViewFractory.create($(item));
+                fv.render(users.models[index]);
             });
 
+
             // Make the view slowly visible.
-            self.setElement(self.$('#wrapper-alarms'));
+            self.setElement(self.$('#wrapper-users'));
             self.animVisible();
 
             self.addEventListener();
@@ -41,26 +44,28 @@
         }
 
         public update(args?: any): any {
-            var self: AlarmsView = this;
-            if (self.bDebug) console.log(AlarmsView.TAG + "update()");
+            var self: UsersView = this;
+            if (self.bDebug) console.log(UsersView.TAG + "update()");
 
             // get alarms
-            var alarms: Alarms = Controller.getDailyAlarms();
+            var curUser: User = Model.getCurUser();
+            var users: Users = Model.getUsers();
 
             // apply template
-            var template = _.template(Template.getAlarmsViewTemplate2());
+            var template = _.template(Template.getUsersViewTemplate2());
             var data = {
-                alarms: alarms,
+                curUser: curUser,
+                users: users,
             }
             self.$el.html(template(data));
 
+            var bf: ButtonView = ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-user-plus', content: 'Add a New Friend', behavior: 'btn-add', isLeft: false });
+            bf.render();
 
-            var bf: ButtonView = ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Daily Alarm', behavior: 'btn-add', isLeft: false });
-            bf.render();    
 
-            $.each(self.$('.wrapper-notification'), function (index: number, item: JQuery) {
-                var f2v: Frame2View = Frame2ViewFractory.create($(item));
-                f2v.render(alarms.models[index]);
+            $.each(self.$('.wrapper-user'), function (index: number, item: JQuery) {
+                var fv: FrameView = FrameViewFractory.create($(item));
+                fv.render(users.models[index]);
             });
 
             self.addEventListener();
@@ -69,7 +74,7 @@
         }
 
         public animVisible(): void {
-            var self: AlarmsView = this;
+            var self: UsersView = this;
             setTimeout(function () {
                 self.$el.animate({ opacity: 1 }, function () {
                     View.setIsLoading(false);
@@ -78,7 +83,7 @@
         }
 
         public animActive(): void {
-            var self: AlarmsView = this;
+            var self: UsersView = this;
             setTimeout(function () {
                 self.$el.animate({ left: 0 }, function () {
                     View.setIsLoading(false);
@@ -89,7 +94,7 @@
         }
 
         public animInactive(): void {
-            var self: AlarmsView = this;
+            var self: UsersView = this;
             setTimeout(function () {
                 self.$el.animate({ left: -self.getWidth() }, function () {
                     View.setIsLoading(false);
@@ -98,7 +103,7 @@
         }
 
         public addEventListener(): void {
-            var self: AlarmsView = this;
+            var self: UsersView = this;
             self.$('.btn-detail').off('click');
             self.$('.btn-detail').on('click', function () {
                 if (!View.getIsLoading()) {
@@ -106,9 +111,9 @@
                     self.sideView = SideViewFractory.create($('#wrapper-main'));
                     self.sideView.setParentView(self);
                     var cid = $(this).attr('data-cid');
-                    var alarm: Alarm = Model.getAlarms().findWhere({ cid: cid });
-                    if (alarm) {
-                        self.sideView.render(alarm);
+                    var user: User = Model.getUsers().findWhere({ cid: cid });
+                    if (user) {
+                        self.sideView.render(user);
 
                         self.animInactive();
                         self.sideView.animActive();
@@ -118,7 +123,6 @@
                 }
             });
 
-
             self.$('.btn-add').off('click');
             self.$('.btn-add').on('click', function () {
                 if (!View.getIsLoading()) {
@@ -126,13 +130,9 @@
                     self.sideView = SideViewFractory.create($('#wrapper-main'));
                     self.sideView.setParentView(self);
                     var today: Moment = moment(new Date());
-                    var alarm: Alarm = new Alarm({ name: '', users: "", type: ALARM_LIST.DAILY, date: today.format(Setting.getDateTimeFormat1()), end: today.format(Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
-                    alarm.addDailyDay(moment().day());
-                    alarm.addUsercId(Model.getCurUser().getcId());
-                    //var cid = $(this).attr('data-cid');
-                    //var alarm: Alarm = Model.getAlarms().findWhere({ cid: cid });
-                    if (alarm) {
-                        self.sideView.render(alarm);
+                    var user: User = new User({ username: '', password: '', firstname: '', lastname: '', recent: today.format(Setting.getDateTimeFormat1()), created: today.format(Setting.getDateTimeFormat1()), description: '' });
+                    if (user) {
+                        self.sideView.render(user);
 
                         self.animInactive();
                         self.sideView.animActive();

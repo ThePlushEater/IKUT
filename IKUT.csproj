@@ -139,6 +139,7 @@
     <TypeScriptCompile Include="core\js\controller\homeviewfactory.ts" />
     <TypeScriptCompile Include="core\js\controller\menusviewfactory.ts" />
     <TypeScriptCompile Include="core\js\controller\menuviewfactory.ts" />
+    <TypeScriptCompile Include="core\js\controller\pushesviewfactory.ts" />
     <TypeScriptCompile Include="core\js\controller\setting.ts" />
     <TypeScriptCompile Include="core\js\controller\sideviewfactory.ts" />
     <TypeScriptCompile Include="core\js\controller\usersviewfactory.ts" />
@@ -153,6 +154,7 @@
     <TypeScriptCompile Include="core\js\view\homeview.ts" />
     <TypeScriptCompile Include="core\js\view\menusview.ts" />
     <TypeScriptCompile Include="core\js\view\menuview.ts" />
+    <TypeScriptCompile Include="core\js\view\pushesview.ts" />
     <TypeScriptCompile Include="core\js\view\sideview.ts" />
     <TypeScriptCompile Include="core\js\view\template.ts" />
     <TypeScriptCompile Include="core\js\view\usersview.ts" />

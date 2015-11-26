@@ -37,7 +37,7 @@ var IKUT;
                         self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-paper-plane-o', color: '#5C8A7A', hash: 'pushes' }).render());
                         break;
                     case 4:
-                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-star-half-o', color: '#5d7422', hash: 'star' }).render());
+                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-gear', color: '#5d7422', hash: 'star' }).render());
                         break;
                 }
             });
