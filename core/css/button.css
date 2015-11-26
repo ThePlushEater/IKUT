@@ -39,9 +39,9 @@
     }
 
     .button-text-center {
-        padding: 2px 8px 0 8px;
+        padding: 0 8px 0 8px;
         letter-spacing: .2em;
-        font-weight: 400;
+        font-weight: 700;
         color: rgba(255,255,255,0.75);
         text-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
     }

@@ -40,12 +40,14 @@ module IKUT {
         public render(args?: any): any {
             this.bRendered = true;
         }
+        /*
         public update(): any {
             if (!this.bRendered) {
                 this.render();
                 return;
             }
         }
+        */
         public getIsRendered(): boolean {
             return this.bRendered;
         }
@@ -71,6 +73,26 @@ module IKUT {
         public getViews(): Array<BaseView> {
             var self: BaseView = this;
             return self.views;
+        }
+
+        public animActive(): void {
+            
+        }
+
+        public animInactive(): void {
+            
+        }
+
+        public setVisible(): void {
+            this.$el.css({ opacity: 1 });
+        }
+
+        public setInvisible(): void {
+            this.$el.css({ opacity: 0 });
+        }
+
+        public update(args?: any): any {
+
         }
     }
 }

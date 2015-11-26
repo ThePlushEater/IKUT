@@ -2,6 +2,9 @@
     .wrapper-notification {
         position: relative;
     }
+    .wrapper-user {
+        position: relative;
+    }
     .wrapper-connector {
         height: 60px;
         margin: 0 4px;
@@ -22,11 +25,11 @@
     }
     .connector-content {
         padding: 30px 0 0 10px;
-        color: rgba(0,0,0,0.75);
+        color: rgba(255,255,255,0.7);
         font-weight: 700;
         font-size: small;
         letter-spacing: .15em;
-        text-shadow: -1px 1px 1px rgba(255, 255, 255, 0.15);
+        text-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
     }
 
     .frame {
@@ -40,7 +43,7 @@
 
     .frame-inner {
         position: relative;
-        padding: 8px 6px 0 0;
+        padding: 8px 6px 1px 0;
         border: 3px solid rgba(255,255,255,.6);
         border-top: transparent;
         border-radius: 2px;
@@ -53,7 +56,7 @@
         background-color: rgba(255,255,255,0.6);
         top: 0;
         left: 0;
-        width: 40%;
+        width: 25%;
     }
 
     .frame-stroke-right {
@@ -63,7 +66,7 @@
         background-color: rgba(255,255,255,0.6);
         top: 0;
         right: 0;
-        width: 40%;
+        width: 25%;
     }
 
     .frame-text-top {
@@ -73,8 +76,9 @@
         left: 0;
         padding: 0;
         width: 100%;
-        letter-spacing: .15em;
-        font-size: x-small;
+        letter-spacing: .1em;
+        font-size: small;
+        font-weight: 700;
         color: rgba(255,255,255,0.75);
         text-shadow: 0 0 1px rgba(0, 0, 0, 0.75);
     }
@@ -90,9 +94,10 @@
     }
 
     .frame-text-center {
-        padding: 4px 8px 0 8px;
-        letter-spacing: .2em;
-        font-weight: 400;
+        padding: 4px 32px 0 32px;
+        letter-spacing: .1em;
+        text-align: center;
+        font-weight: 700;
         color: rgba(255,255,255,0.75);
         text-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
     }

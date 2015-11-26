@@ -32,6 +32,28 @@ var IKUT;
                 var fv = IKUT.FrameViewFractory.create($(item));
                 fv.render(alarms.models[index]);
             });
+            self.addEventListener();
+            return self;
+        };
+        HomeView.prototype.update = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(HomeView.TAG + "update()");
+            // get alarms
+            var alarms = IKUT.Controller.getUpcoming7DaysAlarms();
+            // apply template
+            var template = _.template(IKUT.Template.getHomeViewTemplate2());
+            var data = {
+                alarms: alarms,
+            };
+            self.$el.html(template(data));
+            //self.setElement(self.$('#wrapper-home'));
+            //self.setVisible();
+            $.each(self.$('.wrapper-notification'), function (index, item) {
+                var fv = IKUT.FrameViewFractory.create($(item));
+                fv.render(alarms.models[index]);
+            });
+            self.addEventListener();
             return self;
         };
         HomeView.prototype.animVisible = function () {
@@ -41,6 +63,44 @@ var IKUT;
                     IKUT.View.setIsLoading(false);
                 });
             }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        HomeView.prototype.animActive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: 0 }, function () {
+                    IKUT.View.setIsLoading(false);
+                    self.sideView.destroy();
+                    self.sideView = null;
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        HomeView.prototype.animInactive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: -self.getWidth() }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        HomeView.prototype.addEventListener = function () {
+            var self = this;
+            self.$('.btn-detail').off('click');
+            self.$('.btn-detail').on('click', function () {
+                if (!IKUT.View.getIsLoading()) {
+                    IKUT.View.setIsLoading(true);
+                    self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
+                    self.sideView.setParentView(self);
+                    var cid = $(this).attr('data-cid');
+                    var alarm = IKUT.Model.getAlarms().findWhere({ cid: cid });
+                    if (alarm) {
+                        self.sideView.render(alarm);
+                        self.animInactive();
+                        self.sideView.animActive();
+                    }
+                    else {
+                    }
+                }
+            });
         };
         HomeView.TAG = "HomeView - ";
         return HomeView;

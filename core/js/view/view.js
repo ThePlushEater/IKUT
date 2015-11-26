@@ -52,22 +52,72 @@ var IKUT;
                     setTimeout(function () {
                         self._homeView = IKUT.HomeViewFractory.create($('#wrapper-main')).render();
                     }, IKUT.Setting.getViewTransitionDuration());
+                    // remove other views
                     if (self._alarmsView) {
                         self._alarmsView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
                             self._alarmsView.destroy();
                             self._alarmsView = null;
                         });
+                        if (self._alarmsView.sideView) {
+                            self._alarmsView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._usersView) {
+                        self._usersView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._usersView.destroy();
+                            self._usersView = null;
+                        });
+                        if (self._usersView.sideView) {
+                            self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
                     }
                     break;
                 case 2 /* ALARMS */:
                     setTimeout(function () {
                         self._alarmsView = IKUT.AlarmsViewFractory.create($('#wrapper-main')).render();
                     }, IKUT.Setting.getViewTransitionDuration());
+                    // remove other views
                     if (self._homeView) {
                         self._homeView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
                             self._homeView.destroy();
                             self._homeView = null;
                         });
+                        if (self._homeView.sideView) {
+                            self._homeView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._usersView) {
+                        self._usersView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._usersView.destroy();
+                            self._usersView = null;
+                        });
+                        if (self._usersView.sideView) {
+                            self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    break;
+                case 3 /* FRIENDS */:
+                    setTimeout(function () {
+                        self._usersView = IKUT.UsersViewFractory.create($('#wrapper-main')).render();
+                    }, IKUT.Setting.getViewTransitionDuration());
+                    // remove other views
+                    if (self._alarmsView) {
+                        self._alarmsView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._alarmsView.destroy();
+                            self._alarmsView = null;
+                        });
+                        if (self._alarmsView.sideView) {
+                            self._alarmsView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._homeView) {
+                        self._homeView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._homeView.destroy();
+                            self._homeView = null;
+                        });
+                        if (self._homeView.sideView) {
+                            self._homeView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
                     }
                     break;
             }
@@ -80,7 +130,7 @@ var IKUT;
             self.changeBackgroundGradient();
             self.addEventListener();
             // adjust offset of menu
-            console.log($(document).innerWidth() - self.getWidth());
+            //console.log($(document).innerWidth() - self.getWidth());
             $('#wrapper-menus').css({ right: $(document).innerWidth() - self.getWidth() });
         };
         View.render = function (args) {

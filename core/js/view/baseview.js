@@ -40,12 +40,14 @@ var IKUT;
         BaseView.prototype.render = function (args) {
             this.bRendered = true;
         };
-        BaseView.prototype.update = function () {
+        /*
+        public update(): any {
             if (!this.bRendered) {
                 this.render();
                 return;
             }
-        };
+        }
+        */
         BaseView.prototype.getIsRendered = function () {
             return this.bRendered;
         };
@@ -69,6 +71,18 @@ var IKUT;
         BaseView.prototype.getViews = function () {
             var self = this;
             return self.views;
+        };
+        BaseView.prototype.animActive = function () {
+        };
+        BaseView.prototype.animInactive = function () {
+        };
+        BaseView.prototype.setVisible = function () {
+            this.$el.css({ opacity: 1 });
+        };
+        BaseView.prototype.setInvisible = function () {
+            this.$el.css({ opacity: 0 });
+        };
+        BaseView.prototype.update = function (args) {
         };
         return BaseView;
     })(Backbone.View);

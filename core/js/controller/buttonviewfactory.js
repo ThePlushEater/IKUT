@@ -10,8 +10,9 @@ var IKUT;
         ButtonViewFractory.getInstance = function () {
             return ButtonViewFractory._instance;
         };
-        ButtonViewFractory.create = function (el) {
+        ButtonViewFractory.create = function (el, option) {
             var view = new IKUT.ButtonView({ el: el });
+            view.setAttribute(option);
             return view;
         };
         ButtonViewFractory._instance = new ButtonViewFractory();

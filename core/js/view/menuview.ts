@@ -8,7 +8,7 @@
         constructor(options?: Backbone.ViewOptions<Backbone.Model>) {
             super(options);
             var self: MenuView = this;
-            self.bDebug = true;
+            self.bDebug = false;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
         public render(args?: any): any {

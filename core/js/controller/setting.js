@@ -27,7 +27,7 @@ var IKUT;
         Setting.getTimeFormat1 = function () {
             //return "HH:mm:ss ddd MMM Do";
             //return "HH:mm:ss dddd";
-            return "h:mm A";
+            return "hh:mm A";
         };
         Setting.getTimeFormat2 = function () {
             //return "HH:mm:ss ddd MMM Do";
@@ -73,6 +73,24 @@ var IKUT;
         };
         Setting.getViewTransitionDuration = function () {
             return 250;
+        };
+        Setting.getCategoryIcon = function (index) {
+            console.log(index);
+            if (index == 0) {
+                return 'fa-blank';
+            }
+            else if (index == 1) {
+                return 'fa-coffee';
+            }
+            else if (index == 2) {
+                return 'fa-graduation-cap';
+            }
+            else if (index == 3) {
+                return 'fa-briefcase';
+            }
+            else if (index == 4) {
+                return 'fa-certificate';
+            }
         };
         Setting._instance = new Setting();
         return Setting;

@@ -11,8 +11,9 @@
         public static getInstance(): ButtonViewFractory {
             return ButtonViewFractory._instance;
         }
-        public static create(el: JQuery): ButtonView {
+        public static create(el: JQuery, option: ButtonOption): ButtonView {
             var view: ButtonView = new ButtonView({ el: el });
+            view.setAttribute(option);
             return view;
         }
     }

@@ -11,7 +11,7 @@ var IKUT;
         function MenuView(options) {
             _super.call(this, options);
             var self = this;
-            self.bDebug = true;
+            self.bDebug = false;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
         MenuView.prototype.render = function (args) {

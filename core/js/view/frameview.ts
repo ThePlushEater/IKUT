@@ -15,13 +15,31 @@
             if (args instanceof Alarm) {
                 // apply template
                 var template = _.template(Template.getFrameViewTemplate());
+                if ((<Alarm>args).getType() == ALARM_LIST.DAILY) {
+                    var data = {
+                        header: (<Alarm>args).getName(),
+                        //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
+                        content: (<Alarm>args).getFormattedTime(),
+                        cid: (<Alarm>args).getId(),
+                        icon: Setting.getCategoryIcon((<Alarm>args).getCategory()),
+                    }
+                } else {
+
+                }
+
+                self.$el.html(template(data));
+            } else if (args instanceof User) {
+                var template = _.template(Template.getFrameViewTemplate());
                 var data = {
-                    header: (<Alarm>args).getFormattedTime(),
-                    content: (<Alarm>args).getName(),
-                    collapse: (<Alarm>args).getcId(),
+                    header: (<User>args).getDescription(),
+                    content: (<User>args).getFirstname() + " " + (<User>args).getLastname(),
+                    cid: (<User>args).getId(),
+                    icon: 'fa-user',
                 }
                 self.$el.html(template(data));
             }
+
+            
 
             return self;
         }
@@ -81,7 +99,8 @@
                 var data = {
                     header: (<Alarm> args).getFormattedTime(),
                     content: (<Alarm>args).getName(),
-                    collapse: (<Alarm>args).getcId(),
+                    cid: (<Alarm>args).getId(),
+                    icon: Setting.getCategoryIcon((<Alarm>args).getCategory()),
                     days: days,
                 }
                 self.$el.html(template(data));

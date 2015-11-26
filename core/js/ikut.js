@@ -22386,7 +22386,176 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 ///#source 1 1 /core/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js
-!function(a,b){"use strict";if("function"==typeof define&&define.amd)define(["jquery","moment"],b);else if("object"==typeof exports)b(require("jquery"),require("moment"));else{if(!jQuery)throw new Error("bootstrap-datetimepicker requires jQuery to be loaded first");if(!moment)throw new Error("bootstrap-datetimepicker requires moment.js to be loaded first");b(a.jQuery,moment)}}(this,function(a,b){"use strict";if("undefined"==typeof b)throw new Error("momentjs is required");var c=0,d=function(d,e){var f,g=a.fn.datetimepicker.defaults,h={time:"glyphicon glyphicon-time",date:"glyphicon glyphicon-calendar",up:"glyphicon glyphicon-chevron-up",down:"glyphicon glyphicon-chevron-down"},i=this,j=!1,k=function(){var f,j,k=!1;if(i.options=a.extend({},g,e),i.options.icons=a.extend({},h,i.options.icons),i.element=a(d),m(),!i.options.pickTime&&!i.options.pickDate)throw new Error("Must choose at least one picker");if(i.id=c++,b.locale(i.options.language),i.date=b(),i.unset=!1,i.isInput=i.element.is("input"),i.component=!1,i.element.hasClass("input-group")&&(i.component=i.element.find(0===i.element.find(".datepickerbutton").size()?'[class^="input-group-"]':".datepickerbutton")),i.format=i.options.format,f=b().localeData(),i.format||(i.format=i.options.pickDate?f.longDateFormat("L"):"",i.options.pickDate&&i.options.pickTime&&(i.format+=" "),i.format+=i.options.pickTime?f.longDateFormat("LT"):"",i.options.useSeconds&&(-1!==f.longDateFormat("LT").indexOf(" A")?i.format=i.format.split(" A")[0]+":ss A":i.format+=":ss")),i.use24hours=i.format.toLowerCase().indexOf("a")<0&&i.format.indexOf("h")<0,i.component&&(k=i.component.find("span")),i.options.pickTime&&k&&k.addClass(i.options.icons.time),i.options.pickDate&&k&&(k.removeClass(i.options.icons.time),k.addClass(i.options.icons.date)),i.options.widgetParent="string"==typeof i.options.widgetParent&&i.options.widgetParent||i.element.parents().filter(function(){return"scroll"===a(this).css("overflow-y")}).get(0)||"body",i.widget=a(Q()).appendTo(i.options.widgetParent),i.minViewMode=i.options.minViewMode||0,"string"==typeof i.minViewMode)switch(i.minViewMode){case"months":i.minViewMode=1;break;case"years":i.minViewMode=2;break;default:i.minViewMode=0}if(i.viewMode=i.options.viewMode||0,"string"==typeof i.viewMode)switch(i.viewMode){case"months":i.viewMode=1;break;case"years":i.viewMode=2;break;default:i.viewMode=0}i.viewMode=Math.max(i.viewMode,i.minViewMode),i.options.disabledDates=O(i.options.disabledDates),i.options.enabledDates=O(i.options.enabledDates),i.startViewMode=i.viewMode,i.setMinDate(i.options.minDate),i.setMaxDate(i.options.maxDate),r(),s(),u(),v(),w(),q(),E(),l().prop("disabled")||F(),""!==i.options.defaultDate&&""===l().val()&&i.setValue(i.options.defaultDate),1!==i.options.minuteStepping&&(j=i.options.minuteStepping,i.date.minutes(Math.round(i.date.minutes()/j)*j%60).seconds(0))},l=function(){var a;if(i.isInput)return i.element;if(a=i.element.find(".datepickerinput"),0===a.size())a=i.element.find("input");else if(!a.is("input"))throw new Error('CSS class "datepickerinput" cannot be applied to non input element');return a},m=function(){var a;a=i.element.is("input")?i.element.data():i.element.find("input").data(),void 0!==a.dateFormat&&(i.options.format=a.dateFormat),void 0!==a.datePickdate&&(i.options.pickDate=a.datePickdate),void 0!==a.datePicktime&&(i.options.pickTime=a.datePicktime),void 0!==a.dateUseminutes&&(i.options.useMinutes=a.dateUseminutes),void 0!==a.dateUseseconds&&(i.options.useSeconds=a.dateUseseconds),void 0!==a.dateUsecurrent&&(i.options.useCurrent=a.dateUsecurrent),void 0!==a.calendarWeeks&&(i.options.calendarWeeks=a.calendarWeeks),void 0!==a.dateMinutestepping&&(i.options.minuteStepping=a.dateMinutestepping),void 0!==a.dateMindate&&(i.options.minDate=a.dateMindate),void 0!==a.dateMaxdate&&(i.options.maxDate=a.dateMaxdate),void 0!==a.dateShowtoday&&(i.options.showToday=a.dateShowtoday),void 0!==a.dateCollapse&&(i.options.collapse=a.dateCollapse),void 0!==a.dateLanguage&&(i.options.language=a.dateLanguage),void 0!==a.dateDefaultdate&&(i.options.defaultDate=a.dateDefaultdate),void 0!==a.dateDisableddates&&(i.options.disabledDates=a.dateDisableddates),void 0!==a.dateEnableddates&&(i.options.enabledDates=a.dateEnableddates),void 0!==a.dateIcons&&(i.options.icons=a.dateIcons),void 0!==a.dateUsestrict&&(i.options.useStrict=a.dateUsestrict),void 0!==a.dateDirection&&(i.options.direction=a.dateDirection),void 0!==a.dateSidebyside&&(i.options.sideBySide=a.dateSidebyside),void 0!==a.dateDaysofweekdisabled&&(i.options.daysOfWeekDisabled=a.dateDaysofweekdisabled)},n=function(){var b,c="absolute",d=i.component?i.component.offset():i.element.offset(),e=a(window);i.width=i.component?i.component.outerWidth():i.element.outerWidth(),d.top=d.top+i.element.outerHeight(),"up"===i.options.direction?b="top":"bottom"===i.options.direction?b="bottom":"auto"===i.options.direction&&(b=d.top+i.widget.height()>e.height()+e.scrollTop()&&i.widget.height()+i.element.outerHeight()<d.top?"top":"bottom"),"top"===b?(d.bottom=e.height()-d.top+i.element.outerHeight()+3,i.widget.addClass("top").removeClass("bottom")):(d.top+=1,i.widget.addClass("bottom").removeClass("top")),void 0!==i.options.width&&i.widget.width(i.options.width),"left"===i.options.orientation&&(i.widget.addClass("left-oriented"),d.left=d.left-i.widget.width()+20),J()&&(c="fixed",d.top-=e.scrollTop(),d.left-=e.scrollLeft()),e.width()<d.left+i.widget.outerWidth()?(d.right=e.width()-d.left-i.width,d.left="auto",i.widget.addClass("pull-right")):(d.right="auto",i.widget.removeClass("pull-right")),i.widget.css("top"===b?{position:c,bottom:d.bottom,top:"auto",left:d.left,right:d.right}:{position:c,top:d.top,bottom:"auto",left:d.left,right:d.right})},o=function(a,c){(!b(i.date).isSame(b(a))||j)&&(j=!1,i.element.trigger({type:"dp.change",date:b(i.date),oldDate:b(a)}),"change"!==c&&i.element.change())},p=function(a){j=!0,i.element.trigger({type:"dp.error",date:b(a,i.format,i.options.useStrict)})},q=function(a){b.locale(i.options.language);var c=a;c||(c=l().val(),c&&(i.date=b(c,i.format,i.options.useStrict)),i.date||(i.date=b())),i.viewDate=b(i.date).startOf("month"),t(),x()},r=function(){b.locale(i.options.language);var c,d=a("<tr>"),e=b.weekdaysMin();if(i.options.calendarWeeks===!0&&d.append('<th class="cw">#</th>'),0===b().localeData()._week.dow)for(c=0;7>c;c++)d.append('<th class="dow">'+e[c]+"</th>");else for(c=1;8>c;c++)d.append(7===c?'<th class="dow">'+e[0]+"</th>":'<th class="dow">'+e[c]+"</th>");i.widget.find(".datepicker-days thead").append(d)},s=function(){b.locale(i.options.language);var a,c="",d=b.monthsShort();for(a=0;12>a;a++)c+='<span class="month">'+d[a]+"</span>";i.widget.find(".datepicker-months td").append(c)},t=function(){if(i.options.pickDate){b.locale(i.options.language);var c,d,e,f,g,h,j,k,l,m=i.viewDate.year(),n=i.viewDate.month(),o=i.options.minDate.year(),p=i.options.minDate.month(),q=i.options.maxDate.year(),r=i.options.maxDate.month(),s=[],t=b.months();for(i.widget.find(".datepicker-days").find(".disabled").removeClass("disabled"),i.widget.find(".datepicker-months").find(".disabled").removeClass("disabled"),i.widget.find(".datepicker-years").find(".disabled").removeClass("disabled"),i.widget.find(".datepicker-days th:eq(1)").text(t[n]+" "+m),d=b(i.viewDate,i.format,i.options.useStrict).subtract(1,"months"),j=d.daysInMonth(),d.date(j).startOf("week"),(m===o&&p>=n||o>m)&&i.widget.find(".datepicker-days th:eq(0)").addClass("disabled"),(m===q&&n>=r||m>q)&&i.widget.find(".datepicker-days th:eq(2)").addClass("disabled"),e=b(d).add(42,"d");d.isBefore(e);){if(d.weekday()===b().startOf("week").weekday()&&(f=a("<tr>"),s.push(f),i.options.calendarWeeks===!0&&f.append('<td class="cw">'+d.week()+"</td>")),g="",d.year()<m||d.year()===m&&d.month()<n?g+=" old":(d.year()>m||d.year()===m&&d.month()>n)&&(g+=" new"),d.isSame(b({y:i.date.year(),M:i.date.month(),d:i.date.date()}))&&(g+=" active"),(M(d,"day")||!N(d))&&(g+=" disabled"),i.options.showToday===!0&&d.isSame(b(),"day")&&(g+=" today"),i.options.daysOfWeekDisabled)for(h=0;h<i.options.daysOfWeekDisabled.length;h++)if(d.day()===i.options.daysOfWeekDisabled[h]){g+=" disabled";break}f.append('<td class="day'+g+'">'+d.date()+"</td>"),c=d.date(),d.add(1,"d"),c===d.date()&&d.add(1,"d")}for(i.widget.find(".datepicker-days tbody").empty().append(s),l=i.date.year(),t=i.widget.find(".datepicker-months").find("th:eq(1)").text(m).end().find("span").removeClass("active"),l===m&&t.eq(i.date.month()).addClass("active"),o>m-1&&i.widget.find(".datepicker-months th:eq(0)").addClass("disabled"),m+1>q&&i.widget.find(".datepicker-months th:eq(2)").addClass("disabled"),h=0;12>h;h++)m===o&&p>h||o>m?a(t[h]).addClass("disabled"):(m===q&&h>r||m>q)&&a(t[h]).addClass("disabled");for(s="",m=10*parseInt(m/10,10),k=i.widget.find(".datepicker-years").find("th:eq(1)").text(m+"-"+(m+9)).parents("table").find("td"),i.widget.find(".datepicker-years").find("th").removeClass("disabled"),o>m&&i.widget.find(".datepicker-years").find("th:eq(0)").addClass("disabled"),m+9>q&&i.widget.find(".datepicker-years").find("th:eq(2)").addClass("disabled"),m-=1,h=-1;11>h;h++)s+='<span class="year'+(-1===h||10===h?" old":"")+(l===m?" active":"")+(o>m||m>q?" disabled":"")+'">'+m+"</span>",m+=1;k.html(s)}},u=function(){b.locale(i.options.language);var a,c,d,e=i.widget.find(".timepicker .timepicker-hours table"),f="";if(e.parent().hide(),i.use24hours)for(a=0,c=0;6>c;c+=1){for(f+="<tr>",d=0;4>d;d+=1)f+='<td class="hour">'+P(a.toString())+"</td>",a++;f+="</tr>"}else for(a=1,c=0;3>c;c+=1){for(f+="<tr>",d=0;4>d;d+=1)f+='<td class="hour">'+P(a.toString())+"</td>",a++;f+="</tr>"}e.html(f)},v=function(){var a,b,c=i.widget.find(".timepicker .timepicker-minutes table"),d="",e=0,f=i.options.minuteStepping;for(c.parent().hide(),1===f&&(f=5),a=0;a<Math.ceil(60/f/4);a++){for(d+="<tr>",b=0;4>b;b+=1)60>e?(d+='<td class="minute">'+P(e.toString())+"</td>",e+=f):d+="<td></td>";d+="</tr>"}c.html(d)},w=function(){var a,b,c=i.widget.find(".timepicker .timepicker-seconds table"),d="",e=0;for(c.parent().hide(),a=0;3>a;a++){for(d+="<tr>",b=0;4>b;b+=1)d+='<td class="second">'+P(e.toString())+"</td>",e+=5;d+="</tr>"}c.html(d)},x=function(){if(i.date){var a=i.widget.find(".timepicker span[data-time-component]"),b=i.date.hours(),c=i.date.format("A");i.use24hours||(0===b?b=12:12!==b&&(b%=12),i.widget.find(".timepicker [data-action=togglePeriod]").text(c)),a.filter("[data-time-component=hours]").text(P(b)),a.filter("[data-time-component=minutes]").text(P(i.date.minutes())),a.filter("[data-time-component=seconds]").text(P(i.date.second()))}},y=function(c){c.stopPropagation(),c.preventDefault(),i.unset=!1;var d,e,f,g,h=a(c.target).closest("span, td, th"),j=b(i.date);if(1===h.length&&!h.is(".disabled"))switch(h[0].nodeName.toLowerCase()){case"th":switch(h[0].className){case"picker-switch":E(1);break;case"prev":case"next":f=R.modes[i.viewMode].navStep,"prev"===h[0].className&&(f=-1*f),i.viewDate.add(f,R.modes[i.viewMode].navFnc),t()}break;case"span":h.is(".month")?(d=h.parent().find("span").index(h),i.viewDate.month(d)):(e=parseInt(h.text(),10)||0,i.viewDate.year(e)),i.viewMode===i.minViewMode&&(i.date=b({y:i.viewDate.year(),M:i.viewDate.month(),d:i.viewDate.date(),h:i.date.hours(),m:i.date.minutes(),s:i.date.seconds()}),K(),o(j,c.type)),E(-1),t();break;case"td":h.is(".day")&&(g=parseInt(h.text(),10)||1,d=i.viewDate.month(),e=i.viewDate.year(),h.is(".old")?0===d?(d=11,e-=1):d-=1:h.is(".new")&&(11===d?(d=0,e+=1):d+=1),i.date=b({y:e,M:d,d:g,h:i.date.hours(),m:i.date.minutes(),s:i.date.seconds()}),i.viewDate=b({y:e,M:d,d:Math.min(28,g)}),t(),K(),o(j,c.type))}},z={incrementHours:function(){L("add","hours",1)},incrementMinutes:function(){L("add","minutes",i.options.minuteStepping)},incrementSeconds:function(){L("add","seconds",1)},decrementHours:function(){L("subtract","hours",1)},decrementMinutes:function(){L("subtract","minutes",i.options.minuteStepping)},decrementSeconds:function(){L("subtract","seconds",1)},togglePeriod:function(){var a=i.date.hours();a>=12?a-=12:a+=12,i.date.hours(a)},showPicker:function(){i.widget.find(".timepicker > div:not(.timepicker-picker)").hide(),i.widget.find(".timepicker .timepicker-picker").show()},showHours:function(){i.widget.find(".timepicker .timepicker-picker").hide(),i.widget.find(".timepicker .timepicker-hours").show()},showMinutes:function(){i.widget.find(".timepicker .timepicker-picker").hide(),i.widget.find(".timepicker .timepicker-minutes").show()},showSeconds:function(){i.widget.find(".timepicker .timepicker-picker").hide(),i.widget.find(".timepicker .timepicker-seconds").show()},selectHour:function(b){var c=parseInt(a(b.target).text(),10);i.use24hours||(i.date.hours()>=12?12!==c&&(c+=12):12===c&&(c=0)),i.date.hours(c),z.showPicker.call(i)},selectMinute:function(b){i.date.minutes(parseInt(a(b.target).text(),10)),z.showPicker.call(i)},selectSecond:function(b){i.date.seconds(parseInt(a(b.target).text(),10)),z.showPicker.call(i)}},A=function(c){var d=b(i.date),e=a(c.currentTarget).data("action"),f=z[e].apply(i,arguments);return B(c),i.date||(i.date=b({y:1970})),K(),x(),o(d,c.type),f},B=function(a){a.stopPropagation(),a.preventDefault()},C=function(a){27===a.keyCode&&i.hide()},D=function(c){b.locale(i.options.language);var d=a(c.target),e=b(i.date),f=b(d.val(),i.format,i.options.useStrict);f.isValid()&&!M(f)&&N(f)?(q(),i.setValue(f),o(e,c.type),K()):(i.viewDate=e,i.unset=!0,o(e,c.type),p(f))},E=function(a){a&&(i.viewMode=Math.max(i.minViewMode,Math.min(2,i.viewMode+a))),i.widget.find(".datepicker > div").hide().filter(".datepicker-"+R.modes[i.viewMode].clsName).show()},F=function(){var b,c,d,e,f;i.widget.on("click",".datepicker *",a.proxy(y,this)),i.widget.on("click","[data-action]",a.proxy(A,this)),i.widget.on("mousedown",a.proxy(B,this)),i.element.on("keydown",a.proxy(C,this)),i.options.pickDate&&i.options.pickTime&&i.widget.on("click.togglePicker",".accordion-toggle",function(g){if(g.stopPropagation(),b=a(this),c=b.closest("ul"),d=c.find(".in"),e=c.find(".collapse:not(.in)"),d&&d.length){if(f=d.data("collapse"),f&&f.transitioning)return;d.collapse("hide"),e.collapse("show"),b.find("span").toggleClass(i.options.icons.time+" "+i.options.icons.date),i.component&&i.component.find("span").toggleClass(i.options.icons.time+" "+i.options.icons.date)}}),i.isInput?i.element.on({click:a.proxy(i.show,this),focus:a.proxy(i.show,this),change:a.proxy(D,this),blur:a.proxy(i.hide,this)}):(i.element.on({change:a.proxy(D,this)},"input"),i.component?(i.component.on("click",a.proxy(i.show,this)),i.component.on("mousedown",a.proxy(B,this))):i.element.on("click",a.proxy(i.show,this)))},G=function(){a(window).on("resize.datetimepicker"+i.id,a.proxy(n,this)),i.isInput||a(document).on("mousedown.datetimepicker"+i.id,a.proxy(i.hide,this))},H=function(){i.widget.off("click",".datepicker *",i.click),i.widget.off("click","[data-action]"),i.widget.off("mousedown",i.stopEvent),i.options.pickDate&&i.options.pickTime&&i.widget.off("click.togglePicker"),i.isInput?i.element.off({focus:i.show,change:D,click:i.show,blur:i.hide}):(i.element.off({change:D},"input"),i.component?(i.component.off("click",i.show),i.component.off("mousedown",i.stopEvent)):i.element.off("click",i.show))},I=function(){a(window).off("resize.datetimepicker"+i.id),i.isInput||a(document).off("mousedown.datetimepicker"+i.id)},J=function(){if(i.element){var b,c=i.element.parents(),d=!1;for(b=0;b<c.length;b++)if("fixed"===a(c[b]).css("position")){d=!0;break}return d}return!1},K=function(){b.locale(i.options.language);var a="";i.unset||(a=b(i.date).format(i.format)),l().val(a),i.element.data("date",a),i.options.pickTime||i.hide()},L=function(a,c,d){b.locale(i.options.language);var e;return"add"===a?(e=b(i.date),23===e.hours()&&e.add(d,c),e.add(d,c)):e=b(i.date).subtract(d,c),M(b(e.subtract(d,c)))||M(e)?void p(e.format(i.format)):("add"===a?i.date.add(d,c):i.date.subtract(d,c),void(i.unset=!1))},M=function(a,c){b.locale(i.options.language);var d=b(i.options.maxDate,i.format,i.options.useStrict),e=b(i.options.minDate,i.format,i.options.useStrict);return c&&(d=d.endOf(c),e=e.startOf(c)),a.isAfter(d)||a.isBefore(e)?!0:i.options.disabledDates===!1?!1:i.options.disabledDates[a.format("YYYY-MM-DD")]===!0},N=function(a){return b.locale(i.options.language),i.options.enabledDates===!1?!0:i.options.enabledDates[a.format("YYYY-MM-DD")]===!0},O=function(a){var c,d={},e=0;for(c=0;c<a.length;c++)f=b.isMoment(a[c])||a[c]instanceof Date?b(a[c]):b(a[c],i.format,i.options.useStrict),f.isValid()&&(d[f.format("YYYY-MM-DD")]=!0,e++);return e>0?d:!1},P=function(a){return a=a.toString(),a.length>=2?a:"0"+a},Q=function(){var a='<thead><tr><th class="prev">&lsaquo;</th><th colspan="'+(i.options.calendarWeeks?"6":"5")+'" class="picker-switch"></th><th class="next">&rsaquo;</th></tr></thead>',b='<tbody><tr><td colspan="'+(i.options.calendarWeeks?"8":"7")+'"></td></tr></tbody>',c='<div class="datepicker-days"><table class="table-condensed">'+a+'<tbody></tbody></table></div><div class="datepicker-months"><table class="table-condensed">'+a+b+'</table></div><div class="datepicker-years"><table class="table-condensed">'+a+b+"</table></div>",d="";return i.options.pickDate&&i.options.pickTime?(d='<div class="bootstrap-datetimepicker-widget'+(i.options.sideBySide?" timepicker-sbs":"")+(i.use24hours?" usetwentyfour":"")+' dropdown-menu" style="z-index:9999 !important;">',d+=i.options.sideBySide?'<div class="row"><div class="col-sm-6 datepicker">'+c+'</div><div class="col-sm-6 timepicker">'+S.getTemplate()+"</div></div>":'<ul class="list-unstyled"><li'+(i.options.collapse?' class="collapse in"':"")+'><div class="datepicker">'+c+'</div></li><li class="picker-switch accordion-toggle"><a class="btn" style="width:100%"><span class="'+i.options.icons.time+'"></span></a></li><li'+(i.options.collapse?' class="collapse"':"")+'><div class="timepicker">'+S.getTemplate()+"</div></li></ul>",d+="</div>"):i.options.pickTime?'<div class="bootstrap-datetimepicker-widget dropdown-menu"><div class="timepicker">'+S.getTemplate()+"</div></div>":'<div class="bootstrap-datetimepicker-widget dropdown-menu"><div class="datepicker">'+c+"</div></div>"},R={modes:[{clsName:"days",navFnc:"month",navStep:1},{clsName:"months",navFnc:"year",navStep:1},{clsName:"years",navFnc:"year",navStep:10}]},S={hourTemplate:'<span data-action="showHours"   data-time-component="hours"   class="timepicker-hour"></span>',minuteTemplate:'<span data-action="showMinutes" data-time-component="minutes" class="timepicker-minute"></span>',secondTemplate:'<span data-action="showSeconds"  data-time-component="seconds" class="timepicker-second"></span>'};S.getTemplate=function(){return'<div class="timepicker-picker"><table class="table-condensed"><tr><td><a href="#" class="btn" data-action="incrementHours"><span class="'+i.options.icons.up+'"></span></a></td><td class="separator"></td><td>'+(i.options.useMinutes?'<a href="#" class="btn" data-action="incrementMinutes"><span class="'+i.options.icons.up+'"></span></a>':"")+"</td>"+(i.options.useSeconds?'<td class="separator"></td><td><a href="#" class="btn" data-action="incrementSeconds"><span class="'+i.options.icons.up+'"></span></a></td>':"")+(i.use24hours?"":'<td class="separator"></td>')+"</tr><tr><td>"+S.hourTemplate+'</td> <td class="separator">:</td><td>'+(i.options.useMinutes?S.minuteTemplate:'<span class="timepicker-minute">00</span>')+"</td> "+(i.options.useSeconds?'<td class="separator">:</td><td>'+S.secondTemplate+"</td>":"")+(i.use24hours?"":'<td class="separator"></td><td><button type="button" class="btn btn-primary" data-action="togglePeriod"></button></td>')+'</tr><tr><td><a href="#" class="btn" data-action="decrementHours"><span class="'+i.options.icons.down+'"></span></a></td><td class="separator"></td><td>'+(i.options.useMinutes?'<a href="#" class="btn" data-action="decrementMinutes"><span class="'+i.options.icons.down+'"></span></a>':"")+"</td>"+(i.options.useSeconds?'<td class="separator"></td><td><a href="#" class="btn" data-action="decrementSeconds"><span class="'+i.options.icons.down+'"></span></a></td>':"")+(i.use24hours?"":'<td class="separator"></td>')+'</tr></table></div><div class="timepicker-hours" data-action="selectHour"><table class="table-condensed"></table></div><div class="timepicker-minutes" data-action="selectMinute"><table class="table-condensed"></table></div>'+(i.options.useSeconds?'<div class="timepicker-seconds" data-action="selectSecond"><table class="table-condensed"></table></div>':"")},i.destroy=function(){H(),I(),i.widget.remove(),i.element.removeData("DateTimePicker"),i.component&&i.component.removeData("DateTimePicker")},i.show=function(a){if(!l().prop("disabled")){if(i.options.useCurrent&&""===l().val()){if(1!==i.options.minuteStepping){var c=b(),d=i.options.minuteStepping;c.minutes(Math.round(c.minutes()/d)*d%60).seconds(0),i.setValue(c.format(i.format))}else i.setValue(b().format(i.format));o("",a.type)}a&&"click"===a.type&&i.isInput&&i.widget.hasClass("picker-open")||(i.widget.hasClass("picker-open")?(i.widget.hide(),i.widget.removeClass("picker-open")):(i.widget.show(),i.widget.addClass("picker-open")),i.height=i.component?i.component.outerHeight():i.element.outerHeight(),n(),i.element.trigger({type:"dp.show",date:b(i.date)}),G(),a&&B(a))}},i.disable=function(){var a=l();a.prop("disabled")||(a.prop("disabled",!0),H())},i.enable=function(){var a=l();a.prop("disabled")&&(a.prop("disabled",!1),F())},i.hide=function(){var a,c,d=i.widget.find(".collapse");for(a=0;a<d.length;a++)if(c=d.eq(a).data("collapse"),c&&c.transitioning)return;i.widget.hide(),i.widget.removeClass("picker-open"),i.viewMode=i.startViewMode,E(),i.element.trigger({type:"dp.hide",date:b(i.date)}),I()},i.setValue=function(a){b.locale(i.options.language),a?i.unset=!1:(i.unset=!0,K()),a=b.isMoment(a)?a.locale(i.options.language):a instanceof Date?b(a):b(a,i.format,i.options.useStrict),a.isValid()?(i.date=a,K(),i.viewDate=b({y:i.date.year(),M:i.date.month()}),t(),x()):p(a)},i.getDate=function(){return i.unset?null:b(i.date)},i.setDate=function(a){var c=b(i.date);i.setValue(a?a:null),o(c,"function")},i.setDisabledDates=function(a){i.options.disabledDates=O(a),i.viewDate&&q()},i.setEnabledDates=function(a){i.options.enabledDates=O(a),i.viewDate&&q()},i.setMaxDate=function(a){void 0!==a&&(i.options.maxDate=b.isMoment(a)||a instanceof Date?b(a):b(a,i.format,i.options.useStrict),i.viewDate&&q())},i.setMinDate=function(a){void 0!==a&&(i.options.minDate=b.isMoment(a)||a instanceof Date?b(a):b(a,i.format,i.options.useStrict),i.viewDate&&q())},k()};a.fn.datetimepicker=function(b){return this.each(function(){var c=a(this),e=c.data("DateTimePicker");e||c.data("DateTimePicker",new d(this,b))})},a.fn.datetimepicker.defaults={format:!1,pickDate:!0,pickTime:!0,useMinutes:!0,useSeconds:!1,useCurrent:!0,calendarWeeks:!1,minuteStepping:1,minDate:b({y:1900}),maxDate:b().add(100,"y"),showToday:!0,collapse:!0,language:b.locale(),defaultDate:"",disabledDates:!1,enabledDates:!1,icons:{},useStrict:!1,direction:"auto",sideBySide:!1,daysOfWeekDisabled:[],widgetParent:!1}});
+/*! version : 4.17.37
+ =========================================================
+ bootstrap-datetimejs
+ https://github.com/Eonasdan/bootstrap-datetimepicker
+ Copyright (c) 2015 Jonathan Peterson
+ =========================================================
+ */
+!function(a){"use strict";if("function"==typeof define&&define.amd)define(["jquery","moment"],a);else if("object"==typeof exports)a(require("jquery"),require("moment"));else{if("undefined"==typeof jQuery)throw"bootstrap-datetimepicker requires jQuery to be loaded first";if("undefined"==typeof moment)throw"bootstrap-datetimepicker requires Moment.js to be loaded first";a(jQuery,moment)}}(function(a,b){"use strict";if(!b)throw new Error("bootstrap-datetimepicker requires Moment.js to be loaded first");var c=function(c,d){var e,f,g,h,i,j,k,l={},m=!0,n=!1,o=!1,p=0,q=[{clsName:"days",navFnc:"M",navStep:1},{clsName:"months",navFnc:"y",navStep:1},{clsName:"years",navFnc:"y",navStep:10},{clsName:"decades",navFnc:"y",navStep:100}],r=["days","months","years","decades"],s=["top","bottom","auto"],t=["left","right","auto"],u=["default","top","bottom"],v={up:38,38:"up",down:40,40:"down",left:37,37:"left",right:39,39:"right",tab:9,9:"tab",escape:27,27:"escape",enter:13,13:"enter",pageUp:33,33:"pageUp",pageDown:34,34:"pageDown",shift:16,16:"shift",control:17,17:"control",space:32,32:"space",t:84,84:"t","delete":46,46:"delete"},w={},x=function(a){var c,e,f,g,h,i=!1;return void 0!==b.tz&&void 0!==d.timeZone&&null!==d.timeZone&&""!==d.timeZone&&(i=!0),void 0===a||null===a?c=i?b().tz(d.timeZone).startOf("d"):b().startOf("d"):i?(e=b().tz(d.timeZone).utcOffset(),f=b(a,j,d.useStrict).utcOffset(),f!==e?(g=b().tz(d.timeZone).format("Z"),h=b(a,j,d.useStrict).format("YYYY-MM-DD[T]HH:mm:ss")+g,c=b(h,j,d.useStrict).tz(d.timeZone)):c=b(a,j,d.useStrict).tz(d.timeZone)):c=b(a,j,d.useStrict),c},y=function(a){if("string"!=typeof a||a.length>1)throw new TypeError("isEnabled expects a single character string parameter");switch(a){case"y":return-1!==i.indexOf("Y");case"M":return-1!==i.indexOf("M");case"d":return-1!==i.toLowerCase().indexOf("d");case"h":case"H":return-1!==i.toLowerCase().indexOf("h");case"m":return-1!==i.indexOf("m");case"s":return-1!==i.indexOf("s");default:return!1}},z=function(){return y("h")||y("m")||y("s")},A=function(){return y("y")||y("M")||y("d")},B=function(){var b=a("<thead>").append(a("<tr>").append(a("<th>").addClass("prev").attr("data-action","previous").append(a("<span>").addClass(d.icons.previous))).append(a("<th>").addClass("picker-switch").attr("data-action","pickerSwitch").attr("colspan",d.calendarWeeks?"6":"5")).append(a("<th>").addClass("next").attr("data-action","next").append(a("<span>").addClass(d.icons.next)))),c=a("<tbody>").append(a("<tr>").append(a("<td>").attr("colspan",d.calendarWeeks?"8":"7")));return[a("<div>").addClass("datepicker-days").append(a("<table>").addClass("table-condensed").append(b).append(a("<tbody>"))),a("<div>").addClass("datepicker-months").append(a("<table>").addClass("table-condensed").append(b.clone()).append(c.clone())),a("<div>").addClass("datepicker-years").append(a("<table>").addClass("table-condensed").append(b.clone()).append(c.clone())),a("<div>").addClass("datepicker-decades").append(a("<table>").addClass("table-condensed").append(b.clone()).append(c.clone()))]},C=function(){var b=a("<tr>"),c=a("<tr>"),e=a("<tr>");return y("h")&&(b.append(a("<td>").append(a("<a>").attr({href:"#",tabindex:"-1",title:d.tooltips.incrementHour}).addClass("btn").attr("data-action","incrementHours").append(a("<span>").addClass(d.icons.up)))),c.append(a("<td>").append(a("<span>").addClass("timepicker-hour").attr({"data-time-component":"hours",title:d.tooltips.pickHour}).attr("data-action","showHours"))),e.append(a("<td>").append(a("<a>").attr({href:"#",tabindex:"-1",title:d.tooltips.decrementHour}).addClass("btn").attr("data-action","decrementHours").append(a("<span>").addClass(d.icons.down))))),y("m")&&(y("h")&&(b.append(a("<td>").addClass("separator")),c.append(a("<td>").addClass("separator").html(":")),e.append(a("<td>").addClass("separator"))),b.append(a("<td>").append(a("<a>").attr({href:"#",tabindex:"-1",title:d.tooltips.incrementMinute}).addClass("btn").attr("data-action","incrementMinutes").append(a("<span>").addClass(d.icons.up)))),c.append(a("<td>").append(a("<span>").addClass("timepicker-minute").attr({"data-time-component":"minutes",title:d.tooltips.pickMinute}).attr("data-action","showMinutes"))),e.append(a("<td>").append(a("<a>").attr({href:"#",tabindex:"-1",title:d.tooltips.decrementMinute}).addClass("btn").attr("data-action","decrementMinutes").append(a("<span>").addClass(d.icons.down))))),y("s")&&(y("m")&&(b.append(a("<td>").addClass("separator")),c.append(a("<td>").addClass("separator").html(":")),e.append(a("<td>").addClass("separator"))),b.append(a("<td>").append(a("<a>").attr({href:"#",tabindex:"-1",title:d.tooltips.incrementSecond}).addClass("btn").attr("data-action","incrementSeconds").append(a("<span>").addClass(d.icons.up)))),c.append(a("<td>").append(a("<span>").addClass("timepicker-second").attr({"data-time-component":"seconds",title:d.tooltips.pickSecond}).attr("data-action","showSeconds"))),e.append(a("<td>").append(a("<a>").attr({href:"#",tabindex:"-1",title:d.tooltips.decrementSecond}).addClass("btn").attr("data-action","decrementSeconds").append(a("<span>").addClass(d.icons.down))))),h||(b.append(a("<td>").addClass("separator")),c.append(a("<td>").append(a("<button>").addClass("btn btn-primary").attr({"data-action":"togglePeriod",tabindex:"-1",title:d.tooltips.togglePeriod}))),e.append(a("<td>").addClass("separator"))),a("<div>").addClass("timepicker-picker").append(a("<table>").addClass("table-condensed").append([b,c,e]))},D=function(){var b=a("<div>").addClass("timepicker-hours").append(a("<table>").addClass("table-condensed")),c=a("<div>").addClass("timepicker-minutes").append(a("<table>").addClass("table-condensed")),d=a("<div>").addClass("timepicker-seconds").append(a("<table>").addClass("table-condensed")),e=[C()];return y("h")&&e.push(b),y("m")&&e.push(c),y("s")&&e.push(d),e},E=function(){var b=[];return d.showTodayButton&&b.push(a("<td>").append(a("<a>").attr({"data-action":"today",title:d.tooltips.today}).append(a("<span>").addClass(d.icons.today)))),!d.sideBySide&&A()&&z()&&b.push(a("<td>").append(a("<a>").attr({"data-action":"togglePicker",title:d.tooltips.selectTime}).append(a("<span>").addClass(d.icons.time)))),d.showClear&&b.push(a("<td>").append(a("<a>").attr({"data-action":"clear",title:d.tooltips.clear}).append(a("<span>").addClass(d.icons.clear)))),d.showClose&&b.push(a("<td>").append(a("<a>").attr({"data-action":"close",title:d.tooltips.close}).append(a("<span>").addClass(d.icons.close)))),a("<table>").addClass("table-condensed").append(a("<tbody>").append(a("<tr>").append(b)))},F=function(){var b=a("<div>").addClass("bootstrap-datetimepicker-widget dropdown-menu"),c=a("<div>").addClass("datepicker").append(B()),e=a("<div>").addClass("timepicker").append(D()),f=a("<ul>").addClass("list-unstyled"),g=a("<li>").addClass("picker-switch"+(d.collapse?" accordion-toggle":"")).append(E());return d.inline&&b.removeClass("dropdown-menu"),h&&b.addClass("usetwentyfour"),y("s")&&!h&&b.addClass("wider"),d.sideBySide&&A()&&z()?(b.addClass("timepicker-sbs"),"top"===d.toolbarPlacement&&b.append(g),b.append(a("<div>").addClass("row").append(c.addClass("col-md-6")).append(e.addClass("col-md-6"))),"bottom"===d.toolbarPlacement&&b.append(g),b):("top"===d.toolbarPlacement&&f.append(g),A()&&f.append(a("<li>").addClass(d.collapse&&z()?"collapse in":"").append(c)),"default"===d.toolbarPlacement&&f.append(g),z()&&f.append(a("<li>").addClass(d.collapse&&A()?"collapse":"").append(e)),"bottom"===d.toolbarPlacement&&f.append(g),b.append(f))},G=function(){var b,e={};return b=c.is("input")||d.inline?c.data():c.find("input").data(),b.dateOptions&&b.dateOptions instanceof Object&&(e=a.extend(!0,e,b.dateOptions)),a.each(d,function(a){var c="date"+a.charAt(0).toUpperCase()+a.slice(1);void 0!==b[c]&&(e[a]=b[c])}),e},H=function(){var b,e=(n||c).position(),f=(n||c).offset(),g=d.widgetPositioning.vertical,h=d.widgetPositioning.horizontal;if(d.widgetParent)b=d.widgetParent.append(o);else if(c.is("input"))b=c.after(o).parent();else{if(d.inline)return void(b=c.append(o));b=c,c.children().first().after(o)}if("auto"===g&&(g=f.top+1.5*o.height()>=a(window).height()+a(window).scrollTop()&&o.height()+c.outerHeight()<f.top?"top":"bottom"),"auto"===h&&(h=b.width()<f.left+o.outerWidth()/2&&f.left+o.outerWidth()>a(window).width()?"right":"left"),"top"===g?o.addClass("top").removeClass("bottom"):o.addClass("bottom").removeClass("top"),"right"===h?o.addClass("pull-right"):o.removeClass("pull-right"),"relative"!==b.css("position")&&(b=b.parents().filter(function(){return"relative"===a(this).css("position")}).first()),0===b.length)throw new Error("datetimepicker component should be placed within a relative positioned container");o.css({top:"top"===g?"auto":e.top+c.outerHeight(),bottom:"top"===g?e.top+c.outerHeight():"auto",left:"left"===h?b===c?0:e.left:"auto",right:"left"===h?"auto":b.outerWidth()-c.outerWidth()-(b===c?0:e.left)})},I=function(a){"dp.change"===a.type&&(a.date&&a.date.isSame(a.oldDate)||!a.date&&!a.oldDate)||c.trigger(a)},J=function(a){"y"===a&&(a="YYYY"),I({type:"dp.update",change:a,viewDate:f.clone()})},K=function(a){o&&(a&&(k=Math.max(p,Math.min(3,k+a))),o.find(".datepicker > div").hide().filter(".datepicker-"+q[k].clsName).show())},L=function(){var b=a("<tr>"),c=f.clone().startOf("w").startOf("d");for(d.calendarWeeks===!0&&b.append(a("<th>").addClass("cw").text("#"));c.isBefore(f.clone().endOf("w"));)b.append(a("<th>").addClass("dow").text(c.format("dd"))),c.add(1,"d");o.find(".datepicker-days thead").append(b)},M=function(a){return d.disabledDates[a.format("YYYY-MM-DD")]===!0},N=function(a){return d.enabledDates[a.format("YYYY-MM-DD")]===!0},O=function(a){return d.disabledHours[a.format("H")]===!0},P=function(a){return d.enabledHours[a.format("H")]===!0},Q=function(b,c){if(!b.isValid())return!1;if(d.disabledDates&&"d"===c&&M(b))return!1;if(d.enabledDates&&"d"===c&&!N(b))return!1;if(d.minDate&&b.isBefore(d.minDate,c))return!1;if(d.maxDate&&b.isAfter(d.maxDate,c))return!1;if(d.daysOfWeekDisabled&&"d"===c&&-1!==d.daysOfWeekDisabled.indexOf(b.day()))return!1;if(d.disabledHours&&("h"===c||"m"===c||"s"===c)&&O(b))return!1;if(d.enabledHours&&("h"===c||"m"===c||"s"===c)&&!P(b))return!1;if(d.disabledTimeIntervals&&("h"===c||"m"===c||"s"===c)){var e=!1;if(a.each(d.disabledTimeIntervals,function(){return b.isBetween(this[0],this[1])?(e=!0,!1):void 0}),e)return!1}return!0},R=function(){for(var b=[],c=f.clone().startOf("y").startOf("d");c.isSame(f,"y");)b.push(a("<span>").attr("data-action","selectMonth").addClass("month").text(c.format("MMM"))),c.add(1,"M");o.find(".datepicker-months td").empty().append(b)},S=function(){var b=o.find(".datepicker-months"),c=b.find("th"),g=b.find("tbody").find("span");c.eq(0).find("span").attr("title",d.tooltips.prevYear),c.eq(1).attr("title",d.tooltips.selectYear),c.eq(2).find("span").attr("title",d.tooltips.nextYear),b.find(".disabled").removeClass("disabled"),Q(f.clone().subtract(1,"y"),"y")||c.eq(0).addClass("disabled"),c.eq(1).text(f.year()),Q(f.clone().add(1,"y"),"y")||c.eq(2).addClass("disabled"),g.removeClass("active"),e.isSame(f,"y")&&!m&&g.eq(e.month()).addClass("active"),g.each(function(b){Q(f.clone().month(b),"M")||a(this).addClass("disabled")})},T=function(){var a=o.find(".datepicker-years"),b=a.find("th"),c=f.clone().subtract(5,"y"),g=f.clone().add(6,"y"),h="";for(b.eq(0).find("span").attr("title",d.tooltips.prevDecade),b.eq(1).attr("title",d.tooltips.selectDecade),b.eq(2).find("span").attr("title",d.tooltips.nextDecade),a.find(".disabled").removeClass("disabled"),d.minDate&&d.minDate.isAfter(c,"y")&&b.eq(0).addClass("disabled"),b.eq(1).text(c.year()+"-"+g.year()),d.maxDate&&d.maxDate.isBefore(g,"y")&&b.eq(2).addClass("disabled");!c.isAfter(g,"y");)h+='<span data-action="selectYear" class="year'+(c.isSame(e,"y")&&!m?" active":"")+(Q(c,"y")?"":" disabled")+'">'+c.year()+"</span>",c.add(1,"y");a.find("td").html(h)},U=function(){var a=o.find(".datepicker-decades"),c=a.find("th"),g=b({y:f.year()-f.year()%100-1}),h=g.clone().add(100,"y"),i=g.clone(),j="";for(c.eq(0).find("span").attr("title",d.tooltips.prevCentury),c.eq(2).find("span").attr("title",d.tooltips.nextCentury),a.find(".disabled").removeClass("disabled"),(g.isSame(b({y:1900}))||d.minDate&&d.minDate.isAfter(g,"y"))&&c.eq(0).addClass("disabled"),c.eq(1).text(g.year()+"-"+h.year()),(g.isSame(b({y:2e3}))||d.maxDate&&d.maxDate.isBefore(h,"y"))&&c.eq(2).addClass("disabled");!g.isAfter(h,"y");)j+='<span data-action="selectDecade" class="decade'+(g.isSame(e,"y")?" active":"")+(Q(g,"y")?"":" disabled")+'" data-selection="'+(g.year()+6)+'">'+(g.year()+1)+" - "+(g.year()+12)+"</span>",g.add(12,"y");j+="<span></span><span></span><span></span>",a.find("td").html(j),c.eq(1).text(i.year()+1+"-"+g.year())},V=function(){var b,c,g,h,i=o.find(".datepicker-days"),j=i.find("th"),k=[];if(A()){for(j.eq(0).find("span").attr("title",d.tooltips.prevMonth),j.eq(1).attr("title",d.tooltips.selectMonth),j.eq(2).find("span").attr("title",d.tooltips.nextMonth),i.find(".disabled").removeClass("disabled"),j.eq(1).text(f.format(d.dayViewHeaderFormat)),Q(f.clone().subtract(1,"M"),"M")||j.eq(0).addClass("disabled"),Q(f.clone().add(1,"M"),"M")||j.eq(2).addClass("disabled"),b=f.clone().startOf("M").startOf("w").startOf("d"),h=0;42>h;h++)0===b.weekday()&&(c=a("<tr>"),d.calendarWeeks&&c.append('<td class="cw">'+b.week()+"</td>"),k.push(c)),g="",b.isBefore(f,"M")&&(g+=" old"),b.isAfter(f,"M")&&(g+=" new"),b.isSame(e,"d")&&!m&&(g+=" active"),Q(b,"d")||(g+=" disabled"),b.isSame(x(),"d")&&(g+=" today"),(0===b.day()||6===b.day())&&(g+=" weekend"),c.append('<td data-action="selectDay" data-day="'+b.format("L")+'" class="day'+g+'">'+b.date()+"</td>"),b.add(1,"d");i.find("tbody").empty().append(k),S(),T(),U()}},W=function(){var b=o.find(".timepicker-hours table"),c=f.clone().startOf("d"),d=[],e=a("<tr>");for(f.hour()>11&&!h&&c.hour(12);c.isSame(f,"d")&&(h||f.hour()<12&&c.hour()<12||f.hour()>11);)c.hour()%4===0&&(e=a("<tr>"),d.push(e)),e.append('<td data-action="selectHour" class="hour'+(Q(c,"h")?"":" disabled")+'">'+c.format(h?"HH":"hh")+"</td>"),c.add(1,"h");b.empty().append(d)},X=function(){for(var b=o.find(".timepicker-minutes table"),c=f.clone().startOf("h"),e=[],g=a("<tr>"),h=1===d.stepping?5:d.stepping;f.isSame(c,"h");)c.minute()%(4*h)===0&&(g=a("<tr>"),e.push(g)),g.append('<td data-action="selectMinute" class="minute'+(Q(c,"m")?"":" disabled")+'">'+c.format("mm")+"</td>"),c.add(h,"m");b.empty().append(e)},Y=function(){for(var b=o.find(".timepicker-seconds table"),c=f.clone().startOf("m"),d=[],e=a("<tr>");f.isSame(c,"m");)c.second()%20===0&&(e=a("<tr>"),d.push(e)),e.append('<td data-action="selectSecond" class="second'+(Q(c,"s")?"":" disabled")+'">'+c.format("ss")+"</td>"),c.add(5,"s");b.empty().append(d)},Z=function(){var a,b,c=o.find(".timepicker span[data-time-component]");h||(a=o.find(".timepicker [data-action=togglePeriod]"),b=e.clone().add(e.hours()>=12?-12:12,"h"),a.text(e.format("A")),Q(b,"h")?a.removeClass("disabled"):a.addClass("disabled")),c.filter("[data-time-component=hours]").text(e.format(h?"HH":"hh")),c.filter("[data-time-component=minutes]").text(e.format("mm")),c.filter("[data-time-component=seconds]").text(e.format("ss")),W(),X(),Y()},$=function(){o&&(V(),Z())},_=function(a){var b=m?null:e;return a?(a=a.clone().locale(d.locale),1!==d.stepping&&a.minutes(Math.round(a.minutes()/d.stepping)*d.stepping%60).seconds(0),void(Q(a)?(e=a,f=e.clone(),g.val(e.format(i)),c.data("date",e.format(i)),m=!1,$(),I({type:"dp.change",date:e.clone(),oldDate:b})):(d.keepInvalid||g.val(m?"":e.format(i)),I({type:"dp.error",date:a})))):(m=!0,g.val(""),c.data("date",""),I({type:"dp.change",date:!1,oldDate:b}),void $())},aa=function(){var b=!1;return o?(o.find(".collapse").each(function(){var c=a(this).data("collapse");return c&&c.transitioning?(b=!0,!1):!0}),b?l:(n&&n.hasClass("btn")&&n.toggleClass("active"),o.hide(),a(window).off("resize",H),o.off("click","[data-action]"),o.off("mousedown",!1),o.remove(),o=!1,I({type:"dp.hide",date:e.clone()}),g.blur(),l)):l},ba=function(){_(null)},ca={next:function(){var a=q[k].navFnc;f.add(q[k].navStep,a),V(),J(a)},previous:function(){var a=q[k].navFnc;f.subtract(q[k].navStep,a),V(),J(a)},pickerSwitch:function(){K(1)},selectMonth:function(b){var c=a(b.target).closest("tbody").find("span").index(a(b.target));f.month(c),k===p?(_(e.clone().year(f.year()).month(f.month())),d.inline||aa()):(K(-1),V()),J("M")},selectYear:function(b){var c=parseInt(a(b.target).text(),10)||0;f.year(c),k===p?(_(e.clone().year(f.year())),d.inline||aa()):(K(-1),V()),J("YYYY")},selectDecade:function(b){var c=parseInt(a(b.target).data("selection"),10)||0;f.year(c),k===p?(_(e.clone().year(f.year())),d.inline||aa()):(K(-1),V()),J("YYYY")},selectDay:function(b){var c=f.clone();a(b.target).is(".old")&&c.subtract(1,"M"),a(b.target).is(".new")&&c.add(1,"M"),_(c.date(parseInt(a(b.target).text(),10))),z()||d.keepOpen||d.inline||aa()},incrementHours:function(){var a=e.clone().add(1,"h");Q(a,"h")&&_(a)},incrementMinutes:function(){var a=e.clone().add(d.stepping,"m");Q(a,"m")&&_(a)},incrementSeconds:function(){var a=e.clone().add(1,"s");Q(a,"s")&&_(a)},decrementHours:function(){var a=e.clone().subtract(1,"h");Q(a,"h")&&_(a)},decrementMinutes:function(){var a=e.clone().subtract(d.stepping,"m");Q(a,"m")&&_(a)},decrementSeconds:function(){var a=e.clone().subtract(1,"s");Q(a,"s")&&_(a)},togglePeriod:function(){_(e.clone().add(e.hours()>=12?-12:12,"h"))},togglePicker:function(b){var c,e=a(b.target),f=e.closest("ul"),g=f.find(".in"),h=f.find(".collapse:not(.in)");if(g&&g.length){if(c=g.data("collapse"),c&&c.transitioning)return;g.collapse?(g.collapse("hide"),h.collapse("show")):(g.removeClass("in"),h.addClass("in")),e.is("span")?e.toggleClass(d.icons.time+" "+d.icons.date):e.find("span").toggleClass(d.icons.time+" "+d.icons.date)}},showPicker:function(){o.find(".timepicker > div:not(.timepicker-picker)").hide(),o.find(".timepicker .timepicker-picker").show()},showHours:function(){o.find(".timepicker .timepicker-picker").hide(),o.find(".timepicker .timepicker-hours").show()},showMinutes:function(){o.find(".timepicker .timepicker-picker").hide(),o.find(".timepicker .timepicker-minutes").show()},showSeconds:function(){o.find(".timepicker .timepicker-picker").hide(),o.find(".timepicker .timepicker-seconds").show()},selectHour:function(b){var c=parseInt(a(b.target).text(),10);h||(e.hours()>=12?12!==c&&(c+=12):12===c&&(c=0)),_(e.clone().hours(c)),ca.showPicker.call(l)},selectMinute:function(b){_(e.clone().minutes(parseInt(a(b.target).text(),10))),ca.showPicker.call(l)},selectSecond:function(b){_(e.clone().seconds(parseInt(a(b.target).text(),10))),ca.showPicker.call(l)},clear:ba,today:function(){var a=x();Q(a,"d")&&_(a)},close:aa},da=function(b){return a(b.currentTarget).is(".disabled")?!1:(ca[a(b.currentTarget).data("action")].apply(l,arguments),!1)},ea=function(){var b,c={year:function(a){return a.month(0).date(1).hours(0).seconds(0).minutes(0)},month:function(a){return a.date(1).hours(0).seconds(0).minutes(0)},day:function(a){return a.hours(0).seconds(0).minutes(0)},hour:function(a){return a.seconds(0).minutes(0)},minute:function(a){return a.seconds(0)}};return g.prop("disabled")||!d.ignoreReadonly&&g.prop("readonly")||o?l:(void 0!==g.val()&&0!==g.val().trim().length?_(ga(g.val().trim())):d.useCurrent&&m&&(g.is("input")&&0===g.val().trim().length||d.inline)&&(b=x(),"string"==typeof d.useCurrent&&(b=c[d.useCurrent](b)),_(b)),o=F(),L(),R(),o.find(".timepicker-hours").hide(),o.find(".timepicker-minutes").hide(),o.find(".timepicker-seconds").hide(),$(),K(),a(window).on("resize",H),o.on("click","[data-action]",da),o.on("mousedown",!1),n&&n.hasClass("btn")&&n.toggleClass("active"),o.show(),H(),d.focusOnShow&&!g.is(":focus")&&g.focus(),I({type:"dp.show"}),l)},fa=function(){return o?aa():ea()},ga=function(a){return a=void 0===d.parseInputDate?b.isMoment(a)||a instanceof Date?b(a):x(a):d.parseInputDate(a),a.locale(d.locale),a},ha=function(a){var b,c,e,f,g=null,h=[],i={},j=a.which,k="p";w[j]=k;for(b in w)w.hasOwnProperty(b)&&w[b]===k&&(h.push(b),parseInt(b,10)!==j&&(i[b]=!0));for(b in d.keyBinds)if(d.keyBinds.hasOwnProperty(b)&&"function"==typeof d.keyBinds[b]&&(e=b.split(" "),e.length===h.length&&v[j]===e[e.length-1])){for(f=!0,c=e.length-2;c>=0;c--)if(!(v[e[c]]in i)){f=!1;break}if(f){g=d.keyBinds[b];break}}g&&(g.call(l,o),a.stopPropagation(),a.preventDefault())},ia=function(a){w[a.which]="r",a.stopPropagation(),a.preventDefault()},ja=function(b){var c=a(b.target).val().trim(),d=c?ga(c):null;return _(d),b.stopImmediatePropagation(),!1},ka=function(){g.on({change:ja,blur:d.debug?"":aa,keydown:ha,keyup:ia,focus:d.allowInputToggle?ea:""}),c.is("input")?g.on({focus:ea}):n&&(n.on("click",fa),n.on("mousedown",!1))},la=function(){g.off({change:ja,blur:blur,keydown:ha,keyup:ia,focus:d.allowInputToggle?aa:""}),c.is("input")?g.off({focus:ea}):n&&(n.off("click",fa),n.off("mousedown",!1))},ma=function(b){var c={};return a.each(b,function(){var a=ga(this);a.isValid()&&(c[a.format("YYYY-MM-DD")]=!0)}),Object.keys(c).length?c:!1},na=function(b){var c={};return a.each(b,function(){c[this]=!0}),Object.keys(c).length?c:!1},oa=function(){var a=d.format||"L LT";i=a.replace(/(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g,function(a){var b=e.localeData().longDateFormat(a)||a;return b.replace(/(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g,function(a){return e.localeData().longDateFormat(a)||a})}),j=d.extraFormats?d.extraFormats.slice():[],j.indexOf(a)<0&&j.indexOf(i)<0&&j.push(i),h=i.toLowerCase().indexOf("a")<1&&i.replace(/\[.*?\]/g,"").indexOf("h")<1,y("y")&&(p=2),y("M")&&(p=1),y("d")&&(p=0),k=Math.max(p,k),m||_(e)};if(l.destroy=function(){aa(),la(),c.removeData("DateTimePicker"),c.removeData("date")},l.toggle=fa,l.show=ea,l.hide=aa,l.disable=function(){return aa(),n&&n.hasClass("btn")&&n.addClass("disabled"),g.prop("disabled",!0),l},l.enable=function(){return n&&n.hasClass("btn")&&n.removeClass("disabled"),g.prop("disabled",!1),l},l.ignoreReadonly=function(a){if(0===arguments.length)return d.ignoreReadonly;if("boolean"!=typeof a)throw new TypeError("ignoreReadonly () expects a boolean parameter");return d.ignoreReadonly=a,l},l.options=function(b){if(0===arguments.length)return a.extend(!0,{},d);if(!(b instanceof Object))throw new TypeError("options() options parameter should be an object");return a.extend(!0,d,b),a.each(d,function(a,b){if(void 0===l[a])throw new TypeError("option "+a+" is not recognized!");l[a](b)}),l},l.date=function(a){if(0===arguments.length)return m?null:e.clone();if(!(null===a||"string"==typeof a||b.isMoment(a)||a instanceof Date))throw new TypeError("date() parameter must be one of [null, string, moment or Date]");return _(null===a?null:ga(a)),l},l.format=function(a){if(0===arguments.length)return d.format;if("string"!=typeof a&&("boolean"!=typeof a||a!==!1))throw new TypeError("format() expects a sting or boolean:false parameter "+a);return d.format=a,i&&oa(),l},l.timeZone=function(a){return 0===arguments.length?d.timeZone:(d.timeZone=a,l)},l.dayViewHeaderFormat=function(a){if(0===arguments.length)return d.dayViewHeaderFormat;if("string"!=typeof a)throw new TypeError("dayViewHeaderFormat() expects a string parameter");return d.dayViewHeaderFormat=a,l},l.extraFormats=function(a){if(0===arguments.length)return d.extraFormats;if(a!==!1&&!(a instanceof Array))throw new TypeError("extraFormats() expects an array or false parameter");return d.extraFormats=a,j&&oa(),l},l.disabledDates=function(b){if(0===arguments.length)return d.disabledDates?a.extend({},d.disabledDates):d.disabledDates;if(!b)return d.disabledDates=!1,$(),l;if(!(b instanceof Array))throw new TypeError("disabledDates() expects an array parameter");return d.disabledDates=ma(b),d.enabledDates=!1,$(),l},l.enabledDates=function(b){if(0===arguments.length)return d.enabledDates?a.extend({},d.enabledDates):d.enabledDates;if(!b)return d.enabledDates=!1,$(),l;if(!(b instanceof Array))throw new TypeError("enabledDates() expects an array parameter");return d.enabledDates=ma(b),d.disabledDates=!1,$(),l},l.daysOfWeekDisabled=function(a){if(0===arguments.length)return d.daysOfWeekDisabled.splice(0);if("boolean"==typeof a&&!a)return d.daysOfWeekDisabled=!1,$(),l;if(!(a instanceof Array))throw new TypeError("daysOfWeekDisabled() expects an array parameter");if(d.daysOfWeekDisabled=a.reduce(function(a,b){return b=parseInt(b,10),b>6||0>b||isNaN(b)?a:(-1===a.indexOf(b)&&a.push(b),a)},[]).sort(),d.useCurrent&&!d.keepInvalid){for(var b=0;!Q(e,"d");){if(e.add(1,"d"),7===b)throw"Tried 7 times to find a valid date";b++}_(e)}return $(),l},l.maxDate=function(a){if(0===arguments.length)return d.maxDate?d.maxDate.clone():d.maxDate;if("boolean"==typeof a&&a===!1)return d.maxDate=!1,$(),l;"string"==typeof a&&("now"===a||"moment"===a)&&(a=x());var b=ga(a);if(!b.isValid())throw new TypeError("maxDate() Could not parse date parameter: "+a);if(d.minDate&&b.isBefore(d.minDate))throw new TypeError("maxDate() date parameter is before options.minDate: "+b.format(i));return d.maxDate=b,d.useCurrent&&!d.keepInvalid&&e.isAfter(a)&&_(d.maxDate),f.isAfter(b)&&(f=b.clone().subtract(d.stepping,"m")),$(),l},l.minDate=function(a){if(0===arguments.length)return d.minDate?d.minDate.clone():d.minDate;if("boolean"==typeof a&&a===!1)return d.minDate=!1,$(),l;"string"==typeof a&&("now"===a||"moment"===a)&&(a=x());var b=ga(a);if(!b.isValid())throw new TypeError("minDate() Could not parse date parameter: "+a);if(d.maxDate&&b.isAfter(d.maxDate))throw new TypeError("minDate() date parameter is after options.maxDate: "+b.format(i));return d.minDate=b,d.useCurrent&&!d.keepInvalid&&e.isBefore(a)&&_(d.minDate),f.isBefore(b)&&(f=b.clone().add(d.stepping,"m")),$(),l},l.defaultDate=function(a){if(0===arguments.length)return d.defaultDate?d.defaultDate.clone():d.defaultDate;if(!a)return d.defaultDate=!1,l;"string"==typeof a&&("now"===a||"moment"===a)&&(a=x());var b=ga(a);if(!b.isValid())throw new TypeError("defaultDate() Could not parse date parameter: "+a);if(!Q(b))throw new TypeError("defaultDate() date passed is invalid according to component setup validations");return d.defaultDate=b,(d.defaultDate&&d.inline||""===g.val().trim())&&_(d.defaultDate),l},l.locale=function(a){if(0===arguments.length)return d.locale;if(!b.localeData(a))throw new TypeError("locale() locale "+a+" is not loaded from moment locales!");return d.locale=a,e.locale(d.locale),f.locale(d.locale),i&&oa(),o&&(aa(),ea()),l},l.stepping=function(a){return 0===arguments.length?d.stepping:(a=parseInt(a,10),(isNaN(a)||1>a)&&(a=1),d.stepping=a,l)},l.useCurrent=function(a){var b=["year","month","day","hour","minute"];if(0===arguments.length)return d.useCurrent;if("boolean"!=typeof a&&"string"!=typeof a)throw new TypeError("useCurrent() expects a boolean or string parameter");if("string"==typeof a&&-1===b.indexOf(a.toLowerCase()))throw new TypeError("useCurrent() expects a string parameter of "+b.join(", "));return d.useCurrent=a,l},l.collapse=function(a){if(0===arguments.length)return d.collapse;if("boolean"!=typeof a)throw new TypeError("collapse() expects a boolean parameter");return d.collapse===a?l:(d.collapse=a,o&&(aa(),ea()),l)},l.icons=function(b){if(0===arguments.length)return a.extend({},d.icons);if(!(b instanceof Object))throw new TypeError("icons() expects parameter to be an Object");return a.extend(d.icons,b),o&&(aa(),ea()),l},l.tooltips=function(b){if(0===arguments.length)return a.extend({},d.tooltips);if(!(b instanceof Object))throw new TypeError("tooltips() expects parameter to be an Object");return a.extend(d.tooltips,b),o&&(aa(),ea()),l},l.useStrict=function(a){if(0===arguments.length)return d.useStrict;if("boolean"!=typeof a)throw new TypeError("useStrict() expects a boolean parameter");return d.useStrict=a,l},l.sideBySide=function(a){if(0===arguments.length)return d.sideBySide;if("boolean"!=typeof a)throw new TypeError("sideBySide() expects a boolean parameter");return d.sideBySide=a,o&&(aa(),ea()),l},l.viewMode=function(a){if(0===arguments.length)return d.viewMode;if("string"!=typeof a)throw new TypeError("viewMode() expects a string parameter");if(-1===r.indexOf(a))throw new TypeError("viewMode() parameter must be one of ("+r.join(", ")+") value");return d.viewMode=a,k=Math.max(r.indexOf(a),p),K(),l},l.toolbarPlacement=function(a){if(0===arguments.length)return d.toolbarPlacement;if("string"!=typeof a)throw new TypeError("toolbarPlacement() expects a string parameter");if(-1===u.indexOf(a))throw new TypeError("toolbarPlacement() parameter must be one of ("+u.join(", ")+") value");return d.toolbarPlacement=a,o&&(aa(),ea()),l},l.widgetPositioning=function(b){if(0===arguments.length)return a.extend({},d.widgetPositioning);if("[object Object]"!=={}.toString.call(b))throw new TypeError("widgetPositioning() expects an object variable");if(b.horizontal){if("string"!=typeof b.horizontal)throw new TypeError("widgetPositioning() horizontal variable must be a string");if(b.horizontal=b.horizontal.toLowerCase(),-1===t.indexOf(b.horizontal))throw new TypeError("widgetPositioning() expects horizontal parameter to be one of ("+t.join(", ")+")");d.widgetPositioning.horizontal=b.horizontal}if(b.vertical){if("string"!=typeof b.vertical)throw new TypeError("widgetPositioning() vertical variable must be a string");if(b.vertical=b.vertical.toLowerCase(),-1===s.indexOf(b.vertical))throw new TypeError("widgetPositioning() expects vertical parameter to be one of ("+s.join(", ")+")");d.widgetPositioning.vertical=b.vertical}return $(),l},l.calendarWeeks=function(a){if(0===arguments.length)return d.calendarWeeks;if("boolean"!=typeof a)throw new TypeError("calendarWeeks() expects parameter to be a boolean value");return d.calendarWeeks=a,$(),l},l.showTodayButton=function(a){if(0===arguments.length)return d.showTodayButton;if("boolean"!=typeof a)throw new TypeError("showTodayButton() expects a boolean parameter");return d.showTodayButton=a,o&&(aa(),ea()),l},l.showClear=function(a){if(0===arguments.length)return d.showClear;if("boolean"!=typeof a)throw new TypeError("showClear() expects a boolean parameter");return d.showClear=a,o&&(aa(),ea()),l},l.widgetParent=function(b){if(0===arguments.length)return d.widgetParent;if("string"==typeof b&&(b=a(b)),null!==b&&"string"!=typeof b&&!(b instanceof a))throw new TypeError("widgetParent() expects a string or a jQuery object parameter");return d.widgetParent=b,o&&(aa(),ea()),l},l.keepOpen=function(a){if(0===arguments.length)return d.keepOpen;if("boolean"!=typeof a)throw new TypeError("keepOpen() expects a boolean parameter");return d.keepOpen=a,l},l.focusOnShow=function(a){if(0===arguments.length)return d.focusOnShow;if("boolean"!=typeof a)throw new TypeError("focusOnShow() expects a boolean parameter");return d.focusOnShow=a,l},l.inline=function(a){if(0===arguments.length)return d.inline;if("boolean"!=typeof a)throw new TypeError("inline() expects a boolean parameter");return d.inline=a,l},l.clear=function(){return ba(),l},l.keyBinds=function(a){return d.keyBinds=a,l},l.getMoment=function(a){return x(a)},l.debug=function(a){if("boolean"!=typeof a)throw new TypeError("debug() expects a boolean parameter");return d.debug=a,l},l.allowInputToggle=function(a){if(0===arguments.length)return d.allowInputToggle;if("boolean"!=typeof a)throw new TypeError("allowInputToggle() expects a boolean parameter");return d.allowInputToggle=a,l},l.showClose=function(a){if(0===arguments.length)return d.showClose;if("boolean"!=typeof a)throw new TypeError("showClose() expects a boolean parameter");return d.showClose=a,l},l.keepInvalid=function(a){if(0===arguments.length)return d.keepInvalid;if("boolean"!=typeof a)throw new TypeError("keepInvalid() expects a boolean parameter");return d.keepInvalid=a,l},l.datepickerInput=function(a){if(0===arguments.length)return d.datepickerInput;if("string"!=typeof a)throw new TypeError("datepickerInput() expects a string parameter");return d.datepickerInput=a,l},l.parseInputDate=function(a){if(0===arguments.length)return d.parseInputDate;
+if("function"!=typeof a)throw new TypeError("parseInputDate() sholud be as function");return d.parseInputDate=a,l},l.disabledTimeIntervals=function(b){if(0===arguments.length)return d.disabledTimeIntervals?a.extend({},d.disabledTimeIntervals):d.disabledTimeIntervals;if(!b)return d.disabledTimeIntervals=!1,$(),l;if(!(b instanceof Array))throw new TypeError("disabledTimeIntervals() expects an array parameter");return d.disabledTimeIntervals=b,$(),l},l.disabledHours=function(b){if(0===arguments.length)return d.disabledHours?a.extend({},d.disabledHours):d.disabledHours;if(!b)return d.disabledHours=!1,$(),l;if(!(b instanceof Array))throw new TypeError("disabledHours() expects an array parameter");if(d.disabledHours=na(b),d.enabledHours=!1,d.useCurrent&&!d.keepInvalid){for(var c=0;!Q(e,"h");){if(e.add(1,"h"),24===c)throw"Tried 24 times to find a valid date";c++}_(e)}return $(),l},l.enabledHours=function(b){if(0===arguments.length)return d.enabledHours?a.extend({},d.enabledHours):d.enabledHours;if(!b)return d.enabledHours=!1,$(),l;if(!(b instanceof Array))throw new TypeError("enabledHours() expects an array parameter");if(d.enabledHours=na(b),d.disabledHours=!1,d.useCurrent&&!d.keepInvalid){for(var c=0;!Q(e,"h");){if(e.add(1,"h"),24===c)throw"Tried 24 times to find a valid date";c++}_(e)}return $(),l},l.viewDate=function(a){if(0===arguments.length)return f.clone();if(!a)return f=e.clone(),l;if(!("string"==typeof a||b.isMoment(a)||a instanceof Date))throw new TypeError("viewDate() parameter must be one of [string, moment or Date]");return f=ga(a),J(),l},c.is("input"))g=c;else if(g=c.find(d.datepickerInput),0===g.size())g=c.find("input");else if(!g.is("input"))throw new Error('CSS class "'+d.datepickerInput+'" cannot be applied to non input element');if(c.hasClass("input-group")&&(n=0===c.find(".datepickerbutton").size()?c.find(".input-group-addon"):c.find(".datepickerbutton")),!d.inline&&!g.is("input"))throw new Error("Could not initialize DateTimePicker without an input element");return e=x(),f=e.clone(),a.extend(!0,d,G()),l.options(d),oa(),ka(),g.prop("disabled")&&l.disable(),g.is("input")&&0!==g.val().trim().length?_(ga(g.val().trim())):d.defaultDate&&void 0===g.attr("placeholder")&&_(d.defaultDate),d.inline&&ea(),l};a.fn.datetimepicker=function(b){return this.each(function(){var d=a(this);d.data("DateTimePicker")||(b=a.extend(!0,{},a.fn.datetimepicker.defaults,b),d.data("DateTimePicker",c(d,b)))})},a.fn.datetimepicker.defaults={timeZone:"Etc/UTC",format:!1,dayViewHeaderFormat:"MMMM YYYY",extraFormats:!1,stepping:1,minDate:!1,maxDate:!1,useCurrent:!0,collapse:!0,locale:b.locale(),defaultDate:!1,disabledDates:!1,enabledDates:!1,icons:{time:"glyphicon glyphicon-time",date:"glyphicon glyphicon-calendar",up:"glyphicon glyphicon-chevron-up",down:"glyphicon glyphicon-chevron-down",previous:"glyphicon glyphicon-chevron-left",next:"glyphicon glyphicon-chevron-right",today:"glyphicon glyphicon-screenshot",clear:"glyphicon glyphicon-trash",close:"glyphicon glyphicon-remove"},tooltips:{today:"Go to today",clear:"Clear selection",close:"Close the picker",selectMonth:"Select Month",prevMonth:"Previous Month",nextMonth:"Next Month",selectYear:"Select Year",prevYear:"Previous Year",nextYear:"Next Year",selectDecade:"Select Decade",prevDecade:"Previous Decade",nextDecade:"Next Decade",prevCentury:"Previous Century",nextCentury:"Next Century",pickHour:"Pick Hour",incrementHour:"Increment Hour",decrementHour:"Decrement Hour",pickMinute:"Pick Minute",incrementMinute:"Increment Minute",decrementMinute:"Decrement Minute",pickSecond:"Pick Second",incrementSecond:"Increment Second",decrementSecond:"Decrement Second",togglePeriod:"Toggle Period",selectTime:"Select Time"},useStrict:!1,sideBySide:!1,daysOfWeekDisabled:!1,calendarWeeks:!1,viewMode:"days",toolbarPlacement:"default",showTodayButton:!1,showClear:!1,showClose:!1,widgetPositioning:{horizontal:"auto",vertical:"auto"},widgetParent:null,ignoreReadonly:!1,keepOpen:!1,focusOnShow:!0,inline:!1,keepInvalid:!1,datepickerInput:".datepickerinput",keyBinds:{up:function(a){if(a){var b=this.date()||this.getMoment();a.find(".datepicker").is(":visible")?this.date(b.clone().subtract(7,"d")):this.date(b.clone().add(this.stepping(),"m"))}},down:function(a){if(!a)return void this.show();var b=this.date()||this.getMoment();a.find(".datepicker").is(":visible")?this.date(b.clone().add(7,"d")):this.date(b.clone().subtract(this.stepping(),"m"))},"control up":function(a){if(a){var b=this.date()||this.getMoment();a.find(".datepicker").is(":visible")?this.date(b.clone().subtract(1,"y")):this.date(b.clone().add(1,"h"))}},"control down":function(a){if(a){var b=this.date()||this.getMoment();a.find(".datepicker").is(":visible")?this.date(b.clone().add(1,"y")):this.date(b.clone().subtract(1,"h"))}},left:function(a){if(a){var b=this.date()||this.getMoment();a.find(".datepicker").is(":visible")&&this.date(b.clone().subtract(1,"d"))}},right:function(a){if(a){var b=this.date()||this.getMoment();a.find(".datepicker").is(":visible")&&this.date(b.clone().add(1,"d"))}},pageUp:function(a){if(a){var b=this.date()||this.getMoment();a.find(".datepicker").is(":visible")&&this.date(b.clone().subtract(1,"M"))}},pageDown:function(a){if(a){var b=this.date()||this.getMoment();a.find(".datepicker").is(":visible")&&this.date(b.clone().add(1,"M"))}},enter:function(){this.hide()},escape:function(){this.hide()},"control space":function(a){a.find(".timepicker").is(":visible")&&a.find('.btn[data-action="togglePeriod"]').click()},t:function(){this.date(this.getMoment())},"delete":function(){this.clear()}},debug:!1,allowInputToggle:!1,disabledTimeIntervals:!1,disabledHours:!1,enabledHours:!1,viewDate:!1}});
+///#source 1 1 /core/lib/bootstrap-list-filter/bootstrap-list-filter.src.js
+
+(function($) {
+	$.fn.btsListFilter = function(inputEl, opts) {
+
+		'use strict';
+		
+		var self = this,
+			searchlist$ = $(this),
+			inputEl$ = $(inputEl),
+			cancelEl$,
+			items$ = searchlist$,
+			callData,
+			callReq;	//last callData execution
+
+		opts = $.extend({
+			delay: 300,
+			minLength: 1,
+			initial: true,
+			casesensitive: false,
+			eventKey: 'keyup',
+			resetOnBlur: true,
+			sourceData: null,
+			sourceTmpl: '<a class="list-group-item" href="#"><span>{title}</span></a>',
+			sourceNode: function(data) {
+				return tmpl(opts.sourceTmpl, data);
+			},
+			emptyNode: function(data) {
+				return '<a class="list-group-item well" href="#"><span>No Results</span></a>';
+			},
+			itemClassTmp: 'bts-dynamic-item',
+			itemEl: '.list-group-item',
+			itemChild: null,
+			itemFilter: function(item, val) {
+				//val = val.replace(new RegExp("^[.]$|[\[\]|()*]",'g'),'');
+				//val = val.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+				val = val && val.replace(new RegExp("[({[^.$*+?\\\]})]","g"),'');
+				
+				var text = $(item).text(),
+					i = opts.initial?'^':'',
+					regSearch = new RegExp(i + val, opts.casesensitive?'':'i');
+				return regSearch.test( text );
+			},
+			cancelNode: function() {
+				return '<span class="btn glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>';
+			}
+		}, opts);	
+
+		function tmpl(str, data) {
+			return str.replace(/\{ *([\w_]+) *\}/g, function (str, key) {
+				return data[key] || '';
+			});
+		}
+
+		function debouncer(func, timeout) {
+			var timeoutID;
+			timeout = timeout || 300;
+			return function () {
+				var scope = this , args = arguments;
+				clearTimeout( timeoutID );
+				timeoutID = setTimeout( function () {
+					func.apply( scope , Array.prototype.slice.call( args ) );
+				}, timeout);
+			};
+		}
+
+		self.reset = function() {
+			inputEl$.val('').trigger(opts.eventKey);
+		};
+
+		if($.isFunction(opts.cancelNode)) {
+
+			cancelEl$ = $(opts.cancelNode.call(self));
+
+			inputEl$.after( cancelEl$ );
+			inputEl$.parents('.form-group').addClass('has-feedback');
+			
+			if(!inputEl$.prev().is('.control-label'))
+				cancelEl$.css({top: 0})
+
+			cancelEl$.on('click', self.reset);
+		}
+
+		inputEl$.on(opts.eventKey, debouncer(function(e) {
+			
+			var val = $(this).val();
+
+			if(opts.itemEl)
+				items$ = searchlist$.find(opts.itemEl);
+
+			if(opts.itemChild)
+				items$ = items$.find(opts.itemChild);
+
+			var contains = items$.filter(function(){
+					return opts.itemFilter.call(self, this, val);
+				}),
+				containsNot = items$.not(contains);
+
+			if (opts.itemChild){
+				contains = contains.parents(opts.itemEl);
+				containsNot = containsNot.parents(opts.itemEl).hide();
+			}
+
+			if(val!=='' && val.length >= opts.minLength)
+			{
+				contains.show();
+				containsNot.hide();
+
+				if($.type(opts.sourceData)==='function')
+				{
+					contains.hide();
+					containsNot.hide();
+					
+					if(callReq)
+					{
+						if($.isFunction(callReq.abort))
+							callReq.abort();
+						else if($.isFunction(callReq.stop))
+							callReq.stop();
+					}
+					
+					callReq = opts.sourceData.call(self, val, function(data) {
+						callReq = null;
+						contains.hide();
+						containsNot.hide();
+						searchlist$.find('.'+opts.itemClassTmp).remove();
+						
+
+						if(!data || data.length===0)
+							$( opts.emptyNode.call(self) ).addClass(opts.itemClassTmp).appendTo(searchlist$);
+						else
+							for(var i in data)
+								$( opts.sourceNode.call(self, data[i]) ).addClass(opts.itemClassTmp).appendTo(searchlist$);
+					});
+				} 
+				else {
+                    searchlist$.find('.'+opts.itemClassTmp).remove();
+                    
+                    if(contains.length===0)
+						$( opts.emptyNode.call(self) ).addClass(opts.itemClassTmp).appendTo(searchlist$);
+				}
+
+			}
+			else
+			{
+				contains.show();
+				containsNot.show();
+				searchlist$.find('.'+opts.itemClassTmp).remove();
+			}
+		}, opts.delay));
+
+		if(opts.resetOnBlur)
+			inputEl$.on('blur', function(e) {
+				self.reset();
+			});
+
+		return searchlist$;
+	};
+
+})(jQuery);
+
 ///#source 1 1 /core/js/app.js
 var replaceAt = function (str, index, character) {
     return str.substr(0, index) + character + str.substr(index + character.length);
@@ -22555,7 +22724,7 @@ var IKUT;
         Setting.getTimeFormat1 = function () {
             //return "HH:mm:ss ddd MMM Do";
             //return "HH:mm:ss dddd";
-            return "h:mm A";
+            return "hh:mm A";
         };
         Setting.getTimeFormat2 = function () {
             //return "HH:mm:ss ddd MMM Do";
@@ -22601,6 +22770,24 @@ var IKUT;
         };
         Setting.getViewTransitionDuration = function () {
             return 250;
+        };
+        Setting.getCategoryIcon = function (index) {
+            console.log(index);
+            if (index == 0) {
+                return 'fa-blank';
+            }
+            else if (index == 1) {
+                return 'fa-coffee';
+            }
+            else if (index == 2) {
+                return 'fa-graduation-cap';
+            }
+            else if (index == 3) {
+                return 'fa-briefcase';
+            }
+            else if (index == 4) {
+                return 'fa-certificate';
+            }
         };
         Setting._instance = new Setting();
         return Setting;
@@ -22685,8 +22872,9 @@ var IKUT;
         ButtonViewFractory.getInstance = function () {
             return ButtonViewFractory._instance;
         };
-        ButtonViewFractory.create = function (el) {
+        ButtonViewFractory.create = function (el, option) {
             var view = new IKUT.ButtonView({ el: el });
+            view.setAttribute(option);
             return view;
         };
         ButtonViewFractory._instance = new ButtonViewFractory();
@@ -22765,6 +22953,75 @@ var IKUT;
     IKUT.AlarmsViewFractory = AlarmsViewFractory;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=alarmsviewfactory.js.map
+///#source 1 1 /core/js/controller/sideviewfactory.js
+var IKUT;
+(function (IKUT) {
+    var SideViewFractory = (function () {
+        function SideViewFractory(args) {
+            if (SideViewFractory._instance) {
+                throw new Error("Error: Instantiation failed: Use SideViewFractory.getInstance() instead of new.");
+            }
+            SideViewFractory._instance = this;
+        }
+        SideViewFractory.getInstance = function () {
+            return SideViewFractory._instance;
+        };
+        SideViewFractory.create = function (el) {
+            var view = new IKUT.SideView({ el: el });
+            return view;
+        };
+        SideViewFractory._instance = new SideViewFractory();
+        return SideViewFractory;
+    })();
+    IKUT.SideViewFractory = SideViewFractory;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=sideviewfactory.js.map
+///#source 1 1 /core/js/controller/detailviewfactory.js
+var IKUT;
+(function (IKUT) {
+    var DetailViewFractory = (function () {
+        function DetailViewFractory(args) {
+            if (DetailViewFractory._instance) {
+                throw new Error("Error: Instantiation failed: Use DetailViewFractory.getInstance() instead of new.");
+            }
+            DetailViewFractory._instance = this;
+        }
+        DetailViewFractory.getInstance = function () {
+            return DetailViewFractory._instance;
+        };
+        DetailViewFractory.create = function (el) {
+            var view = new IKUT.DetailView({ el: el });
+            return view;
+        };
+        DetailViewFractory._instance = new DetailViewFractory();
+        return DetailViewFractory;
+    })();
+    IKUT.DetailViewFractory = DetailViewFractory;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=detailviewfactory.js.map
+///#source 1 1 /core/js/controller/usersviewfactory.js
+var IKUT;
+(function (IKUT) {
+    var UsersViewFractory = (function () {
+        function UsersViewFractory(args) {
+            if (UsersViewFractory._instance) {
+                throw new Error("Error: Instantiation failed: Use UsersViewFractory.getInstance() instead of new.");
+            }
+            UsersViewFractory._instance = this;
+        }
+        UsersViewFractory.getInstance = function () {
+            return UsersViewFractory._instance;
+        };
+        UsersViewFractory.create = function (el) {
+            var view = new IKUT.UsersView({ el: el });
+            return view;
+        };
+        UsersViewFractory._instance = new UsersViewFractory();
+        return UsersViewFractory;
+    })();
+    IKUT.UsersViewFractory = UsersViewFractory;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=usersviewfactory.js.map
 ///#source 1 1 /core/js/model/model.js
 var IKUT;
 (function (IKUT) {
@@ -22786,29 +23043,29 @@ var IKUT;
                 console.log(self.TAG + "MockupData()");
             self.users = new IKUT.Users();
             self.alarms = new IKUT.Alarms();
-            var karl = new IKUT.User({ username: '1', password: '1', name: 'Karl', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06' });
-            var john = new IKUT.User({ username: '2', password: '2', name: 'John', recent: '2015-10-06 08:08:08', created: '2014-08-08 08:08:08' });
-            var michael = new IKUT.User({ username: '3', password: '3', name: 'Michael', recent: '2015-11-25 05:05:05', created: '2015-06-06 12:12:12' });
-            self.users.add(karl);
+            var karl = new IKUT.User({ username: 'jkim848', password: '1', firstname: 'Karl', lastname: 'Kim', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: 'My Best Friend' });
+            var john = new IKUT.User({ username: 'jfiorentino3', password: '2', firstname: 'John', lastname: 'Fiorentino', recent: '2015-10-06 08:08:08', created: '2014-08-08 08:08:08', description: 'LMC 3710 Classmate' });
+            var michael = new IKUT.User({ username: 'michaelchi95', password: '3', firstname: 'Michael', lastname: 'Chi', recent: '2015-11-25 05:05:05', created: '2015-06-06 12:12:12', description: 'League Friend' });
             self.users.add(john);
             self.users.add(michael);
-            var alarm1 = new IKUT.Alarm({ name: 'Weekdays Wake Up', users: "", type: 1 /* DAILY */, date: '2015-11-25 07:05:15', days: "0000000" });
+            var alarm1 = new IKUT.Alarm({ name: 'Weekdays Wake Up', users: "", type: 1 /* DAILY */, date: '2015-11-25 07:05:15', end: '2015-11-25 07:05:15', days: "0000000", category: 3 });
             alarm1.addUsercId(karl.getcId());
             alarm1.addDailyDay(0 /* MONDAY */);
             alarm1.addDailyDay(2 /* WEDNESDAY */);
             alarm1.addDailyDay(4 /* FRIDAY */);
             self.alarms.add(alarm1);
-            var alarm2 = new IKUT.Alarm({ name: 'LMC 3710', users: "", type: 1 /* DAILY */, date: '2015-11-25 15:05:15', days: "0000000" });
+            var alarm2 = new IKUT.Alarm({ name: 'LMC 3710', users: "", type: 1 /* DAILY */, date: '2015-11-25 15:05:15', end: '2015-11-25 15:05:15', days: "0000000", category: 4 });
             alarm2.addUsercId(karl.getcId());
             alarm2.addDailyDay(0 /* MONDAY */);
             alarm2.addDailyDay(2 /* WEDNESDAY */);
             self.alarms.add(alarm2);
-            var alarm3 = new IKUT.Alarm({ name: 'LMC 4803', users: "", type: 1 /* DAILY */, date: '2015-11-25 12:05:15', days: "0000000" });
+            var alarm3 = new IKUT.Alarm({ name: 'LMC 4803', users: "", type: 1 /* DAILY */, date: '2015-11-25 12:05:15', end: '2015-11-25 12:05:15', days: "0000000", category: 2 });
             alarm3.addUsercId(karl.getcId());
             alarm3.addDailyDay(0 /* MONDAY */);
             alarm3.addDailyDay(2 /* WEDNESDAY */);
+            alarm3.addDailyDay(4 /* FRIDAY */);
             self.alarms.add(alarm3);
-            var alarm4 = new IKUT.Alarm({ name: 'Weekends Wake Up', users: "", type: 1 /* DAILY */, date: '2015-11-25 10:05:15', days: "0000000" });
+            var alarm4 = new IKUT.Alarm({ name: 'Weekends Wake Up', users: "", type: 2 /* ONETIME */, date: '2015-11-25 10:05:15', end: '2015-11-25 10:05:15', days: "0000000", category: 3 });
             alarm4.addUsercId(karl.getcId());
             alarm4.addDailyDay(5 /* SATURDAY */);
             alarm4.addDailyDay(6 /* SUNDAY */);
@@ -22866,10 +23123,15 @@ var IKUT;
                 "id": 0,
                 "username": "",
                 "password": "",
-                "name": "",
+                "firstname": "",
+                "lastname": "",
+                "description": "",
                 "recent": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
                 "created": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
             };
+            if (attributes.cid == undefined) {
+                self.set('cid', self.cid);
+            }
             self.off("change");
             self.on("change", function (model, options) {
                 if (self.isSavable == false)
@@ -22915,7 +23177,7 @@ var IKUT;
             return clone;
         };
         User.prototype.getId = function () {
-            return Math.floor(this.id);
+            return this.get('cid');
         };
         User.prototype.getcId = function () {
             return this.cid;
@@ -22928,9 +23190,17 @@ var IKUT;
             var self = this;
             return this.get('password');
         };
-        User.prototype.getName = function () {
+        User.prototype.getFirstname = function () {
             var self = this;
-            return this.get('name');
+            return this.get('firstname');
+        };
+        User.prototype.getLastname = function () {
+            var self = this;
+            return this.get('lastname');
+        };
+        User.prototype.getDescription = function () {
+            var self = this;
+            return this.get('description');
         };
         User.prototype.getFormattedRecentDate = function () {
             var self = this;
@@ -22950,16 +23220,6 @@ var IKUT;
             this.url = "";
             this.model = User;
         }
-        Users.prototype.getIds = function () {
-            var self = this;
-            var result = Array();
-            $.each(self.models, function (index, model) {
-                if (result.indexOf(model.getId()) == -1) {
-                    result.push(model.getId());
-                }
-            });
-            return result;
-        };
         return Users;
     })(Backbone.Collection);
     IKUT.Users = Users;
@@ -22990,6 +23250,14 @@ var IKUT;
         DAY_LIST[DAY_LIST["SUNDAY"] = 6] = "SUNDAY";
     })(IKUT.DAY_LIST || (IKUT.DAY_LIST = {}));
     var DAY_LIST = IKUT.DAY_LIST;
+    (function (CATEGORY_LIST) {
+        CATEGORY_LIST[CATEGORY_LIST["NONE"] = 0] = "NONE";
+        CATEGORY_LIST[CATEGORY_LIST["LESURE"] = 1] = "LESURE";
+        CATEGORY_LIST[CATEGORY_LIST["SCHOOL"] = 2] = "SCHOOL";
+        CATEGORY_LIST[CATEGORY_LIST["WORK"] = 3] = "WORK";
+        CATEGORY_LIST[CATEGORY_LIST["ETC"] = 4] = "ETC";
+    })(IKUT.CATEGORY_LIST || (IKUT.CATEGORY_LIST = {}));
+    var CATEGORY_LIST = IKUT.CATEGORY_LIST;
     var Alarm = (function (_super) {
         __extends(Alarm, _super);
         function Alarm(attributes, options) {
@@ -22999,13 +23267,18 @@ var IKUT;
             this.bBeginingOfTheDay = false;
             var self = this;
             this.defaults = {
-                "id": 0,
+                "cid": "",
+                "category": 0 /* NONE */,
                 "type": 0 /* NONE */,
                 "name": "",
                 "users": "",
                 "date": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
+                "end": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
                 "days": "0000000",
             };
+            if (attributes.cid == undefined) {
+                self.set('cid', self.cid);
+            }
             self.off("change");
             self.on("change", function (model, options) {
                 if (self.isSavable == false)
@@ -23044,21 +23317,26 @@ var IKUT;
             return null;
         };
         Alarm.prototype.parse = function (response, options) {
-            if (response.id != null) {
-                response.id = parseInt(response.id);
-            }
+            //if (response.id != null) {
+            //response.id = parseInt(response.id);
+            //}
+            response.category = parseInt(response.category);
+            response.type = parseInt(response.type);
             response.date = moment(response.date).format(IKUT.Setting.getDateTimeFormat1());
             return _super.prototype.parse.call(this, response, options);
         };
         Alarm.prototype.toJSON = function (options) {
             var clone = this.clone().attributes;
-            if (this.id != null) {
-                clone["id"] = this.id;
-            }
+            //if (this.id != null) {
+            //    clone["id"] = this.id;
+            //}
             return clone;
         };
+        Alarm.prototype.getCategory = function () {
+            return parseInt(this.get('category'));
+        };
         Alarm.prototype.getId = function () {
-            return Math.floor(this.id);
+            return this.get('cid');
         };
         Alarm.prototype.getcId = function () {
             return this.cid;
@@ -23083,18 +23361,25 @@ var IKUT;
             var self = this;
             return moment(self.get('date'));
         };
+        Alarm.prototype.getEnd = function () {
+            var self = this;
+            return moment(self.get('end'));
+        };
         Alarm.prototype.getFormattedDate = function () {
             var self = this;
             return moment(self.get('date')).format(IKUT.Setting.getDateFormat());
         };
         Alarm.prototype.getFormattedDateDay = function () {
             var self = this;
-            console.log(moment(self.get('date')).format(IKUT.Setting.getDateDayFormat()));
             return moment(self.get('date')).format(IKUT.Setting.getDateDayFormat());
         };
         Alarm.prototype.getFormattedTime = function () {
             var self = this;
             return moment(self.get('date')).format(IKUT.Setting.getTimeFormat1());
+        };
+        Alarm.prototype.getFormattedEndTime = function () {
+            var self = this;
+            return moment(self.get('end')).format(IKUT.Setting.getTimeFormat1());
         };
         Alarm.prototype.getUserIds = function () {
             var self = this;
@@ -23126,6 +23411,10 @@ var IKUT;
             var self = this;
             self.set("days", replaceAt(self.get("days"), day, "1"));
         };
+        Alarm.prototype.removeDailyAllDays = function () {
+            var self = this;
+            self.set("days", "0000000");
+        };
         Alarm.prototype.removeDailyDay = function (day) {
             var self = this;
             self.set("days", replaceAt(self.get("days"), day, "0"));
@@ -23152,7 +23441,7 @@ var IKUT;
             var result = new Array();
             for (var i = 0; i < 6; i++) {
                 if (self.getIsDailyDayOn(i)) {
-                    var alarm = new Alarm({ name: self.getName(), users: self.getUsers(), type: self.getType(), date: '2015-11-25 07:05:15', days: self.getDays() });
+                    var alarm = new Alarm({ cid: self.getId(), name: self.getName(), users: self.getUsers(), type: self.getType(), date: '2015-11-25 07:05:15', days: self.getDays(), category: self.getCategory() });
                     var date = moment(moment().day(i + 1).format(IKUT.Setting.getDateFormat()) + " " + self.getFormattedTime());
                     if (moment(new Date()).valueOf() > moment(date).valueOf()) {
                         var date = moment(moment().day(i + 1 + 7).format(IKUT.Setting.getDateFormat()) + " " + self.getFormattedTime());
@@ -23179,16 +23468,6 @@ var IKUT;
             this.sortType = 0 /* DAY */;
             this.model = Alarm;
         }
-        Alarms.prototype.getIds = function () {
-            var self = this;
-            var result = Array();
-            $.each(self.models, function (index, model) {
-                if (result.indexOf(model.getId()) == -1) {
-                    result.push(model.getId());
-                }
-            });
-            return result;
-        };
         Alarms.prototype.getUpcoming7DaysAlarmsForUser = function (user) {
             var self = this;
             var alarms = new Alarms();
@@ -23213,7 +23492,9 @@ var IKUT;
                     }
                 });
             }
-            alarms.models[0].setIsBeggingOfTheDay(false);
+            if (alarms.models.length >= 1) {
+                alarms.models[0].setIsBeggingOfTheDay(false);
+            }
             if (alarms.models.length >= 2) {
                 alarms.models[1].setIsBeggingOfTheDay(true);
             }
@@ -23294,12 +23575,14 @@ var IKUT;
         BaseView.prototype.render = function (args) {
             this.bRendered = true;
         };
-        BaseView.prototype.update = function () {
+        /*
+        public update(): any {
             if (!this.bRendered) {
                 this.render();
                 return;
             }
-        };
+        }
+        */
         BaseView.prototype.getIsRendered = function () {
             return this.bRendered;
         };
@@ -23324,6 +23607,18 @@ var IKUT;
             var self = this;
             return self.views;
         };
+        BaseView.prototype.animActive = function () {
+        };
+        BaseView.prototype.animInactive = function () {
+        };
+        BaseView.prototype.setVisible = function () {
+            this.$el.css({ opacity: 1 });
+        };
+        BaseView.prototype.setInvisible = function () {
+            this.$el.css({ opacity: 0 });
+        };
+        BaseView.prototype.update = function (args) {
+        };
         return BaseView;
     })(Backbone.View);
     IKUT.BaseView = BaseView;
@@ -23342,9 +23637,34 @@ var IKUT;
         Template.getInstance = function () {
             return Template._instance;
         };
+        Template.getSideViewTemplate = function () {
+            var template = "";
+            template += '<div id="wrapper-side">';
+            template += '<div class="wrapper-button"></div>';
+            //template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Details-</div></div>';
+            template += '<div class="wrapper-detail"></div>';
+            template += '</div>';
+            return template;
+        };
         Template.getHomeViewTemplate = function () {
             var template = "";
             template += '<div id="wrapper-home">';
+            template += '<% if (alarms.models.length > 0) { %>';
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Upcoming Alarm ( <%= alarms.models[0].getFormattedDateDay() %> )-</div></div>';
+            template += '<% } else { %>';
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-No Upcoming Alarms-</div></div>';
+            template += '<% } %>';
+            template += '<% _.each(alarms.models, function (alarm) { %>';
+            template += '<% if (alarm.getIsBeggingOfTheDay()) { %>';
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-<%= alarm.getFormattedDateDay() %>-</div></div>';
+            template += '<% } %>';
+            template += '<div class="wrapper-notification"></div>';
+            template += '<% }); %>';
+            template += '</div>';
+            return template;
+        };
+        Template.getHomeViewTemplate2 = function () {
+            var template = "";
             template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Upcoming Alarm-</div></div>';
             template += '<% _.each(alarms.models, function (alarm) { %>';
             template += '<% if (alarm.getIsBeggingOfTheDay()) { %>';
@@ -23352,23 +23672,6 @@ var IKUT;
             template += '<% } %>';
             template += '<div class="wrapper-notification"></div>';
             template += '<% }); %>';
-            /*
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-11/22/2015 WEDNESDAY-</div></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-11/22/2015 WEDNESDAY-</div></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-11/22/2015 WEDNESDAY-</div></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-11/22/2015 WEDNESDAY-</div></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            */
-            template += '</div>';
             return template;
         };
         Template.getFrameViewTemplate = function () {
@@ -23376,13 +23679,26 @@ var IKUT;
             template += '<div class="frame">';
             template += '<div class="frame-inner">';
             template += '<div class="frame-stroke-left"></div>';
-            template += '<div class="frame-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x"></i></span></div>';
+            template += '<div class="frame-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa <%= icon %> fa-stack-1x"></i></span></div>';
             template += '<div class="frame-text-center col-xs-10"><%= content %></div>';
-            template += '<div class="frame-text-right col-xs-1"><i class="fa fa-angle-down fa-2x" data-toggle="collapse" data-target="#<%= collapse %>"></i></div>';
+            template += '<div class="frame-text-right col-xs-1 btn-detail" data-cid="<%= cid %>"><i class="fa fa-angle-right fa-1-7x"></i></div>';
             template += '<div class="clear"></div>';
-            template += '<div id="<%= collapse %>" class="frame-text-detail collapse">ALARM EDIT MODE</div>';
             template += '<span class="frame-text-top"><%= header %></span>';
             template += '<div class="frame-stroke-right"></div>';
+            template += '</div>';
+            template += '</div>';
+            return template;
+        };
+        Template.getDetailViewTemplate = function () {
+            var template = "";
+            template += '<div class="detail">';
+            template += '<div class="detail-inner">';
+            template += '<div class="detail-stroke-left"></div>';
+            //template += '<div class="detail-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x"></i></span></div>';
+            template += '<div class="detail-text-center col-xs-12"><%= content %></div>';
+            template += '<div class="clear"></div>';
+            template += '<span class="detail-text-top"><%= header %></span>';
+            template += '<div class="detail-stroke-right"></div>';
             template += '</div>';
             template += '</div>';
             return template;
@@ -23392,11 +23708,10 @@ var IKUT;
             template += '<div class="frame2">';
             template += '<div class="frame2-inner">';
             template += '<div class="frame2-stroke-left"></div>';
-            template += '<div class="frame2-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x"></i></span></div>';
+            template += '<div class="frame2-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa <%= icon %> fa-stack-1x"></i></span></div>';
             template += '<div class="frame2-text-center col-xs-10"><%= content %></div>';
-            template += '<div class="frame2-text-right col-xs-1"><i class="fa fa-angle-down fa-2x" data-toggle="collapse" data-target="#<%= collapse %>"></i></div>';
+            template += '<div class="frame2-text-right col-xs-1 btn-detail" data-cid="<%= cid %>"><i class="fa fa-angle-right fa-1-7x"></i></div>';
             template += '<div class="clear"></div>';
-            template += '<div id="<%= collapse %>" class="frame2-text-detail collapse">ALARM EDIT MODE</div>';
             template += '<span class="frame2-text-top"><%= header %></span>';
             template += '<div class="frame2-stroke-center"></div>';
             template += '<span class="frame2-text-top2"><%= days %></span>';
@@ -23409,11 +23724,22 @@ var IKUT;
             var template = "";
             template += '<div class="button">';
             template += '<div class="button-inner">';
+            template += '<div class="button-text-left col-xs-1 <%= behavior %>"><i class="fa <%= icon %> fa-1-5x"></i></div>';
+            template += '<div class="button-text-center col-xs-10"><%= content %></div>';
+            template += '<div class="button-text-right col-xs-1"></div>';
+            template += '<div class="clear"></div>';
+            template += '</div>';
+            template += '</div>';
+            return template;
+        };
+        Template.getButtonViewTemplate2 = function () {
+            var template = "";
+            template += '<div class="button">';
+            template += '<div class="button-inner">';
             template += '<div class="button-text-left col-xs-1"></div>';
             template += '<div class="button-text-center col-xs-10"><%= content %></div>';
-            template += '<div class="button-text-right col-xs-1"><i class="fa fa-plus fa-1-5x" data-toggle="collapse" data-target="#demo"></i></div>';
+            template += '<div class="button-text-right col-xs-1 <%= behavior %>"><i class="fa <%= icon %> fa-1-5x"></i></div>';
             template += '<div class="clear"></div>';
-            template += '<div id="demo" class="button-text-detail collapse">ALARM DETAIL</div>';
             template += '</div>';
             template += '</div>';
             return template;
@@ -23429,20 +23755,45 @@ var IKUT;
             template += '<% _.each(alarms.models, function (alarm) { %>';
             template += '<div class="wrapper-notification"></div>';
             template += '<% }); %>';
-            /*
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            template += '<div class="wrapper-notification"></div>';
-            */
             template += '</div>';
+            return template;
+        };
+        Template.getUsersViewTemplate = function () {
+            var template = "";
+            template += '<div id="wrapper-users">';
+            // add button
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Add a Friend-</div></div>';
+            template += '<div class="wrapper-button"></div>';
+            // notifications
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-List of Friends-</div></div>';
+            template += '<% _.each(users.models, function (user) { %>';
+            template += '<div class="wrapper-user"></div>';
+            template += '<% }); %>';
+            template += '</div>';
+            return template;
+        };
+        Template.getUsersViewTemplate2 = function () {
+            var template = "";
+            // add button
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Add a Friend-</div></div>';
+            template += '<div class="wrapper-button"></div>';
+            // notifications
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-List of Friends-</div></div>';
+            template += '<% _.each(users.models, function (user) { %>';
+            template += '<div class="wrapper-user"></div>';
+            template += '<% }); %>';
+            return template;
+        };
+        Template.getAlarmsViewTemplate2 = function () {
+            var template = "";
+            // add button
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Add a New Daily Alarm-</div></div>';
+            template += '<div class="wrapper-button"></div>';
+            // notifications
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-List of Daily Alarms-</div></div>';
+            template += '<% _.each(alarms.models, function (alarm) { %>';
+            template += '<div class="wrapper-notification"></div>';
+            template += '<% }); %>';
             return template;
         };
         Template.getMenusViewTemplate = function () {
@@ -23459,6 +23810,249 @@ var IKUT;
             template += '<div class="menu">';
             template += '<div class="menu-inner">';
             template += '<i class="fa <%= icon %> fa-1x"></i>';
+            template += '</div>';
+            template += '</div>';
+            return template;
+        };
+        Template.getDarilyAlarmEditTemplate = function () {
+            var template = "";
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Time-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group date">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-clock-o fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="time-start"/>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Name-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-pencil-square fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="name" value="<%= name %>"/>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Category-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon" id="category-icon">';
+            template += '<i class="fa fa-tag fa-1-5x"></i>';
+            template += '</span>';
+            template += '<select class="selectpicker" id="category">';
+            template += '<option value="0">Nothing Selected</option>';
+            template += '<option value="1">Lesure</option>';
+            template += '<option value="2">School</option>';
+            template += '<option value="3">Work</option>';
+            template += '<option value="4">Etc</option>';
+            template += '</select>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Days-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-calendar-o fa-1-5x"></i>';
+            template += '</span>';
+            template += '<select class="selectpicker" id="days" multiple>';
+            template += '<option value="0">Mo</option>';
+            template += '<option value="1">Tu</option>';
+            template += '<option value="2">We</option>';
+            template += '<option value="3">Th</option>';
+            template += '<option value="4">Fr</option>';
+            template += '<option value="5">Sa</option>';
+            template += '<option value="6">Su</option>';
+            template += '</select>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Save-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-save fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-save" id="btn-save">SAVE</div>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Delete-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-remove fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-delete" id="btn-delete">DELETE</div>';
+            template += '</div>';
+            template += '</div>';
+            return template;
+        };
+        Template.getDarilyAlarmEditTemplate2 = function () {
+            var template = "";
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Time-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group date">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-clock-o fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="time-start"/>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Name-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-pencil-square fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="name" value="<%= name %>"/>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Category-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon" id="category-icon">';
+            template += '<i class="fa fa-tag fa-1-5x"></i>';
+            template += '</span>';
+            template += '<select class="selectpicker" id="category">';
+            template += '<option value="0">Nothing Selected</option>';
+            template += '<option value="1">Lesure</option>';
+            template += '<option value="2">School</option>';
+            template += '<option value="3">Work</option>';
+            template += '<option value="4">Etc</option>';
+            template += '</select>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Days-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-calendar-o fa-1-5x"></i>';
+            template += '</span>';
+            template += '<select class="selectpicker" id="days" multiple>';
+            template += '<option value="0">Mo</option>';
+            template += '<option value="1">Tu</option>';
+            template += '<option value="2">We</option>';
+            template += '<option value="3">Th</option>';
+            template += '<option value="4">Fr</option>';
+            template += '<option value="5">Sa</option>';
+            template += '<option value="6">Su</option>';
+            template += '</select>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Create-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-save fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-save" id="btn-create">CREATE</div>';
+            template += '</div>';
+            template += '</div>';
+            return template;
+        };
+        Template.getUserEditTemplate = function () {
+            var template = "";
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Username-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-user fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="username" value="<%= username %>"/ disabled>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Name-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-odnoklassniki fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="name" value="<%= firstname %> <%= lastname %>"/ disabled>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Note-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-comment fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="description" value="<%= description %>"/>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Recent Group Alarm-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group date">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-history fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="recent" disabled />';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Friend Added-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group date">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-clock-o fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="created" value="<%= created %>" disabled />';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Save-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-save fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-save" id="btn-save">SAVE</div>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Delete-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-remove fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-delete" id="btn-delete">DELETE</div>';
+            template += '</div>';
+            template += '</div>';
+            return template;
+        };
+        Template.getUserAddTemplate = function () {
+            var template = "";
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Search Username-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-search fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="username" value=""/>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="user-list">';
+            template += '<div id="userlist" class="user-list-inner">';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
+            template += '<div class="user-item"><span class="col-xs-10 ">Username1</span><i class="col-xs-2 fa fa-plus-square fa-1x"></i></div><div class="clear" />';
             template += '</div>';
             template += '</div>';
             return template;
@@ -23524,22 +24118,72 @@ var IKUT;
                     setTimeout(function () {
                         self._homeView = IKUT.HomeViewFractory.create($('#wrapper-main')).render();
                     }, IKUT.Setting.getViewTransitionDuration());
+                    // remove other views
                     if (self._alarmsView) {
                         self._alarmsView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
                             self._alarmsView.destroy();
                             self._alarmsView = null;
                         });
+                        if (self._alarmsView.sideView) {
+                            self._alarmsView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._usersView) {
+                        self._usersView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._usersView.destroy();
+                            self._usersView = null;
+                        });
+                        if (self._usersView.sideView) {
+                            self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
                     }
                     break;
                 case 2 /* ALARMS */:
                     setTimeout(function () {
                         self._alarmsView = IKUT.AlarmsViewFractory.create($('#wrapper-main')).render();
                     }, IKUT.Setting.getViewTransitionDuration());
+                    // remove other views
                     if (self._homeView) {
                         self._homeView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
                             self._homeView.destroy();
                             self._homeView = null;
                         });
+                        if (self._homeView.sideView) {
+                            self._homeView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._usersView) {
+                        self._usersView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._usersView.destroy();
+                            self._usersView = null;
+                        });
+                        if (self._usersView.sideView) {
+                            self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    break;
+                case 3 /* FRIENDS */:
+                    setTimeout(function () {
+                        self._usersView = IKUT.UsersViewFractory.create($('#wrapper-main')).render();
+                    }, IKUT.Setting.getViewTransitionDuration());
+                    // remove other views
+                    if (self._alarmsView) {
+                        self._alarmsView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._alarmsView.destroy();
+                            self._alarmsView = null;
+                        });
+                        if (self._alarmsView.sideView) {
+                            self._alarmsView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._homeView) {
+                        self._homeView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._homeView.destroy();
+                            self._homeView = null;
+                        });
+                        if (self._homeView.sideView) {
+                            self._homeView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
                     }
                     break;
             }
@@ -23552,7 +24196,7 @@ var IKUT;
             self.changeBackgroundGradient();
             self.addEventListener();
             // adjust offset of menu
-            console.log($(document).innerWidth() - self.getWidth());
+            //console.log($(document).innerWidth() - self.getWidth());
             $('#wrapper-menus').css({ right: $(document).innerWidth() - self.getWidth() });
         };
         View.render = function (args) {
@@ -23641,6 +24285,28 @@ var IKUT;
                 var fv = IKUT.FrameViewFractory.create($(item));
                 fv.render(alarms.models[index]);
             });
+            self.addEventListener();
+            return self;
+        };
+        HomeView.prototype.update = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(HomeView.TAG + "update()");
+            // get alarms
+            var alarms = IKUT.Controller.getUpcoming7DaysAlarms();
+            // apply template
+            var template = _.template(IKUT.Template.getHomeViewTemplate2());
+            var data = {
+                alarms: alarms,
+            };
+            self.$el.html(template(data));
+            //self.setElement(self.$('#wrapper-home'));
+            //self.setVisible();
+            $.each(self.$('.wrapper-notification'), function (index, item) {
+                var fv = IKUT.FrameViewFractory.create($(item));
+                fv.render(alarms.models[index]);
+            });
+            self.addEventListener();
             return self;
         };
         HomeView.prototype.animVisible = function () {
@@ -23650,6 +24316,44 @@ var IKUT;
                     IKUT.View.setIsLoading(false);
                 });
             }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        HomeView.prototype.animActive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: 0 }, function () {
+                    IKUT.View.setIsLoading(false);
+                    self.sideView.destroy();
+                    self.sideView = null;
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        HomeView.prototype.animInactive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: -self.getWidth() }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        HomeView.prototype.addEventListener = function () {
+            var self = this;
+            self.$('.btn-detail').off('click');
+            self.$('.btn-detail').on('click', function () {
+                if (!IKUT.View.getIsLoading()) {
+                    IKUT.View.setIsLoading(true);
+                    self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
+                    self.sideView.setParentView(self);
+                    var cid = $(this).attr('data-cid');
+                    var alarm = IKUT.Model.getAlarms().findWhere({ cid: cid });
+                    if (alarm) {
+                        self.sideView.render(alarm);
+                        self.animInactive();
+                        self.sideView.animActive();
+                    }
+                    else {
+                    }
+                }
+            });
         };
         HomeView.TAG = "HomeView - ";
         return HomeView;
@@ -23682,10 +24386,26 @@ var IKUT;
             if (args instanceof IKUT.Alarm) {
                 // apply template
                 var template = _.template(IKUT.Template.getFrameViewTemplate());
+                if (args.getType() == 1 /* DAILY */) {
+                    var data = {
+                        header: args.getName(),
+                        //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
+                        content: args.getFormattedTime(),
+                        cid: args.getId(),
+                        icon: IKUT.Setting.getCategoryIcon(args.getCategory()),
+                    };
+                }
+                else {
+                }
+                self.$el.html(template(data));
+            }
+            else if (args instanceof IKUT.User) {
+                var template = _.template(IKUT.Template.getFrameViewTemplate());
                 var data = {
-                    header: args.getFormattedTime(),
-                    content: args.getName(),
-                    collapse: args.getcId(),
+                    header: args.getDescription(),
+                    content: args.getFirstname() + " " + args.getLastname(),
+                    cid: args.getId(),
+                    icon: 'fa-user',
                 };
                 self.$el.html(template(data));
             }
@@ -23756,7 +24476,8 @@ var IKUT;
                 var data = {
                     header: args.getFormattedTime(),
                     content: args.getName(),
-                    collapse: args.getcId(),
+                    cid: args.getId(),
+                    icon: IKUT.Setting.getCategoryIcon(args.getCategory()),
                     days: days,
                 };
                 self.$el.html(template(data));
@@ -23786,16 +24507,37 @@ var IKUT;
             self.bDebug = true;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
+        ButtonView.prototype.setAttribute = function (option) {
+            var self = this;
+            self.icon = option.icon;
+            self.content = option.content;
+            self.behavior = option.behavior;
+            self.isLeft = option.isLeft;
+        };
         ButtonView.prototype.render = function (args) {
             var self = this;
             if (self.bDebug)
                 console.log(ButtonView.TAG + "render()");
-            // apply template
-            var template = _.template(IKUT.Template.getButtonViewTemplate());
-            var data = {
-                content: "BUTTON",
-            };
-            self.$el.html(template(data));
+            if (self.isLeft) {
+                // apply template
+                var template = _.template(IKUT.Template.getButtonViewTemplate());
+                var data = {
+                    icon: self.icon,
+                    content: self.content,
+                    behavior: self.behavior,
+                };
+                self.$el.html(template(data));
+            }
+            else {
+                // apply template
+                var template = _.template(IKUT.Template.getButtonViewTemplate2());
+                var data = {
+                    icon: self.icon,
+                    content: self.content,
+                    behavior: self.behavior,
+                };
+                self.$el.html(template(data));
+            }
             return self;
         };
         ButtonView.TAG = "ButtonView - ";
@@ -23927,7 +24669,7 @@ var IKUT;
         function MenuView(options) {
             _super.call(this, options);
             var self = this;
-            self.bDebug = true;
+            self.bDebug = false;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
         MenuView.prototype.render = function (args) {
@@ -23978,11 +24720,10 @@ var IKUT;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=menuview.js.map
 ///#source 1 1 /core/js/view/alarmsview.js
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var IKUT;
 (function (IKUT) {
@@ -24006,9 +24747,11 @@ var IKUT;
                 alarms: alarms,
             };
             self.$el.html(template(data));
-            $.each(self.$('.wrapper-button'), function (index, item) {
-                IKUT.ButtonViewFractory.create($(item)).render();
-            });
+            //$.each(self.$('.wrapper-button'), function (index: number, item: JQuery) {
+            //   ButtonViewFractory.create($(item), {icon: ').render();
+            //});       
+            var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Daily Alarm', behavior: 'btn-add', isLeft: false });
+            bf.render();
             $.each(self.$('.wrapper-notification'), function (index, item) {
                 var f2v = IKUT.Frame2ViewFractory.create($(item));
                 f2v.render(alarms.models[index]);
@@ -24016,6 +24759,28 @@ var IKUT;
             // Make the view slowly visible.
             self.setElement(self.$('#wrapper-alarms'));
             self.animVisible();
+            self.addEventListener();
+            return self;
+        };
+        AlarmsView.prototype.update = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(AlarmsView.TAG + "update()");
+            // get alarms
+            var alarms = IKUT.Controller.getDailyAlarms();
+            // apply template
+            var template = _.template(IKUT.Template.getAlarmsViewTemplate2());
+            var data = {
+                alarms: alarms,
+            };
+            self.$el.html(template(data));
+            var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-plus-square', content: 'Add a New Daily Alarm', behavior: 'btn-add', isLeft: false });
+            bf.render();
+            $.each(self.$('.wrapper-notification'), function (index, item) {
+                var f2v = IKUT.Frame2ViewFractory.create($(item));
+                f2v.render(alarms.models[index]);
+            });
+            self.addEventListener();
             return self;
         };
         AlarmsView.prototype.animVisible = function () {
@@ -24026,9 +24791,522 @@ var IKUT;
                 });
             }, IKUT.Setting.getViewTransitionDuration() * 2);
         };
+        AlarmsView.prototype.animActive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: 0 }, function () {
+                    IKUT.View.setIsLoading(false);
+                    self.sideView.destroy();
+                    self.sideView = null;
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        AlarmsView.prototype.animInactive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: -self.getWidth() }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        AlarmsView.prototype.addEventListener = function () {
+            var self = this;
+            self.$('.btn-detail').off('click');
+            self.$('.btn-detail').on('click', function () {
+                if (!IKUT.View.getIsLoading()) {
+                    IKUT.View.setIsLoading(true);
+                    self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
+                    self.sideView.setParentView(self);
+                    var cid = $(this).attr('data-cid');
+                    var alarm = IKUT.Model.getAlarms().findWhere({ cid: cid });
+                    if (alarm) {
+                        self.sideView.render(alarm);
+                        self.animInactive();
+                        self.sideView.animActive();
+                    }
+                    else {
+                    }
+                }
+            });
+            self.$('.btn-add').off('click');
+            self.$('.btn-add').on('click', function () {
+                if (!IKUT.View.getIsLoading()) {
+                    IKUT.View.setIsLoading(true);
+                    self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
+                    self.sideView.setParentView(self);
+                    var today = moment(new Date());
+                    var alarm = new IKUT.Alarm({ name: '', users: "", type: IKUT.ALARM_LIST.DAILY, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
+                    alarm.addDailyDay(moment().day());
+                    alarm.addUsercId(IKUT.Model.getCurUser().getcId());
+                    //var cid = $(this).attr('data-cid');
+                    //var alarm: Alarm = Model.getAlarms().findWhere({ cid: cid });
+                    if (alarm) {
+                        self.sideView.render(alarm);
+                        self.animInactive();
+                        self.sideView.animActive();
+                    }
+                    else {
+                    }
+                }
+            });
+        };
         AlarmsView.TAG = "AlarmsView - ";
         return AlarmsView;
     })(IKUT.BaseView);
     IKUT.AlarmsView = AlarmsView;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=alarmsview.js.map
+///#source 1 1 /core/js/view/sideview.js
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var IKUT;
+(function (IKUT) {
+    var SideView = (function (_super) {
+        __extends(SideView, _super);
+        function SideView(options) {
+            _super.call(this, options);
+            var self = this;
+            self.bDebug = true;
+            //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
+        }
+        SideView.prototype.render = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(SideView.TAG + "render()");
+            if (args instanceof IKUT.Alarm) {
+                console.log(args);
+                // apply template
+                var template = _.template(IKUT.Template.getSideViewTemplate());
+                var data = {};
+                self.$el.append(template(data));
+                self.setElement(self.$('#wrapper-side'));
+                var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-angle-left', content: 'Back to List', behavior: 'btn-back', isLeft: true });
+                bf.render();
+                self.$('.wrapper-detail').css({ height: self.getHeight() - parseInt(self.$el.css('padding-top')) - parseInt(self.$el.css('padding-bottom')) - self.$('.wrapper-button').outerHeight() - self.$('.wrapper-connector').outerHeight() });
+                // add detail
+                var dv = IKUT.DetailViewFractory.create(self.$('.wrapper-detail'));
+                dv.setParentView(self);
+                dv.render(args);
+                self.addEventListener();
+            }
+            else if (args instanceof IKUT.User) {
+                console.log(args);
+                // apply template
+                var template = _.template(IKUT.Template.getSideViewTemplate());
+                var data = {};
+                self.$el.append(template(data));
+                self.setElement(self.$('#wrapper-side'));
+                var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-angle-left', content: 'Back to List', behavior: 'btn-back', isLeft: true });
+                bf.render();
+                self.$('.wrapper-detail').css({ height: self.getHeight() - parseInt(self.$el.css('padding-top')) - parseInt(self.$el.css('padding-bottom')) - self.$('.wrapper-button').outerHeight() - self.$('.wrapper-connector').outerHeight() });
+                // add detail
+                var dv = IKUT.DetailViewFractory.create(self.$('.wrapper-detail'));
+                dv.setParentView(self);
+                dv.render(args);
+                self.addEventListener();
+            }
+            return self;
+        };
+        SideView.prototype.animActive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: 0 }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        SideView.prototype.animInactive = function () {
+            var self = this;
+            self.parentView.update();
+            self.parentView.animActive();
+            setTimeout(function () {
+                self.$el.animate({ left: self.getWidth() }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        SideView.prototype.setParentView = function (view) {
+            var self = this;
+            self.parentView = view;
+        };
+        SideView.prototype.addEventListener = function () {
+            var self = this;
+            self.$('.wrapper-button .btn-back').off('click');
+            self.$('.wrapper-button .btn-back').on('click', function () {
+                IKUT.View.setIsLoading(true);
+                self.animInactive();
+            });
+        };
+        SideView.TAG = "SideView - ";
+        return SideView;
+    })(IKUT.BaseView);
+    IKUT.SideView = SideView;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=sideview.js.map
+///#source 1 1 /core/js/view/detailview.js
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var IKUT;
+(function (IKUT) {
+    var DetailView = (function (_super) {
+        __extends(DetailView, _super);
+        function DetailView(options) {
+            _super.call(this, options);
+            var self = this;
+            self.bDebug = true;
+            //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
+        }
+        DetailView.prototype.render = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(DetailView.TAG + "render()");
+            // apply template
+            if (args instanceof IKUT.Alarm) {
+                self.curAlarm = args;
+                var exist = IKUT.Model.getAlarms().findWhere({ cid: self.curAlarm.getcId() });
+                if (exist) {
+                    // detail
+                    var template2 = _.template(IKUT.Template.getDarilyAlarmEditTemplate());
+                    var data2 = {
+                        name: self.curAlarm.getName(),
+                    };
+                    // apply template
+                    var template = _.template(IKUT.Template.getDetailViewTemplate());
+                    if (self.curAlarm.getType() == IKUT.ALARM_LIST.DAILY) {
+                        var data = {
+                            header: "Daily Alarm Detail",
+                            //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
+                            content: template2(data2),
+                        };
+                    }
+                    else {
+                    }
+                }
+                else {
+                    // detail
+                    var template2 = _.template(IKUT.Template.getDarilyAlarmEditTemplate2());
+                    var data2 = {
+                        name: self.curAlarm.getName(),
+                    };
+                    // apply template
+                    var template = _.template(IKUT.Template.getDetailViewTemplate());
+                    if (self.curAlarm.getType() == IKUT.ALARM_LIST.DAILY) {
+                        var data = {
+                            header: "Create a New Alarm",
+                            //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
+                            content: template2(data2),
+                        };
+                    }
+                    else {
+                    }
+                }
+                self.$el.html(template(data));
+                // add time picker
+                $('#time-start').datetimepicker({
+                    format: 'LT',
+                    defaultDate: self.curAlarm.getDate(),
+                });
+                /*
+                .on("dp.change", function (event) {
+                    console.log(event.date);
+                });
+                 */
+                $('#category').selectpicker({
+                    size: 'false',
+                    mobile: true,
+                });
+                console.log(self.curAlarm.getCategory());
+                $('#category').selectpicker('val', self.curAlarm.getCategory());
+                $('#days').selectpicker({
+                    size: 'false',
+                    mobile: true,
+                });
+                var days = new Array();
+                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.MONDAY)) {
+                    days.push(0);
+                }
+                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.TUESDAY)) {
+                    days.push(1);
+                }
+                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.WEDNESDAY)) {
+                    days.push(2);
+                }
+                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.THURSDAY)) {
+                    days.push(3);
+                }
+                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.FRIDAY)) {
+                    days.push(4);
+                }
+                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.SATURDAY)) {
+                    days.push(5);
+                }
+                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.SUNDAY)) {
+                    days.push(6);
+                }
+                $('#days').selectpicker('val', days);
+                self.addEventListener();
+            }
+            else if (args instanceof IKUT.User) {
+                self.curUser = args;
+                var exist2 = IKUT.Model.getUsers().findWhere({ cid: self.curUser.getcId() });
+                if (exist2) {
+                    // detail
+                    var template3 = _.template(IKUT.Template.getUserEditTemplate());
+                    var data3 = {
+                        username: self.curUser.getUsername(),
+                        firstname: self.curUser.getFirstname(),
+                        lastname: self.curUser.getLastname(),
+                        description: self.curUser.getDescription(),
+                        created: self.curUser.getFormattedCreatedDate(),
+                    };
+                    // apply template
+                    var template = _.template(IKUT.Template.getDetailViewTemplate());
+                    var data = {
+                        header: "Friend Detail",
+                        //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
+                        content: template3(data3),
+                    };
+                    self.$el.html(template(data));
+                    // add event listener
+                    self.addEventListener2();
+                }
+                else {
+                    var template4 = _.template(IKUT.Template.getUserAddTemplate());
+                    var data4 = {};
+                    // apply template
+                    var template = _.template(IKUT.Template.getDetailViewTemplate());
+                    var data = {
+                        header: "Friend Search",
+                        //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
+                        content: template4(data4),
+                    };
+                    self.$el.html(template(data));
+                }
+            }
+            return self;
+        };
+        DetailView.prototype.setParentView = function (view) {
+            var self = this;
+            self.parentView = view;
+        };
+        DetailView.prototype.addEventListener = function () {
+            var self = this;
+            self.$('#btn-save').off('click');
+            self.$('#btn-save').on('click', function () {
+                var orig = IKUT.Model.getAlarms().findWhere({ cid: self.curAlarm.getcId() });
+                // set name
+                self.curAlarm.set('name', self.$('#name').val());
+                orig.set('name', self.$('#name').val());
+                // set time
+                //console.log(self.curAlarm.getFormattedTime());
+                self.curAlarm.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
+                orig.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
+                //console.log(self.curAlarm.getFormattedTime());
+                //console.log($('#time-start').data("date"));
+                // category
+                self.curAlarm.set('category', parseInt($('#category option:selected').val()));
+                orig.set('category', parseInt($('#category option:selected').val()));
+                // days
+                self.curAlarm.removeDailyAllDays();
+                $.each(self.$('#days option:selected'), function (index, item) {
+                    self.curAlarm.addDailyDay(parseInt($(item).val()));
+                    orig.addDailyDay(parseInt($(item).val()));
+                });
+                // back to parentview
+                self.parentView.animInactive();
+            });
+            self.$('#btn-delete').off('click');
+            self.$('#btn-delete').on('click', function () {
+                IKUT.View.setIsLoading(true);
+                var orig = IKUT.Model.getAlarms().findWhere({ cid: self.curAlarm.getcId() });
+                IKUT.Model.getAlarms().remove(orig);
+                self.parentView.animInactive();
+            });
+            self.$('#btn-create').off('click');
+            self.$('#btn-create').on('click', function () {
+                IKUT.Model.getAlarms().add(self.curAlarm);
+                //var orig: Alarm = self.curAlarm;
+                // set name
+                self.curAlarm.set('name', self.$('#name').val());
+                //orig.set('name', self.$('#name').val());
+                // set time
+                //console.log(self.curAlarm.getFormattedTime());
+                self.curAlarm.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
+                //orig.set('date', moment(moment(new Date()).format(Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(Setting.getDateTimeFormat1()));
+                //console.log(self.curAlarm.getFormattedTime());
+                //console.log($('#time-start').data("date"));
+                // category
+                self.curAlarm.set('category', parseInt($('#category option:selected').val()));
+                //orig.set('category', parseInt($('#category option:selected').val()));
+                // days
+                self.curAlarm.removeDailyAllDays();
+                $.each(self.$('#days option:selected'), function (index, item) {
+                    self.curAlarm.addDailyDay(parseInt($(item).val()));
+                    //orig.addDailyDay(parseInt($(item).val()));
+                });
+                // back to parentview
+                self.parentView.animInactive();
+            });
+        };
+        DetailView.prototype.addEventListener2 = function () {
+            var self = this;
+            self.$('#btn-save').off('click');
+            self.$('#btn-save').on('click', function () {
+                self.curUser.set('description', self.$('#description').val());
+                // back to parentview
+                self.parentView.animInactive();
+            });
+            self.$('#btn-delete').off('click');
+            self.$('#btn-delete').on('click', function () {
+                IKUT.View.setIsLoading(true);
+                IKUT.Model.getUsers().remove(self.curUser);
+                self.parentView.animInactive();
+            });
+        };
+        DetailView.TAG = "DetailView - ";
+        return DetailView;
+    })(IKUT.BaseView);
+    IKUT.DetailView = DetailView;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=detailview.js.map
+///#source 1 1 /core/js/view/usersview.js
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var IKUT;
+(function (IKUT) {
+    var UsersView = (function (_super) {
+        __extends(UsersView, _super);
+        function UsersView(options) {
+            _super.call(this, options);
+            var self = this;
+            self.bDebug = true;
+            //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
+        }
+        UsersView.prototype.render = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(UsersView.TAG + "render()");
+            // get alarms
+            var curUser = IKUT.Model.getCurUser();
+            var users = IKUT.Model.getUsers();
+            // apply template
+            var template = _.template(IKUT.Template.getUsersViewTemplate());
+            var data = {
+                curUser: curUser,
+                users: users,
+            };
+            self.$el.html(template(data));
+            var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-user-plus', content: 'Add a New Friend', behavior: 'btn-add', isLeft: false });
+            bf.render();
+            $.each(self.$('.wrapper-user'), function (index, item) {
+                var fv = IKUT.FrameViewFractory.create($(item));
+                fv.render(users.models[index]);
+            });
+            // Make the view slowly visible.
+            self.setElement(self.$('#wrapper-users'));
+            self.animVisible();
+            self.addEventListener();
+            return self;
+        };
+        UsersView.prototype.update = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(UsersView.TAG + "update()");
+            // get alarms
+            var curUser = IKUT.Model.getCurUser();
+            var users = IKUT.Model.getUsers();
+            // apply template
+            var template = _.template(IKUT.Template.getUsersViewTemplate2());
+            var data = {
+                curUser: curUser,
+                users: users,
+            };
+            self.$el.html(template(data));
+            var bf = IKUT.ButtonViewFractory.create(self.$('.wrapper-button'), { icon: 'fa-user-plus', content: 'Add a New Friend', behavior: 'btn-add', isLeft: false });
+            bf.render();
+            $.each(self.$('.wrapper-user'), function (index, item) {
+                var fv = IKUT.FrameViewFractory.create($(item));
+                fv.render(users.models[index]);
+            });
+            self.addEventListener();
+            return self;
+        };
+        UsersView.prototype.animVisible = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ opacity: 1 }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        UsersView.prototype.animActive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: 0 }, function () {
+                    IKUT.View.setIsLoading(false);
+                    self.sideView.destroy();
+                    self.sideView = null;
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        UsersView.prototype.animInactive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: -self.getWidth() }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        UsersView.prototype.addEventListener = function () {
+            var self = this;
+            self.$('.btn-detail').off('click');
+            self.$('.btn-detail').on('click', function () {
+                if (!IKUT.View.getIsLoading()) {
+                    IKUT.View.setIsLoading(true);
+                    self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
+                    self.sideView.setParentView(self);
+                    var cid = $(this).attr('data-cid');
+                    var user = IKUT.Model.getUsers().findWhere({ cid: cid });
+                    if (user) {
+                        self.sideView.render(user);
+                        self.animInactive();
+                        self.sideView.animActive();
+                    }
+                    else {
+                    }
+                }
+            });
+            self.$('.btn-add').off('click');
+            self.$('.btn-add').on('click', function () {
+                if (!IKUT.View.getIsLoading()) {
+                    IKUT.View.setIsLoading(true);
+                    self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
+                    self.sideView.setParentView(self);
+                    var today = moment(new Date());
+                    var user = new IKUT.User({ username: '', password: '', firstname: '', lastname: '', recent: today.format(IKUT.Setting.getDateTimeFormat1()), created: today.format(IKUT.Setting.getDateTimeFormat1()), description: '' });
+                    if (user) {
+                        self.sideView.render(user);
+                        self.animInactive();
+                        self.sideView.animActive();
+                    }
+                    else {
+                    }
+                }
+            });
+        };
+        UsersView.TAG = "UsersView - ";
+        return UsersView;
+    })(IKUT.BaseView);
+    IKUT.UsersView = UsersView;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=usersview.js.map

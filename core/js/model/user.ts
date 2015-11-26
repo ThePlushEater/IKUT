@@ -9,10 +9,16 @@
                 "id": 0,
                 "username": "",
                 "password": "",
-                "name": "",
+                "firstname": "",
+                "lastname": "",
+                "description": "",
                 "recent": moment(new Date()).format(Setting.getDateTimeFormat1()),
                 "created": moment(new Date()).format(Setting.getDateTimeFormat1()),
             };
+
+            if (attributes.cid == undefined) {
+                self.set('cid', self.cid);
+            }
 
             self.off("change");
             self.on("change", function (model: User, options) {
@@ -58,8 +64,8 @@
             }
             return clone;
         }
-        public getId(): number {
-            return Math.floor(this.id);
+        public getId(): string {
+            return this.get('cid');
         }
         public getcId(): string {
             return this.cid;
@@ -72,9 +78,17 @@
             var self: User = this;
             return this.get('password');
         }
-        public getName(): string {
+        public getFirstname(): string {
             var self: User = this;
-            return this.get('name');
+            return this.get('firstname');
+        }
+        public getLastname(): string {
+            var self: User = this;
+            return this.get('lastname');
+        }
+        public getDescription(): string {
+            var self: User = this;
+            return this.get('description');
         }
         public getFormattedRecentDate(): string {
             var self: User = this;
@@ -90,17 +104,6 @@
         constructor(models?: User[], options?: any) {
             super(models, options);
             this.model = User;
-        }
-
-        public getIds(): Array<number> {
-            var self: Users = this;
-            var result = Array<number>();
-            $.each(self.models, function (index: number, model: User) {
-                if (result.indexOf(model.getId()) == -1) {
-                    result.push(model.getId());
-                }
-            });
-            return result;
         }
     }
 }

@@ -31,7 +31,7 @@
         public static getTimeFormat1(): string {
             //return "HH:mm:ss ddd MMM Do";
             //return "HH:mm:ss dddd";
-            return "h:mm A";
+            return "hh:mm A";
         }
 
         public static getTimeFormat2(): string {
@@ -86,6 +86,21 @@
 
         public static getViewTransitionDuration(): number {
             return 250;
+        }
+
+        public static getCategoryIcon(index: number): string {
+            console.log(index);
+            if (index == 0) {
+                return 'fa-blank';
+            } else if (index == 1) {
+                return 'fa-coffee';
+            } else if (index == 2) {
+                return 'fa-graduation-cap';
+            } else if (index == 3) {
+                return 'fa-briefcase';
+            } else if (index == 4) {
+                return 'fa-certificate';
+            }
         }
     }
 }

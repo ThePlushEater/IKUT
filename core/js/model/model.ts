@@ -22,34 +22,35 @@
             self.alarms = new Alarms();
 
 
-            var karl = new User({ username: '1', password: '1', name: 'Karl', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06' });
-            var john = new User({ username: '2', password: '2', name: 'John', recent: '2015-10-06 08:08:08', created: '2014-08-08 08:08:08' });
-            var michael = new User({ username: '3', password: '3', name: 'Michael', recent: '2015-11-25 05:05:05', created: '2015-06-06 12:12:12' });
+            var karl = new User({ username: 'jkim848', password: '1', firstname: 'Karl', lastname: 'Kim', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: 'My Best Friend' });
+            var john = new User({ username: 'jfiorentino3', password: '2', firstname: 'John', lastname: 'Fiorentino', recent: '2015-10-06 08:08:08', created: '2014-08-08 08:08:08', description: 'LMC 3710 Classmate' });
+            var michael = new User({ username: 'michaelchi95', password: '3', firstname: 'Michael', lastname: 'Chi', recent: '2015-11-25 05:05:05', created: '2015-06-06 12:12:12', description: 'League Friend' });
 
-            self.users.add(karl);
+
             self.users.add(john);
             self.users.add(michael);
 
-            var alarm1: Alarm = new Alarm({ name: 'Weekdays Wake Up', users: "", type: ALARM_LIST.DAILY, date: '2015-11-25 07:05:15', days: "0000000" });
+            var alarm1: Alarm = new Alarm({ name: 'Weekdays Wake Up', users: "", type: ALARM_LIST.DAILY, date: '2015-11-25 07:05:15', end: '2015-11-25 07:05:15', days: "0000000", category: 3 });
             alarm1.addUsercId(karl.getcId());
             alarm1.addDailyDay(DAY_LIST.MONDAY);
             alarm1.addDailyDay(DAY_LIST.WEDNESDAY);
             alarm1.addDailyDay(DAY_LIST.FRIDAY);
             self.alarms.add(alarm1);
 
-            var alarm2: Alarm = new Alarm({ name: 'LMC 3710', users: "", type: ALARM_LIST.DAILY, date: '2015-11-25 15:05:15', days: "0000000" });
+            var alarm2: Alarm = new Alarm({ name: 'LMC 3710', users: "", type: ALARM_LIST.DAILY, date: '2015-11-25 15:05:15', end: '2015-11-25 15:05:15', days: "0000000", category: 4 });
             alarm2.addUsercId(karl.getcId());
             alarm2.addDailyDay(DAY_LIST.MONDAY);
             alarm2.addDailyDay(DAY_LIST.WEDNESDAY);
             self.alarms.add(alarm2);
 
-            var alarm3: Alarm = new Alarm({ name: 'LMC 4803', users: "", type: ALARM_LIST.DAILY, date: '2015-11-25 12:05:15', days: "0000000" });
+            var alarm3: Alarm = new Alarm({ name: 'LMC 4803', users: "", type: ALARM_LIST.DAILY, date: '2015-11-25 12:05:15', end: '2015-11-25 12:05:15', days: "0000000", category: 2 });
             alarm3.addUsercId(karl.getcId());
             alarm3.addDailyDay(DAY_LIST.MONDAY);
             alarm3.addDailyDay(DAY_LIST.WEDNESDAY);
+            alarm3.addDailyDay(DAY_LIST.FRIDAY);
             self.alarms.add(alarm3);
 
-            var alarm4: Alarm = new Alarm({ name: 'Weekends Wake Up', users: "", type: ALARM_LIST.DAILY, date: '2015-11-25 10:05:15', days: "0000000" });
+            var alarm4: Alarm = new Alarm({ name: 'Weekends Wake Up', users: "", type: ALARM_LIST.ONETIME, date: '2015-11-25 10:05:15', end: '2015-11-25 10:05:15', days: "0000000", category: 3 });
             alarm4.addUsercId(karl.getcId());
             alarm4.addDailyDay(DAY_LIST.SATURDAY);
             alarm4.addDailyDay(DAY_LIST.SUNDAY);

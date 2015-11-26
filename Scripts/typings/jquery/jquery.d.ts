@@ -3928,6 +3928,7 @@ interface JQuery {
     queue(queueName: string, callback: Function): JQuery;
 
     selectpicker(name?: any, value?: any): any;
+    btsListFilter(input: any, args?: any): any;
     jQueryTween(args?: any): any;
 }
 declare module "jquery" {

@@ -22,10 +22,26 @@ var IKUT;
             if (args instanceof IKUT.Alarm) {
                 // apply template
                 var template = _.template(IKUT.Template.getFrameViewTemplate());
+                if (args.getType() == 1 /* DAILY */) {
+                    var data = {
+                        header: args.getName(),
+                        //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
+                        content: args.getFormattedTime(),
+                        cid: args.getId(),
+                        icon: IKUT.Setting.getCategoryIcon(args.getCategory()),
+                    };
+                }
+                else {
+                }
+                self.$el.html(template(data));
+            }
+            else if (args instanceof IKUT.User) {
+                var template = _.template(IKUT.Template.getFrameViewTemplate());
                 var data = {
-                    header: args.getFormattedTime(),
-                    content: args.getName(),
-                    collapse: args.getcId(),
+                    header: args.getDescription(),
+                    content: args.getFirstname() + " " + args.getLastname(),
+                    cid: args.getId(),
+                    icon: 'fa-user',
                 };
                 self.$el.html(template(data));
             }
@@ -96,7 +112,8 @@ var IKUT;
                 var data = {
                     header: args.getFormattedTime(),
                     content: args.getName(),
-                    collapse: args.getcId(),
+                    cid: args.getId(),
+                    icon: IKUT.Setting.getCategoryIcon(args.getCategory()),
                     days: days,
                 };
                 self.$el.html(template(data));

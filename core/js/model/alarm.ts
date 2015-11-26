@@ -5,6 +5,9 @@
     export enum DAY_LIST {
         MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
     }
+    export enum CATEGORY_LIST {
+        NONE, LESURE, SCHOOL, WORK, ETC
+    }
     export class Alarm extends Backbone.Model {
         url: string = "";
         private isSavable = true;
@@ -13,13 +16,19 @@
             super(attributes, options);
             var self: Alarm = this;
             this.defaults = <any>{
-                "id": 0,
+                "cid": "",
+                "category": CATEGORY_LIST.NONE,
                 "type": ALARM_LIST.NONE,
                 "name": "",
                 "users": "",
                 "date": moment(new Date()).format(Setting.getDateTimeFormat1()),
+                "end": moment(new Date()).format(Setting.getDateTimeFormat1()),
                 "days": "0000000",
             };
+            if (attributes.cid == undefined) {
+                self.set('cid', self.cid);
+            }
+            
 
             self.off("change");
             self.on("change", function (model: Alarm, options) {
@@ -60,21 +69,27 @@
         }
 
         parse(response: any, options?: any): any {
-            if (response.id != null) {
-                response.id = parseInt(response.id);
-            }
+            //if (response.id != null) {
+                //response.id = parseInt(response.id);
+            //}
+            response.category = parseInt(response.category);
+            response.type = parseInt(response.type);
             response.date = moment(response.date).format(Setting.getDateTimeFormat1());
             return super.parse(response, options);
         }
         toJSON(options?: any): any {
             var clone = this.clone().attributes;
-            if (this.id != null) {
-                clone["id"] = this.id;
-            }
+            //if (this.id != null) {
+            //    clone["id"] = this.id;
+            //}
             return clone;
         }
-        public getId(): number {
-            return Math.floor(this.id);
+
+        public getCategory(): number {
+            return parseInt(this.get('category'));
+        }
+        public getId(): string {
+            return this.get('cid');
         }
         public getcId(): string {
             return this.cid;
@@ -99,18 +114,25 @@
             var self: Alarm = this;
             return moment(self.get('date'));
         }
+        public getEnd(): Moment {
+            var self: Alarm = this;
+            return moment(self.get('end'));
+        }
         public getFormattedDate(): string {
             var self: Alarm = this;
             return moment(self.get('date')).format(Setting.getDateFormat());
         }
         public getFormattedDateDay(): string {
             var self: Alarm = this;
-            console.log(moment(self.get('date')).format(Setting.getDateDayFormat()));
             return moment(self.get('date')).format(Setting.getDateDayFormat());
         }
         public getFormattedTime(): string {
             var self: Alarm = this;
             return moment(self.get('date')).format(Setting.getTimeFormat1());
+        }
+        public getFormattedEndTime(): string {
+            var self: Alarm = this;
+            return moment(self.get('end')).format(Setting.getTimeFormat1());
         }
         public getUserIds(): Array<number> {
             var self: Alarm = this;
@@ -142,6 +164,12 @@
             var self: Alarm = this;
             self.set("days", replaceAt(self.get("days"), day, "1"));
         }
+
+        public removeDailyAllDays(): void {
+            var self: Alarm = this;
+            self.set("days", "0000000");
+        }
+
         public removeDailyDay(day: DAY_LIST): void {
             var self: Alarm = this;
             self.set("days", replaceAt(self.get("days"), day, "0"));
@@ -167,7 +195,7 @@
             var result: Array<Alarm> = new Array<Alarm>();
             for (var i = 0; i < 6; i++) {   // iterate all days
                 if (self.getIsDailyDayOn(i)) {
-                    var alarm: Alarm = new Alarm({ name: self.getName(), users: self.getUsers(), type: self.getType(), date: '2015-11-25 07:05:15', days: self.getDays() });
+                    var alarm: Alarm = new Alarm({ cid: self.getId(), name: self.getName(), users: self.getUsers(), type: self.getType(), date: '2015-11-25 07:05:15', days: self.getDays(), category: self.getCategory() });
                     var date = moment(moment().day(i + 1).format(Setting.getDateFormat()) + " " + self.getFormattedTime());
                     if (moment(new Date()).valueOf() > moment(date).valueOf()) { // has passed
                         var date = moment(moment().day(i + 1 + 7).format(Setting.getDateFormat()) + " " + self.getFormattedTime());
@@ -190,16 +218,6 @@
             this.model = Alarm;
         }
 
-        public getIds(): Array<number> {
-            var self: Alarms = this;
-            var result = Array<number>();
-            $.each(self.models, function (index: number, model: Alarm) {
-                if (result.indexOf(model.getId()) == -1) {
-                    result.push(model.getId());
-                }
-            });
-            return result;
-        }
 
         public getUpcoming7DaysAlarmsForUser(user: User): Alarms {
             var self: Alarms = this;
@@ -225,7 +243,9 @@
                     }
                 });
             }
-            alarms.models[0].setIsBeggingOfTheDay(false);
+            if (alarms.models.length >= 1) {
+                alarms.models[0].setIsBeggingOfTheDay(false);
+            }
             if (alarms.models.length >= 2) {
                 alarms.models[1].setIsBeggingOfTheDay(true);
             }
@@ -263,5 +283,6 @@
             }
             
         }
+
     }
 }

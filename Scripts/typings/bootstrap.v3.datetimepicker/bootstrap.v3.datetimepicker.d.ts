@@ -40,7 +40,7 @@ declare module BootstrapV3DatetimePicker {
         showToday?: boolean;
         collapse?: boolean;
         language?: string;
-        defaultDate?: string;
+        defaultDate?: any;
         disabledDates?: Array<any>;
         enabledDates?: Array<any>;
         icons?: DatetimepickerIcons;
@@ -48,6 +48,7 @@ declare module BootstrapV3DatetimePicker {
         direction?: string;
         sideBySide?: boolean;
         daysOfWeekDisabled?: Array<any>;
+        format: any;
     }
 
     interface Datetimepicker {
