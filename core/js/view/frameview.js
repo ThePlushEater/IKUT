@@ -11,7 +11,7 @@ var IKUT;
         function FrameView(options) {
             _super.call(this, options);
             var self = this;
-            self.bDebug = true;
+            self.bDebug = false;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
         FrameView.prototype.render = function (args) {
@@ -21,25 +21,58 @@ var IKUT;
             // apply template
             if (args instanceof IKUT.Alarm) {
                 // apply template
-                var template = _.template(IKUT.Template.getFrameViewTemplate());
+                var stars = args.getStars();
+                var formattedStars = "";
+                if (stars > 1000000) {
+                    formattedStars = Math.floor(stars / 1000000) + "M";
+                }
+                else if (stars > 1000) {
+                    formattedStars = Math.floor(stars / 1000) + "K";
+                }
+                else {
+                    formattedStars = stars.toString();
+                }
                 if (args.getType() == 1 /* DAILY */) {
-                    var data = {
+                    var template6 = _.template(IKUT.Template.getFrameViewTemplate2());
+                    var data6 = {
                         header: args.getName(),
                         //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
                         content: args.getFormattedTime(),
                         cid: args.getId(),
                         icon: IKUT.Setting.getCategoryIcon(args.getCategory()),
+                        stars: formattedStars,
                     };
+                    self.$el.html(template6(data6));
                 }
                 else {
+                    var template6 = _.template(IKUT.Template.getFrameViewTemplate2());
+                    var data6 = {
+                        header: args.getName(),
+                        //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
+                        content: args.getFormattedTime() + " " + args.getFormattedDate(),
+                        cid: args.getId(),
+                        icon: IKUT.Setting.getCategoryIcon(args.getCategory()),
+                        stars: formattedStars,
+                    };
+                    self.$el.html(template6(data6));
                 }
-                self.$el.html(template(data));
             }
             else if (args instanceof IKUT.User) {
+                var stars = args.getStars();
+                var formattedStars = "";
+                if (stars > 1000000) {
+                    formattedStars = Math.floor(stars / 1000000) + "M";
+                }
+                else if (stars > 1000) {
+                    formattedStars = Math.floor(stars / 1000) + "K";
+                }
+                else {
+                    formattedStars = stars.toString();
+                }
                 var template = _.template(IKUT.Template.getFrameViewTemplate());
                 var data = {
                     header: args.getDescription(),
-                    content: args.getFirstname() + " " + args.getLastname(),
+                    content: args.getFirstname() + " " + args.getLastname() + ' <span class="badge"><i class="fa fa-star fa-1x"></i> ' + formattedStars + ' </span>',
                     cid: args.getId(),
                     icon: 'fa-user',
                 };

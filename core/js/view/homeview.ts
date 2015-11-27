@@ -14,6 +14,9 @@
 
             // get alarms
             var alarms: Alarms = Controller.getUpcoming7DaysAlarms();
+            alarms.add(Controller.getGroupAlarms().models);
+            alarms.setBeginningofDays();
+            Model.actualAlarms = alarms;
 
             // apply template
             var template = _.template(Template.getHomeViewTemplate());
@@ -41,6 +44,9 @@
 
             // get alarms
             var alarms: Alarms = Controller.getUpcoming7DaysAlarms();
+            alarms.add(Controller.getGroupAlarms().models);
+            alarms.setBeginningofDays();
+            Model.actualAlarms = alarms;
 
             // apply template
             var template = _.template(Template.getHomeViewTemplate2());

@@ -23,22 +23,24 @@ var IKUT;
             var data = {};
             self.$el.html(template(data));
             $.each(self.$('.wrapper-menu'), function (index, item) {
-                switch (index) {
-                    case 0:
-                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-home', color: '#6E2F1C', hash: 'home' }).render());
-                        break;
-                    case 1:
-                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-clock-o', color: '#8F5C3D', hash: 'alarms' }).render());
-                        break;
-                    case 2:
-                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-group', color: '#AB8349', hash: 'friends' }).render());
-                        break;
-                    case 3:
-                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-paper-plane-o', color: '#5C8A7A', hash: 'pushes' }).render());
-                        break;
-                    case 4:
-                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-gear', color: '#5d7422', hash: 'star' }).render());
-                        break;
+                if (IKUT.View.getViewType() != 6 /* POPUP */) {
+                    switch (index) {
+                        case 0:
+                            self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-home', color: '#6E2F1C', hash: 'home' }).render());
+                            break;
+                        case 1:
+                            self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-clock-o', color: '#8F5C3D', hash: 'alarms' }).render());
+                            break;
+                        case 2:
+                            self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-group', color: '#AB8349', hash: 'friends' }).render());
+                            break;
+                        case 3:
+                            self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-paper-plane-o', color: '#5C8A7A', hash: 'pushes' }).render());
+                            break;
+                        case 4:
+                            self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-gear', color: '#5d7422', hash: 'star' }).render());
+                            break;
+                    }
                 }
             });
             return self;

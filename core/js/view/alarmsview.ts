@@ -126,7 +126,7 @@
                     self.sideView = SideViewFractory.create($('#wrapper-main'));
                     self.sideView.setParentView(self);
                     var today: Moment = moment(new Date());
-                    var alarm: Alarm = new Alarm({ name: '', users: "", type: ALARM_LIST.DAILY, date: today.format(Setting.getDateTimeFormat1()), end: today.format(Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
+                    var alarm: Alarm = new Alarm({ name: '', users: "", type: ALARM_LIST.DAILY, date: today.format(Setting.getDateTimeFormat1()), end: today.format(Setting.getDateTimeFormat1()), days: "0000000", category: 0, stars: 5 });
                     alarm.addDailyDay(moment().day());
                     alarm.addUsercId(Model.getCurUser().getcId());
                     //var cid = $(this).attr('data-cid');

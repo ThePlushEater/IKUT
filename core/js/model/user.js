@@ -20,6 +20,7 @@ var IKUT;
                 "firstname": "",
                 "lastname": "",
                 "description": "",
+                "stars": 0,
                 "recent": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
                 "created": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
             };
@@ -95,6 +96,10 @@ var IKUT;
         User.prototype.getDescription = function () {
             var self = this;
             return this.get('description');
+        };
+        User.prototype.getStars = function () {
+            var self = this;
+            return parseInt(this.get('stars'));
         };
         User.prototype.getFormattedRecentDate = function () {
             var self = this;

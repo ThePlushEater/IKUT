@@ -31,7 +31,7 @@
         public static getTimeFormat1(): string {
             //return "HH:mm:ss ddd MMM Do";
             //return "HH:mm:ss dddd";
-            return "hh:mm A";
+            return "h:mm A";
         }
 
         public static getTimeFormat2(): string {
@@ -64,6 +64,10 @@
             return Setting.getBaseUrl() + "core/image/";
         }
 
+        public static getContentFileDir(): string {
+            return Setting.getBaseUrl() + "content/file/";
+        }
+
         public static getBackgroundImage(): string {
             return Setting.getCoreImageDir() + "Gray-Background-101.jpg";
         }
@@ -87,13 +91,15 @@
         public static getBackgroundBlackColor(): string {
             return "rgba(0, 0, 0, 0.75)";
         }
+        public static getBackgroundWhiteColor(): string {
+            return "rgba(255, 255, 255, 0.5)";
+        }
 
         public static getViewTransitionDuration(): number {
             return 250;
         }
 
         public static getCategoryIcon(index: number): string {
-            console.log(index);
             if (index == 0) {
                 return 'fa-blank';
             } else if (index == 1) {

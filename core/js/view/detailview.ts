@@ -4,6 +4,7 @@
         private parentView: BaseView;
         private curAlarm: Alarm;
         private curUser: User;
+        private origstars: number;
         constructor(options?: Backbone.ViewOptions<Backbone.Model>) {
             super(options);
             var self: DetailView = this;
@@ -18,8 +19,28 @@
             if (args instanceof Alarm) {
                 self.curAlarm = <Alarm>args;
 
-                var exist: Alarm = Model.getAlarms().findWhere({ cid: self.curAlarm.getcId() });
+                self.origstars = self.curAlarm.getStars();
+                console.log("self.origstars: " + self.origstars);
+                var origFormattedStars = "";
+                if (self.origstars > 1000000) {
+                    origFormattedStars = Math.floor(self.origstars / 1000000) + "M";
+                } else if (self.origstars > 1000) {
+                    origFormattedStars = Math.floor(self.origstars / 1000) + "K";
+                } else {
+                    origFormattedStars = self.origstars.toString();
+                }
 
+                var exist: Alarm = Model.getAlarms().findWhere({ cid: self.curAlarm.getcId() });
+                
+                var stars = Model.getCurUser().getStars();
+                var formattedStars = "";
+                if (stars > 1000000) {
+                    formattedStars = Math.floor(stars / 1000000) + "M";
+                } else if (stars > 1000) {
+                    formattedStars = Math.floor(stars / 1000) + "K";
+                } else {
+                    formattedStars = stars.toString();
+                }
 
                 if (exist) {    // Edit existing alarm
                     
@@ -43,6 +64,8 @@
                             name: self.curAlarm.getName(),
                             users: Model.getUsers(),
                             curUser: Model.getCurUser(),
+                            origstars: self.curAlarm.getStars(),
+                            stars: formattedStars,
                         }
                         var data = {
                             header: "Group Alarm Detail",
@@ -71,6 +94,8 @@
                             name: self.curAlarm.getName(),
                             users: Model.getUsers(),
                             curUser: Model.getCurUser(),
+                            origstars: self.curAlarm.getStars(),
+                            stars: formattedStars,
                         }
                         var data = {
                             header: "New Group Alarm",
@@ -239,12 +264,16 @@
             var self: DetailView = this;
             self.$('#btn-save').off('click');
             self.$('#btn-save').on('click', function () {
-
+                View.setIsLoading(true);
                 // remove all warnings
                 self.$('.warn').addClass('hidden');
                 // check valid time.
                 var isError: boolean = false;
                 if (self.$('#datetime').length) {
+                    if (self.$('#stars').val() == 0 || self.$('#stars').val() == "" || (Model.getCurUser().getStars() + self.origstars < parseInt(self.$('#stars').val()))) {
+                        self.$('.warn-stars').removeClass('hidden');
+                        isError = true;
+                    }
                     if (moment(self.$('#datetime').data("date")).valueOf() < moment(new Date()).valueOf()) {
                         self.$('.warn-datetime').removeClass('hidden');
                         isError = true;
@@ -255,6 +284,7 @@
                     }
 
                     if (isError) {
+                        View.setIsLoading(false);
                         return;
                     }
                 }
@@ -280,7 +310,12 @@
                 }
 
                 
-
+                // stars
+                if (self.$('#datetime').length) {
+                    self.curAlarm.set('stars', parseInt($('#stars').val()));
+                    orig.set('stars', parseInt($('#stars').val()));
+                    Model.getCurUser().set('stars', Model.getCurUser().getStars() + self.origstars - parseInt($('#stars').val()));
+                }
 
 
                 // category
@@ -317,12 +352,16 @@
 
             self.$('#btn-create').off('click');
             self.$('#btn-create').on('click', function () {
-
+                View.setIsLoading(true);
                 // remove all warnings
                 self.$('.warn').addClass('hidden');
                 // check valid time.
                 var isError: boolean = false;
                 if (self.$('#datetime').length) {
+                    if (self.$('#stars').val() == 0 || self.$('#stars').val() == "" || (Model.getCurUser().getStars() < parseInt(self.$('#stars').val()))) {
+                        self.$('.warn-stars').removeClass('hidden');
+                        isError = true;
+                    }
                     if (moment(self.$('#datetime').data("date")).valueOf() < moment(new Date()).valueOf()) {
                         self.$('.warn-datetime').removeClass('hidden');
                         isError = true;
@@ -332,6 +371,7 @@
                         isError = true;
                     }
                     if (isError) {
+                        View.setIsLoading(false);
                         return;
                     }
                 }
@@ -359,6 +399,11 @@
                 //orig.set('date', moment(moment(new Date()).format(Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(Setting.getDateTimeFormat1()));
                 //console.log(self.curAlarm.getFormattedTime());
                 //console.log($('#time-start').data("date"));
+
+                // stars
+                self.curAlarm.set('stars', parseInt($('#stars').val()));
+                Model.getCurUser().set('stars', Model.getCurUser().getStars() - parseInt($('#stars').val()));
+
 
                 // category
                 self.curAlarm.set('category', parseInt($('#category option:selected').val()));
@@ -389,6 +434,7 @@
             var self: DetailView = this;
             self.$('#btn-save').off('click');
             self.$('#btn-save').on('click', function () {
+                View.setIsLoading(true);
                 self.curUser.set('description', self.$('#description').val());
                 // back to parentview
                 self.parentView.animInactive();

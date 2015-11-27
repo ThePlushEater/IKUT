@@ -27,7 +27,7 @@ var IKUT;
         Setting.getTimeFormat1 = function () {
             //return "HH:mm:ss ddd MMM Do";
             //return "HH:mm:ss dddd";
-            return "hh:mm A";
+            return "h:mm A";
         };
         Setting.getTimeFormat2 = function () {
             //return "HH:mm:ss ddd MMM Do";
@@ -52,6 +52,9 @@ var IKUT;
         Setting.getCoreImageDir = function () {
             return Setting.getBaseUrl() + "core/image/";
         };
+        Setting.getContentFileDir = function () {
+            return Setting.getBaseUrl() + "content/file/";
+        };
         Setting.getBackgroundImage = function () {
             return Setting.getCoreImageDir() + "Gray-Background-101.jpg";
         };
@@ -74,11 +77,13 @@ var IKUT;
         Setting.getBackgroundBlackColor = function () {
             return "rgba(0, 0, 0, 0.75)";
         };
+        Setting.getBackgroundWhiteColor = function () {
+            return "rgba(255, 255, 255, 0.5)";
+        };
         Setting.getViewTransitionDuration = function () {
             return 250;
         };
         Setting.getCategoryIcon = function (index) {
-            console.log(index);
             if (index == 0) {
                 return 'fa-blank';
             }

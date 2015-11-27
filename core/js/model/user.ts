@@ -12,6 +12,7 @@
                 "firstname": "",
                 "lastname": "",
                 "description": "",
+                "stars": 0,
                 "recent": moment(new Date()).format(Setting.getDateTimeFormat1()),
                 "created": moment(new Date()).format(Setting.getDateTimeFormat1()),
             };
@@ -89,6 +90,10 @@
         public getDescription(): string {
             var self: User = this;
             return this.get('description');
+        }
+        public getStars(): number {
+            var self: User = this;
+            return parseInt(this.get('stars'));
         }
         public getFormattedRecentDate(): string {
             var self: User = this;

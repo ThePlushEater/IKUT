@@ -135,6 +135,7 @@
         border-radius: 2px;
         color: rgba(255,255,255,0.75);
         border: 2px solid rgba(255,255,255,0.65);
+        font-weight: 700;
     }
     /*
     .input-group-addon:active {

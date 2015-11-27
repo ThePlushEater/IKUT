@@ -9,6 +9,8 @@ var IKUT;
     var Controller = (function () {
         function Controller(args) {
             this.bDebug = true;
+            this.bCharacterHasHairPin = false;
+            this.bTicking = false;
             if (Controller._instance) {
                 throw new Error("Error: Instantiation failed: Use Controller.getInstance() instead of new.");
             }
@@ -17,8 +19,46 @@ var IKUT;
         Controller.getInstance = function () {
             return Controller._instance;
         };
+        Controller.startTick = function () {
+            var self = Controller.getInstance();
+            if (!self.bTicking) {
+                self.bTicking = true;
+                if (IKUT.View.getViewType() != 6 /* POPUP */) {
+                    console.log("CHECKING ALARM...");
+                    // get alarms
+                    var alarms = Controller.getUpcoming7DaysAlarms();
+                    alarms.add(Controller.getGroupAlarms().models);
+                    IKUT.Model.actualAlarms = alarms;
+                    var active = IKUT.Model.actualAlarms.getActiveAlarm();
+                    if (active) {
+                        Router.navigate('popup/' + active.getcId(), { trigger: true, replace: true });
+                    }
+                }
+                self.tickInterval = setInterval(function () {
+                    if (IKUT.View.getViewType() != 6 /* POPUP */) {
+                        console.log("CHECKING ALARM...");
+                        // get alarms
+                        var alarms = Controller.getUpcoming7DaysAlarms();
+                        alarms.add(Controller.getGroupAlarms().models);
+                        IKUT.Model.actualAlarms = alarms;
+                        console.log(IKUT.Model.actualAlarms);
+                        var active = IKUT.Model.actualAlarms.getActiveAlarm();
+                        if (active) {
+                            Router.navigate('popup/' + active.getcId(), { trigger: true, replace: true });
+                        }
+                    }
+                }, 15000);
+            }
+        };
+        Controller.setIsCharacterHasHairPin = function (has) {
+            this._instance.bCharacterHasHairPin = has;
+        };
+        Controller.getIsCharacterHasHairPin = function () {
+            return this._instance.bCharacterHasHairPin;
+        };
         Controller.loadHomePage = function () {
             var self = Controller.getInstance();
+            Controller.startTick();
             if (self.bDebug)
                 console.log(Controller.TAG + "load home page.");
             IKUT.View.setViewType(1 /* HOME */);
@@ -28,6 +68,7 @@ var IKUT;
             var self = Controller.getInstance();
             if (self.bDebug)
                 console.log(Controller.TAG + "load alarms page.");
+            Controller.startTick();
             IKUT.View.setViewType(2 /* ALARMS */);
             IKUT.View.render();
         };
@@ -35,6 +76,7 @@ var IKUT;
             var self = Controller.getInstance();
             if (self.bDebug)
                 console.log(Controller.TAG + "load friends page.");
+            Controller.startTick();
             IKUT.View.setViewType(3 /* FRIENDS */);
             IKUT.View.render();
         };
@@ -42,6 +84,7 @@ var IKUT;
             var self = Controller.getInstance();
             if (self.bDebug)
                 console.log(Controller.TAG + "load pushes page.");
+            Controller.startTick();
             IKUT.View.setViewType(4 /* PUSHES */);
             IKUT.View.render();
         };
@@ -49,8 +92,25 @@ var IKUT;
             var self = Controller.getInstance();
             if (self.bDebug)
                 console.log(Controller.TAG + "load star page.");
+            Controller.startTick();
             IKUT.View.setViewType(5 /* STAR */);
             IKUT.View.render();
+        };
+        Controller.loadPopupPage = function (cid) {
+            var self = Controller.getInstance();
+            self.alarmCid = cid;
+            console.log("self.alarmCid: " + self.alarmCid);
+            if (self.bDebug)
+                console.log(Controller.TAG + "load popup page.");
+            Controller.startTick();
+            IKUT.View.setViewType(6 /* POPUP */);
+            IKUT.View.render();
+        };
+        Controller.getCurrentAlarm = function () {
+            var self = Controller.getInstance();
+            // get alarms
+            var alarm = IKUT.Model.actualAlarms.getFromActualcId(self.alarmCid);
+            return alarm;
         };
         Controller.getUpcoming7DaysAlarms = function () {
             return IKUT.Model.getAlarms().getUpcoming7DaysAlarmsForUser(IKUT.Model.getCurUser());
@@ -81,6 +141,7 @@ var IKUT;
                 "friends": "friends",
                 "pushes": "pushes",
                 "star": "star",
+                "popup/:cid": "popup",
                 "alarm/:id": "alarm",
             };
             _super.call(this, options);
@@ -111,6 +172,10 @@ var IKUT;
         Router.prototype.star = function () {
             console.log(Router.TAG + "we have loaded the star page.");
             Controller.loadStarPage();
+        };
+        Router.prototype.popup = function (cid) {
+            console.log(Router.TAG + "we have loaded the popup cid: " + cid + ".");
+            Controller.loadPopupPage(cid);
         };
         Router.prototype.alarm = function (id) {
             console.log(Router.TAG + "we have loaded the menu id: " + id + ".");

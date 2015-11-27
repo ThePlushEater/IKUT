@@ -4,7 +4,7 @@
         constructor(options?: Backbone.ViewOptions<Backbone.Model>) {
             super(options);
             var self: FrameView = this;
-            self.bDebug = true;
+            self.bDebug = false;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
         public render(args?: any): any {
@@ -14,25 +14,55 @@
             // apply template
             if (args instanceof Alarm) {
                 // apply template
-                var template = _.template(Template.getFrameViewTemplate());
+                var stars = (<Alarm>args).getStars();
+                var formattedStars = "";
+                if (stars > 1000000) {
+                    formattedStars = Math.floor(stars / 1000000) + "M";
+                } else if (stars > 1000) {
+                    formattedStars = Math.floor(stars / 1000) + "K";
+                } else {
+                    formattedStars = stars.toString();
+                }
                 if ((<Alarm>args).getType() == ALARM_LIST.DAILY) {
-                    var data = {
+                    var template6 = _.template(Template.getFrameViewTemplate2());
+                    var data6 = {
                         header: (<Alarm>args).getName(),
                         //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
                         content: (<Alarm>args).getFormattedTime(),
                         cid: (<Alarm>args).getId(),
                         icon: Setting.getCategoryIcon((<Alarm>args).getCategory()),
+                        stars: formattedStars,
                     }
+                    self.$el.html(template6(data6));
                 } else {
-
+                    
+                    var template6 = _.template(Template.getFrameViewTemplate2());
+                    var data6 = {
+                        header: (<Alarm>args).getName(),
+                        //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
+                        content: (<Alarm>args).getFormattedTime() + " " + (<Alarm>args).getFormattedDate(),
+                        cid: (<Alarm>args).getId(),
+                        icon: Setting.getCategoryIcon((<Alarm>args).getCategory()),
+                        stars: formattedStars,
+                    }
+                    self.$el.html(template6(data6));
                 }
 
-                self.$el.html(template(data));
+                
             } else if (args instanceof User) {
+                var stars = (<User>args).getStars();
+                var formattedStars = "";
+                if (stars > 1000000) {
+                    formattedStars = Math.floor(stars / 1000000) + "M";
+                } else if (stars > 1000) {
+                    formattedStars = Math.floor(stars / 1000) + "K";
+                } else {
+                    formattedStars = stars.toString();
+                }
                 var template = _.template(Template.getFrameViewTemplate());
                 var data = {
                     header: (<User>args).getDescription(),
-                    content: (<User>args).getFirstname() + " " + (<User>args).getLastname(),
+                    content: (<User>args).getFirstname() + " " + (<User>args).getLastname() + ' <span class="badge"><i class="fa fa-star fa-1x"></i> ' + formattedStars + ' </span>',
                     cid: (<User>args).getId(),
                     icon: 'fa-user',
                 }

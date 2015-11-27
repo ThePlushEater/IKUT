@@ -21,6 +21,7 @@
                 "type": ALARM_LIST.NONE,
                 "name": "",
                 "users": "",
+                "stars": 0,
                 "date": moment(new Date()).format(Setting.getDateTimeFormat1()),
                 "end": moment(new Date()).format(Setting.getDateTimeFormat1()),
                 "days": "0000000",
@@ -72,6 +73,7 @@
             //if (response.id != null) {
                 //response.id = parseInt(response.id);
             //}
+            response.stars = parseInt(response.stars);
             response.category = parseInt(response.category);
             response.type = parseInt(response.type);
             response.date = moment(response.date).format(Setting.getDateTimeFormat1());
@@ -106,6 +108,10 @@
             var self: Alarm = this;
             return this.get('users');
         }
+        public getStars(): number {
+            var self: Alarm = this;
+            return parseInt(this.get('stars'));
+        }
         public getDays(): string {
             var self: Alarm = this;
             return this.get('days');
@@ -135,6 +141,10 @@
         public getFormattedTime(): string {
             var self: Alarm = this;
             return moment(self.get('date')).format(Setting.getTimeFormat1());
+        }
+        public getFormattedTime2(): string {
+            var self: Alarm = this;
+            return moment(self.get('date')).format(Setting.getTimeFormat2());
         }
         /*
         public getFormattedEndTime(): string {
@@ -207,7 +217,7 @@
             var result: Array<Alarm> = new Array<Alarm>();
             for (var i = 0; i < 6; i++) {   // iterate all days
                 if (self.getIsDailyDayOn(i)) {
-                    var alarm: Alarm = new Alarm({ cid: self.getId(), name: self.getName(), users: self.getUsers(), type: self.getType(), date: '2015-11-25 07:05:15', days: self.getDays(), category: self.getCategory() });
+                    var alarm: Alarm = new Alarm({ cid: self.getId(), name: self.getName(), users: self.getUsers(), type: self.getType(), date: '2015-11-25 07:05:15', days: self.getDays(), category: self.getCategory(), stars: self.getStars() });
                     var date = moment(moment().day(i + 1).format(Setting.getDateFormat()) + " " + self.getFormattedTime());
                     if (moment(new Date()).valueOf() > moment(date).valueOf()) { // has passed
                         var date = moment(moment().day(i + 1 + 7).format(Setting.getDateFormat()) + " " + self.getFormattedTime());
@@ -242,7 +252,7 @@
                     }
                 }
             });
-            self.setSortType(ALARM_SORT_LIST.DAY);
+            alarms.setSortType(ALARM_SORT_LIST.DAY);
             alarms.sort();
             if (alarms.models.length > 1) {
                 var date = moment(alarms.models[0].getDate());
@@ -255,14 +265,19 @@
                     }
                 });
             }
-            if (alarms.models.length >= 1) {
-                alarms.models[0].setIsBeggingOfTheDay(false);
-            }
-            if (alarms.models.length >= 2) {
-                alarms.models[1].setIsBeggingOfTheDay(true);
-            }
+            
             
             return alarms;
+        }
+
+        public setBeginningofDays(): void {
+            var self: Alarms = this;
+            if (self.models.length >= 1) {
+                self.models[0].setIsBeggingOfTheDay(false);
+            }
+            if (self.models.length >= 2) {
+                self.models[1].setIsBeggingOfTheDay(true);
+            }
         }
 
         public setSortType(_type: ALARM_SORT_LIST) {
@@ -280,7 +295,7 @@
                     }
                 }
             });
-            self.setSortType(ALARM_SORT_LIST.TIME);
+            alarms.setSortType(ALARM_SORT_LIST.TIME);
             alarms.sort();
 
             return alarms;
@@ -298,7 +313,7 @@
                     }
                 }
             });
-            self.setSortType(ALARM_SORT_LIST.DAY);
+            alarms.setSortType(ALARM_SORT_LIST.DAY);
             alarms.sort();
 
             return alarms;
@@ -316,10 +331,36 @@
                     }
                 }
             });
-            self.setSortType(ALARM_SORT_LIST.DAY);
+            alarms.setSortType(ALARM_SORT_LIST.DAY);
             alarms.sort();
 
             return alarms;
+        }
+
+        public getFromActualcId(cid: string): Alarm {
+            var self: Alarms = this;
+            var result: Alarm;
+            $.each(self.models, function (index: number, model: Alarm) {
+                if (model.cid == cid) {
+                    result = model;
+                }
+            });
+            return result;
+        }
+
+        public getActiveAlarm(): Alarm {
+            var self: Alarms = this;
+            var result: Alarm;
+            self.setSortType(ALARM_SORT_LIST.DAY);
+            self.sort();
+            $.each(self.models, function (index: number, model: Alarm) {
+                var start = moment(new Date()).subtract('seconds', 15);
+                var end = moment(new Date()).add('seconds', 15);
+                if ((model.getDate().valueOf() >= start.valueOf()) && (model.getDate().valueOf() <= end.valueOf())) {
+                    result = model;
+                }
+            });
+            return result;
         }
 
         comparator(model: Alarm): any {

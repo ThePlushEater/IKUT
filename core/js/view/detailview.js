@@ -1,7 +1,8 @@
-var __extends = (this && this.__extends) || function (d, b) {
+var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    __.prototype = b.prototype;
+    d.prototype = new __();
 };
 var IKUT;
 (function (IKUT) {
@@ -20,11 +21,34 @@ var IKUT;
             // apply template
             if (args instanceof IKUT.Alarm) {
                 self.curAlarm = args;
+                self.origstars = self.curAlarm.getStars();
+                console.log("self.origstars: " + self.origstars);
+                var origFormattedStars = "";
+                if (self.origstars > 1000000) {
+                    origFormattedStars = Math.floor(self.origstars / 1000000) + "M";
+                }
+                else if (self.origstars > 1000) {
+                    origFormattedStars = Math.floor(self.origstars / 1000) + "K";
+                }
+                else {
+                    origFormattedStars = self.origstars.toString();
+                }
                 var exist = IKUT.Model.getAlarms().findWhere({ cid: self.curAlarm.getcId() });
+                var stars = IKUT.Model.getCurUser().getStars();
+                var formattedStars = "";
+                if (stars > 1000000) {
+                    formattedStars = Math.floor(stars / 1000000) + "M";
+                }
+                else if (stars > 1000) {
+                    formattedStars = Math.floor(stars / 1000) + "K";
+                }
+                else {
+                    formattedStars = stars.toString();
+                }
                 if (exist) {
                     // apply template
                     var template = _.template(IKUT.Template.getDetailViewTemplate());
-                    if (self.curAlarm.getType() == IKUT.ALARM_LIST.DAILY) {
+                    if (self.curAlarm.getType() == 1 /* DAILY */) {
                         // detail
                         var template2 = _.template(IKUT.Template.getDarilyAlarmEditTemplate());
                         var data2 = {
@@ -43,6 +67,8 @@ var IKUT;
                             name: self.curAlarm.getName(),
                             users: IKUT.Model.getUsers(),
                             curUser: IKUT.Model.getCurUser(),
+                            origstars: self.curAlarm.getStars(),
+                            stars: formattedStars,
                         };
                         var data = {
                             header: "Group Alarm Detail",
@@ -54,7 +80,7 @@ var IKUT;
                 else {
                     // apply template
                     var template = _.template(IKUT.Template.getDetailViewTemplate());
-                    if (self.curAlarm.getType() == IKUT.ALARM_LIST.DAILY) {
+                    if (self.curAlarm.getType() == 1 /* DAILY */) {
                         // detail
                         var template2 = _.template(IKUT.Template.getDarilyAlarmEditTemplate2());
                         var data2 = {
@@ -73,6 +99,8 @@ var IKUT;
                             name: self.curAlarm.getName(),
                             users: IKUT.Model.getUsers(),
                             curUser: IKUT.Model.getCurUser(),
+                            origstars: self.curAlarm.getStars(),
+                            stars: formattedStars,
                         };
                         var data = {
                             header: "New Group Alarm",
@@ -116,25 +144,25 @@ var IKUT;
                 $('#participants').selectpicker('val', cids);
                 // composite days
                 var days = new Array();
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.MONDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(0 /* MONDAY */)) {
                     days.push(0);
                 }
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.TUESDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(1 /* TUESDAY */)) {
                     days.push(1);
                 }
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.WEDNESDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(2 /* WEDNESDAY */)) {
                     days.push(2);
                 }
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.THURSDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(3 /* THURSDAY */)) {
                     days.push(3);
                 }
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.FRIDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(4 /* FRIDAY */)) {
                     days.push(4);
                 }
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.SATURDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(5 /* SATURDAY */)) {
                     days.push(5);
                 }
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.SUNDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(6 /* SUNDAY */)) {
                     days.push(6);
                 }
                 $('#days').selectpicker('val', days);
@@ -216,11 +244,16 @@ var IKUT;
             var self = this;
             self.$('#btn-save').off('click');
             self.$('#btn-save').on('click', function () {
+                IKUT.View.setIsLoading(true);
                 // remove all warnings
                 self.$('.warn').addClass('hidden');
                 // check valid time.
                 var isError = false;
                 if (self.$('#datetime').length) {
+                    if (self.$('#stars').val() == 0 || self.$('#stars').val() == "" || (IKUT.Model.getCurUser().getStars() + self.origstars < parseInt(self.$('#stars').val()))) {
+                        self.$('.warn-stars').removeClass('hidden');
+                        isError = true;
+                    }
                     if (moment(self.$('#datetime').data("date")).valueOf() < moment(new Date()).valueOf()) {
                         self.$('.warn-datetime').removeClass('hidden');
                         isError = true;
@@ -230,6 +263,7 @@ var IKUT;
                         isError = true;
                     }
                     if (isError) {
+                        IKUT.View.setIsLoading(false);
                         return;
                     }
                 }
@@ -246,6 +280,12 @@ var IKUT;
                     //console.log(self.curAlarm.getFormattedTime());
                     self.curAlarm.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
                     orig.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
+                }
+                // stars
+                if (self.$('#datetime').length) {
+                    self.curAlarm.set('stars', parseInt($('#stars').val()));
+                    orig.set('stars', parseInt($('#stars').val()));
+                    IKUT.Model.getCurUser().set('stars', IKUT.Model.getCurUser().getStars() + self.origstars - parseInt($('#stars').val()));
                 }
                 // category
                 self.curAlarm.set('category', parseInt($('#category option:selected').val()));
@@ -276,11 +316,16 @@ var IKUT;
             });
             self.$('#btn-create').off('click');
             self.$('#btn-create').on('click', function () {
+                IKUT.View.setIsLoading(true);
                 // remove all warnings
                 self.$('.warn').addClass('hidden');
                 // check valid time.
                 var isError = false;
                 if (self.$('#datetime').length) {
+                    if (self.$('#stars').val() == 0 || self.$('#stars').val() == "" || (IKUT.Model.getCurUser().getStars() < parseInt(self.$('#stars').val()))) {
+                        self.$('.warn-stars').removeClass('hidden');
+                        isError = true;
+                    }
                     if (moment(self.$('#datetime').data("date")).valueOf() < moment(new Date()).valueOf()) {
                         self.$('.warn-datetime').removeClass('hidden');
                         isError = true;
@@ -290,6 +335,7 @@ var IKUT;
                         isError = true;
                     }
                     if (isError) {
+                        IKUT.View.setIsLoading(false);
                         return;
                     }
                 }
@@ -310,6 +356,9 @@ var IKUT;
                 //orig.set('date', moment(moment(new Date()).format(Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(Setting.getDateTimeFormat1()));
                 //console.log(self.curAlarm.getFormattedTime());
                 //console.log($('#time-start').data("date"));
+                // stars
+                self.curAlarm.set('stars', parseInt($('#stars').val()));
+                IKUT.Model.getCurUser().set('stars', IKUT.Model.getCurUser().getStars() - parseInt($('#stars').val()));
                 // category
                 self.curAlarm.set('category', parseInt($('#category option:selected').val()));
                 //orig.set('category', parseInt($('#category option:selected').val()));
@@ -335,6 +384,7 @@ var IKUT;
             var self = this;
             self.$('#btn-save').off('click');
             self.$('#btn-save').on('click', function () {
+                IKUT.View.setIsLoading(true);
                 self.curUser.set('description', self.$('#description').val());
                 // back to parentview
                 self.parentView.animInactive();

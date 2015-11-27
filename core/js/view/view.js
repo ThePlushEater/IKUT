@@ -13,6 +13,7 @@ var IKUT;
         VIEWTYPE_LIST[VIEWTYPE_LIST["FRIENDS"] = 3] = "FRIENDS";
         VIEWTYPE_LIST[VIEWTYPE_LIST["PUSHES"] = 4] = "PUSHES";
         VIEWTYPE_LIST[VIEWTYPE_LIST["STAR"] = 5] = "STAR";
+        VIEWTYPE_LIST[VIEWTYPE_LIST["POPUP"] = 6] = "POPUP";
     })(IKUT.VIEWTYPE_LIST || (IKUT.VIEWTYPE_LIST = {}));
     var VIEWTYPE_LIST = IKUT.VIEWTYPE_LIST;
     var View = (function (_super) {
@@ -35,6 +36,9 @@ var IKUT;
         };
         View.setViewType = function (viewType) {
             View._viewType = viewType;
+        };
+        View.getViewType = function () {
+            return View._viewType;
         };
         View.setIsLoading = function (bLoading) {
             View._bLoading = bLoading;
@@ -80,6 +84,24 @@ var IKUT;
                             self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
                         }
                     }
+                    else if (self._starView) {
+                        self._starView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._starView.destroy();
+                            self._starView = null;
+                        });
+                        if (self._starView.sideView) {
+                            self._starView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._popupView) {
+                        self._popupView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._popupView.destroy();
+                            self._popupView = null;
+                        });
+                        if (self._popupView.sideView) {
+                            self._popupView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
                     break;
                 case 2 /* ALARMS */:
                     setTimeout(function () {
@@ -111,6 +133,24 @@ var IKUT;
                         });
                         if (self._pushesView.sideView) {
                             self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._starView) {
+                        self._starView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._starView.destroy();
+                            self._starView = null;
+                        });
+                        if (self._starView.sideView) {
+                            self._starView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._popupView) {
+                        self._popupView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._popupView.destroy();
+                            self._popupView = null;
+                        });
+                        if (self._popupView.sideView) {
+                            self._popupView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
                         }
                     }
                     break;
@@ -146,6 +186,24 @@ var IKUT;
                             self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
                         }
                     }
+                    else if (self._starView) {
+                        self._starView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._starView.destroy();
+                            self._starView = null;
+                        });
+                        if (self._starView.sideView) {
+                            self._starView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._popupView) {
+                        self._popupView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._popupView.destroy();
+                            self._popupView = null;
+                        });
+                        if (self._popupView.sideView) {
+                            self._popupView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
                     break;
                 case 4 /* PUSHES */:
                     setTimeout(function () {
@@ -177,6 +235,131 @@ var IKUT;
                         });
                         if (self._usersView.sideView) {
                             self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._starView) {
+                        self._starView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._starView.destroy();
+                            self._starView = null;
+                        });
+                        if (self._starView.sideView) {
+                            self._starView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._popupView) {
+                        self._popupView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._popupView.destroy();
+                            self._popupView = null;
+                        });
+                        if (self._popupView.sideView) {
+                            self._popupView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    break;
+                case 5 /* STAR */:
+                    setTimeout(function () {
+                        self._starView = IKUT.StarViewFractory.create($('#wrapper-main')).render();
+                    }, IKUT.Setting.getViewTransitionDuration());
+                    // remove other views
+                    if (self._alarmsView) {
+                        self._alarmsView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._alarmsView.destroy();
+                            self._alarmsView = null;
+                        });
+                        if (self._alarmsView.sideView) {
+                            self._alarmsView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._homeView) {
+                        self._homeView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._homeView.destroy();
+                            self._homeView = null;
+                        });
+                        if (self._homeView.sideView) {
+                            self._homeView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._usersView) {
+                        self._usersView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._usersView.destroy();
+                            self._usersView = null;
+                        });
+                        if (self._usersView.sideView) {
+                            self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._pushesView) {
+                        self._pushesView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._pushesView.destroy();
+                            self._pushesView = null;
+                        });
+                        if (self._pushesView.sideView) {
+                            self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._popupView) {
+                        self._popupView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._popupView.destroy();
+                            self._popupView = null;
+                        });
+                        if (self._popupView.sideView) {
+                            self._popupView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    break;
+                case 6 /* POPUP */:
+                    var popAlarm = IKUT.Controller.getCurrentAlarm();
+                    console.log("-- popAlarm --");
+                    console.log(popAlarm);
+                    if (popAlarm) {
+                        setTimeout(function () {
+                            self._popupView = IKUT.PopupViewFractory.create($('#wrapper-main')).render(popAlarm);
+                        }, IKUT.Setting.getViewTransitionDuration());
+                        // remove other views
+                        if (self._alarmsView) {
+                            self._alarmsView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                                self._alarmsView.destroy();
+                                self._alarmsView = null;
+                            });
+                            if (self._alarmsView.sideView) {
+                                self._alarmsView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                            }
+                        }
+                        else if (self._homeView) {
+                            self._homeView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                                self._homeView.destroy();
+                                self._homeView = null;
+                            });
+                            if (self._homeView.sideView) {
+                                self._homeView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                            }
+                        }
+                        else if (self._usersView) {
+                            self._usersView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                                self._usersView.destroy();
+                                self._usersView = null;
+                            });
+                            if (self._usersView.sideView) {
+                                self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                            }
+                        }
+                        else if (self._pushesView) {
+                            self._pushesView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                                self._pushesView.destroy();
+                                self._pushesView = null;
+                            });
+                            if (self._pushesView.sideView) {
+                                self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                            }
+                        }
+                        else if (self._starView) {
+                            self._starView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                                self._starView.destroy();
+                                self._starView = null;
+                            });
+                            if (self._starView.sideView) {
+                                self._starView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                            }
                         }
                     }
                     break;
@@ -231,6 +414,11 @@ var IKUT;
                 case 5 /* STAR */:
                     self.$el.css({
                         background: "linear-gradient(" + IKUT.Setting.getBackgroundGreenColor() + ", " + IKUT.Setting.getBackgroundCyanColor() + " 70%, " + IKUT.Setting.getBackgroundBlackColor() + " 95%), " + "url( " + IKUT.Setting.getBackgroundImage() + ")"
+                    });
+                    break;
+                case 6 /* POPUP */:
+                    self.$el.css({
+                        background: "linear-gradient(" + IKUT.Setting.getBackgroundWhiteColor() + ", " + IKUT.Setting.getBackgroundWhiteColor() + " 70%, " + IKUT.Setting.getBackgroundBlackColor() + " 95%), " + "url( " + IKUT.Setting.getBackgroundImage() + ")"
                     });
                     break;
             }

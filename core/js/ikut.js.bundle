@@ -40,6 +40,8 @@
     <file>/core/js/controller/detailviewfactory.js</file>
     <file>/core/js/controller/usersviewfactory.js</file>
     <file>/core/js/controller/pushesviewfactory.js</file>
+    <file>/core/js/controller/starviewfactory.js</file>
+    <file>/core/js/controller/popupviewfactory.js</file>
     
 
     <!-- Model -->
@@ -61,6 +63,8 @@
     <file>/core/js/view/detailview.js</file>
     <file>/core/js/view/usersview.js</file>
     <file>/core/js/view/pushesview.js</file>
+    <file>/core/js/view/starview.js</file>
+    <file>/core/js/view/popupview.js</file>
 
   </files>
 </bundle>

@@ -82,4 +82,12 @@
         text-transform: uppercase;
     }
 
+    .no-left-border {
+        border-left: transparent !important;
+    }
+
+    .no-right-border {
+        border-right: transparent !important;
+    }
+
 }

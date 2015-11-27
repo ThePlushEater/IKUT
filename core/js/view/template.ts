@@ -85,6 +85,24 @@
             return template;
         }
 
+        public static getFrameViewTemplate2(): string {
+            var template = "";
+            template += '<div class="frame">';
+            template +=     '<div class="frame-inner">';
+            template +=         '<div class="frame-stroke-left"></div>';
+
+            template +=         '<div class="frame-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa <%= icon %> fa-stack-1x"></i></span></div>';
+            template +=         '<div class="frame-text-center col-xs-10"><%= content %> <span class="badge"><i class="fa fa-star fa-1x"></i> <%= stars %></span></div>';
+            template +=         '<div class="frame-text-right col-xs-1 btn-detail" data-cid="<%= cid %>"><i class="fa fa-angle-right fa-1-7x"></i></div>';
+            template +=         '<div class="clear"></div>';
+            template +=         '<span class="frame-text-top"><%= header %></span>';
+            template +=         '<div class="frame-stroke-right"></div>';
+            
+            template +=     '</div>';
+            template += '</div>';
+            return template;
+        }
+
         public static getDetailViewTemplate(): string {
             var template = "";
             template += '<div class="detail">';
@@ -132,7 +150,7 @@
             template += '<div class="frame2-stroke-left"></div>';
 
             template += '<div class="frame2-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa <%= icon %> fa-stack-1x"></i></span></div>';
-            template += '<div class="frame2-text-center col-xs-10"><%= content %> <span class="badge"><%= users %></span></div>';
+            template += '<div class="frame2-text-center col-xs-10"><%= content %> <span class="badge"><i class="fa fa-users fa-1x"></i> <%= users %></span></div>';
             template += '<div class="frame2-text-right col-xs-1 btn-detail" data-cid="<%= cid %>"><i class="fa fa-angle-right fa-1-7x"></i></div>';
             template += '<div class="clear"></div>';
 
@@ -171,6 +189,114 @@
             template += '<div class="clear"></div>';
 
             template += '</div>';
+            template += '</div>';
+            return template;
+        }
+
+        public static getStarViewTemplate(): string {
+            var template = "";
+            template += '<div id="wrapper-star">';
+            // add button
+            template += '<div class="wrapper-connector clear uppercase"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Your Character-</div></div>';
+            /////////////
+            template += '<div class="frame">';
+            template += '<div class="frame-inner">';
+            template += '<div class="frame-stroke-left"></div>';
+
+            template += '<div class="frame-text-center col-xs-12 iframe-content"><iframe src="<%= character %>" /></div>';
+            template += '<div class="clear"></div>';
+            template += '<span class="frame-text-top">CHARACTER</span>';
+            template += '<div class="frame-stroke-right"></div>';
+
+            template += '</div>';
+            template += '</div>';
+            ////////////
+            template += '<div class="button">';
+            template += '<div class="button-inner">';
+            template += '<div class="button-text-left col-xs-1"></div>';
+            template += '<div class="button-text-center col-xs-10">SHOP ITEMS</div>';
+            template += '<div class="button-text-right col-xs-1 btn-shop"><i class="fa fa-shopping-cart fa-1-5x"></i></div>';
+            template += '<div class="clear"></div>';
+
+            template += '</div>';
+            template += '</div>';
+
+            ////////////
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Your Stars-</div></div>';
+            /////////
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-star fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="stars" value="<%= stars %>" disabled/>';
+            template += '</div>';
+            template += '</div>';
+
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Username-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-user fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="username" value="<%= username %>"/ disabled>';
+            template += '</div>';
+            template += '</div>';
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-First Name-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-odnoklassniki fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="firstname" value="<%= firstname %>"/>';
+            template += '</div>';
+            template += '</div>';
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Last Name-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-odnoklassniki fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="lastname" value="<%= lastname %>"/>';
+            template += '</div>';
+            template += '</div>';
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Change Password-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-key fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="password" class="form-control" id="password1" value="<%= password %>"/>';
+            template += '</div>';
+            template += '<div class="warn-password1 warn hidden">Please put a password.</div>';
+            template += '</div>';
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Password Confirm-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-key fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="password" class="form-control" id="password2" value="<%= password %>"/>';
+            template += '</div>';
+            template += '<div class="warn-password2 warn hidden">Please put same passwords.</div>';
+            template += '</div>';
+
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Save-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-save fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-save" id="btn-save">SAVE</div>';
+            template += '</div>';
+            template += '</div>';
+
             template += '</div>';
             return template;
         }
@@ -622,6 +748,18 @@
             template += '<div class="warn-name warn hidden">Please put an event name.</div>';
             template += '</div>';
 
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Stars-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-star fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="number" class="form-control no-right-border" id="stars" value="<%=  origstars %>"/>';
+            template += '<span class="input-group-addon no-left-border">/ <%= stars %></span>';
+            template += '</div>';
+            template += '<div class="warn-stars warn hidden">Plase put right number of stars.</div>';
+            template += '</div>';
+
 
             template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Participants-</div></div>';
             template += '<div class="form-group">';
@@ -710,6 +848,18 @@
             template += '<div class="warn-name warn hidden">Please put an event name.</div>';
             template += '</div>';
 
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Stars-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-star fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="number" class="form-control no-right-border" id="stars" value="<%= origstars %>"/>';
+            template += '<span class="input-group-addon no-left-border">/ <%= stars %></span>';
+            template += '</div>';
+            template += '<div class="warn-stars warn hidden">Plase put right number of stars.</div>';
+            template += '</div>';
+
 
             template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Participants-</div></div>';
             template += '<div class="form-group">';
@@ -755,6 +905,74 @@
             template += '</div>';
 
 
+            return template;
+        }
+
+        public static getPopupViewTemplate(): string {
+            var template = "";
+
+            template += '<div id="wrapper-popup">';
+            ///////////////////////////////////////////
+
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Current Alarm-</div></div>';
+            template += '<div class="wrapper-detail">';
+
+
+
+            
+
+            template += '<div class="detail">';
+            template += '<div class="detail-inner">';
+            template += '<div class="detail-stroke-left"></div>';
+
+            //template += '<div class="detail-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x"></i></span></div>';
+            template += '<div class="detail-text-center col-xs-12">';
+            template += '<div class="upper-part">';
+
+            template += '<div class="alarm-name"><%= alarmname %></div>';
+            template += '<div class="alarm-time"><%= alarmtime %><span class="overtime"></span></div>';
+            template += '<div class="alarm-date"><%= alarmdate %></div>';
+            template += '<% if (users.models.length) { %>';
+            template += '<div class="title-users">with</div>';
+            template += '<% } %>';
+
+            template += '<% _.each(users.models, function (user) { %>';
+            template += '<div class="alarm-user"><%= user.getFirstname() %> <%= user.getLastname() %></div>';
+            template += '<% }); %>';
+
+            
+
+            template += '</div>';
+            
+            template += '<div class="bottom-part">';
+
+            template += '<div class="character-part"></div>';
+
+            template += '<div class="button">';
+            template += '<div class="button-inner">';
+            template += '<div class="button-text-left col-xs-1  btn-claim"><i class="fa fa-hand-rock-o fa-1-5x"></i></div>';
+            template += '<div class="button-text-center col-xs-10 btn-claim">CLAIM <span class="badge2"><i class="fa fa-star fa-1x"></i> <span id="alarmstars"><%= alarmstars %></span></span></div>';
+            template += '<div class="button-text-right col-xs-1 btn-claim"><i class="fa fa-hand-rock-o fa-1-5x"></i></div>';
+            template += '<div class="clear"></div>';
+
+            
+
+            template += '</div>';
+
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="clear"></div>';
+            template += '</div>';
+            template += '<span class="detail-text-top">CURRENT ALARM</span>';
+            template += '<div class="detail-stroke-right"></div>';
+
+            template += '</div>';
+            template += '</div>';
+
+
+            template += '</div>';
+            ///////////////////////////////////////////
+            template += '</div>';
             return template;
         }
     }

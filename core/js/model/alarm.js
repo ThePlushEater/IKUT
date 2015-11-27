@@ -1,7 +1,8 @@
-var __extends = (this && this.__extends) || function (d, b) {
+var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    __.prototype = b.prototype;
+    d.prototype = new __();
 };
 var IKUT;
 (function (IKUT) {
@@ -39,10 +40,11 @@ var IKUT;
             var self = this;
             this.defaults = {
                 "cid": "",
-                "category": CATEGORY_LIST.NONE,
-                "type": ALARM_LIST.NONE,
+                "category": 0 /* NONE */,
+                "type": 0 /* NONE */,
                 "name": "",
                 "users": "",
+                "stars": 0,
                 "date": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
                 "end": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
                 "days": "0000000",
@@ -91,6 +93,7 @@ var IKUT;
             //if (response.id != null) {
             //response.id = parseInt(response.id);
             //}
+            response.stars = parseInt(response.stars);
             response.category = parseInt(response.category);
             response.type = parseInt(response.type);
             response.date = moment(response.date).format(IKUT.Setting.getDateTimeFormat1());
@@ -124,6 +127,10 @@ var IKUT;
             var self = this;
             return this.get('users');
         };
+        Alarm.prototype.getStars = function () {
+            var self = this;
+            return parseInt(this.get('stars'));
+        };
         Alarm.prototype.getDays = function () {
             var self = this;
             return this.get('days');
@@ -153,6 +160,10 @@ var IKUT;
         Alarm.prototype.getFormattedTime = function () {
             var self = this;
             return moment(self.get('date')).format(IKUT.Setting.getTimeFormat1());
+        };
+        Alarm.prototype.getFormattedTime2 = function () {
+            var self = this;
+            return moment(self.get('date')).format(IKUT.Setting.getTimeFormat2());
         };
         /*
         public getFormattedEndTime(): string {
@@ -224,7 +235,7 @@ var IKUT;
             var result = new Array();
             for (var i = 0; i < 6; i++) {
                 if (self.getIsDailyDayOn(i)) {
-                    var alarm = new Alarm({ cid: self.getId(), name: self.getName(), users: self.getUsers(), type: self.getType(), date: '2015-11-25 07:05:15', days: self.getDays(), category: self.getCategory() });
+                    var alarm = new Alarm({ cid: self.getId(), name: self.getName(), users: self.getUsers(), type: self.getType(), date: '2015-11-25 07:05:15', days: self.getDays(), category: self.getCategory(), stars: self.getStars() });
                     var date = moment(moment().day(i + 1).format(IKUT.Setting.getDateFormat()) + " " + self.getFormattedTime());
                     if (moment(new Date()).valueOf() > moment(date).valueOf()) {
                         var date = moment(moment().day(i + 1 + 7).format(IKUT.Setting.getDateFormat()) + " " + self.getFormattedTime());
@@ -248,7 +259,7 @@ var IKUT;
         function Alarms(models, options) {
             _super.call(this, models, options);
             this.url = "";
-            this.sortType = ALARM_SORT_LIST.DAY;
+            this.sortType = 0 /* DAY */;
             this.model = Alarm;
         }
         Alarms.prototype.getUpcoming7DaysAlarmsForUser = function (user) {
@@ -256,13 +267,13 @@ var IKUT;
             var alarms = new Alarms();
             $.each(self.models, function (index, model) {
                 if (model.getHasUsercId(user.getcId())) {
-                    if (model.getType() == ALARM_LIST.DAILY) {
+                    if (model.getType() == 1 /* DAILY */) {
                         var temp = model.generateUpcoming7DaysDailyAlarmList();
                         alarms.add(temp);
                     }
                 }
             });
-            self.setSortType(ALARM_SORT_LIST.DAY);
+            alarms.setSortType(0 /* DAY */);
             alarms.sort();
             if (alarms.models.length > 1) {
                 var date = moment(alarms.models[0].getDate());
@@ -275,13 +286,16 @@ var IKUT;
                     }
                 });
             }
-            if (alarms.models.length >= 1) {
-                alarms.models[0].setIsBeggingOfTheDay(false);
-            }
-            if (alarms.models.length >= 2) {
-                alarms.models[1].setIsBeggingOfTheDay(true);
-            }
             return alarms;
+        };
+        Alarms.prototype.setBeginningofDays = function () {
+            var self = this;
+            if (self.models.length >= 1) {
+                self.models[0].setIsBeggingOfTheDay(false);
+            }
+            if (self.models.length >= 2) {
+                self.models[1].setIsBeggingOfTheDay(true);
+            }
         };
         Alarms.prototype.setSortType = function (_type) {
             var self = this;
@@ -292,12 +306,12 @@ var IKUT;
             var alarms = new Alarms();
             $.each(self.models, function (index, model) {
                 if (model.getHasUsercId(user.getcId())) {
-                    if (model.getType() == ALARM_LIST.DAILY) {
+                    if (model.getType() == 1 /* DAILY */) {
                         alarms.add(model);
                     }
                 }
             });
-            self.setSortType(ALARM_SORT_LIST.TIME);
+            alarms.setSortType(1 /* TIME */);
             alarms.sort();
             return alarms;
         };
@@ -306,14 +320,14 @@ var IKUT;
             var alarms = new Alarms();
             $.each(self.models, function (index, model) {
                 if (model.getHasUsercId(user.getcId())) {
-                    if (model.getType() == ALARM_LIST.GROUP) {
+                    if (model.getType() == 2 /* GROUP */) {
                         if (moment(model.getDate()).valueOf() > moment(new Date()).valueOf()) {
                             alarms.add(model);
                         }
                     }
                 }
             });
-            self.setSortType(ALARM_SORT_LIST.DAY);
+            alarms.setSortType(0 /* DAY */);
             alarms.sort();
             return alarms;
         };
@@ -322,23 +336,47 @@ var IKUT;
             var alarms = new Alarms();
             $.each(self.models, function (index, model) {
                 if (model.getHasUsercId(user1.getcId()) && model.getHasUsercId(user2.getcId())) {
-                    if (model.getType() == ALARM_LIST.GROUP) {
+                    if (model.getType() == 2 /* GROUP */) {
                         if (moment(model.getDate()).valueOf() <= moment(new Date()).valueOf()) {
                             alarms.add(model);
                         }
                     }
                 }
             });
-            self.setSortType(ALARM_SORT_LIST.DAY);
+            alarms.setSortType(0 /* DAY */);
             alarms.sort();
             return alarms;
         };
+        Alarms.prototype.getFromActualcId = function (cid) {
+            var self = this;
+            var result;
+            $.each(self.models, function (index, model) {
+                if (model.cid == cid) {
+                    result = model;
+                }
+            });
+            return result;
+        };
+        Alarms.prototype.getActiveAlarm = function () {
+            var self = this;
+            var result;
+            self.setSortType(0 /* DAY */);
+            self.sort();
+            $.each(self.models, function (index, model) {
+                var start = moment(new Date()).subtract('seconds', 15);
+                var end = moment(new Date()).add('seconds', 15);
+                if ((model.getDate().valueOf() >= start.valueOf()) && (model.getDate().valueOf() <= end.valueOf())) {
+                    result = model;
+                }
+            });
+            return result;
+        };
         Alarms.prototype.comparator = function (model) {
             var self = this;
-            if (self.sortType == ALARM_SORT_LIST.DAY) {
+            if (self.sortType == 0 /* DAY */) {
                 return moment(model.get("date")).valueOf();
             }
-            else if (self.sortType == ALARM_SORT_LIST.TIME) {
+            else if (self.sortType == 1 /* TIME */) {
                 return moment(moment(model.get("date")).format(IKUT.Setting.getTimeFormat3())).valueOf();
             }
         };

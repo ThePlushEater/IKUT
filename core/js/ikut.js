@@ -22581,6 +22581,8 @@ var IKUT;
     var Controller = (function () {
         function Controller(args) {
             this.bDebug = true;
+            this.bCharacterHasHairPin = false;
+            this.bTicking = false;
             if (Controller._instance) {
                 throw new Error("Error: Instantiation failed: Use Controller.getInstance() instead of new.");
             }
@@ -22589,8 +22591,46 @@ var IKUT;
         Controller.getInstance = function () {
             return Controller._instance;
         };
+        Controller.startTick = function () {
+            var self = Controller.getInstance();
+            if (!self.bTicking) {
+                self.bTicking = true;
+                if (IKUT.View.getViewType() != 6 /* POPUP */) {
+                    console.log("CHECKING ALARM...");
+                    // get alarms
+                    var alarms = Controller.getUpcoming7DaysAlarms();
+                    alarms.add(Controller.getGroupAlarms().models);
+                    IKUT.Model.actualAlarms = alarms;
+                    var active = IKUT.Model.actualAlarms.getActiveAlarm();
+                    if (active) {
+                        Router.navigate('popup/' + active.getcId(), { trigger: true, replace: true });
+                    }
+                }
+                self.tickInterval = setInterval(function () {
+                    if (IKUT.View.getViewType() != 6 /* POPUP */) {
+                        console.log("CHECKING ALARM...");
+                        // get alarms
+                        var alarms = Controller.getUpcoming7DaysAlarms();
+                        alarms.add(Controller.getGroupAlarms().models);
+                        IKUT.Model.actualAlarms = alarms;
+                        console.log(IKUT.Model.actualAlarms);
+                        var active = IKUT.Model.actualAlarms.getActiveAlarm();
+                        if (active) {
+                            Router.navigate('popup/' + active.getcId(), { trigger: true, replace: true });
+                        }
+                    }
+                }, 15000);
+            }
+        };
+        Controller.setIsCharacterHasHairPin = function (has) {
+            this._instance.bCharacterHasHairPin = has;
+        };
+        Controller.getIsCharacterHasHairPin = function () {
+            return this._instance.bCharacterHasHairPin;
+        };
         Controller.loadHomePage = function () {
             var self = Controller.getInstance();
+            Controller.startTick();
             if (self.bDebug)
                 console.log(Controller.TAG + "load home page.");
             IKUT.View.setViewType(1 /* HOME */);
@@ -22600,6 +22640,7 @@ var IKUT;
             var self = Controller.getInstance();
             if (self.bDebug)
                 console.log(Controller.TAG + "load alarms page.");
+            Controller.startTick();
             IKUT.View.setViewType(2 /* ALARMS */);
             IKUT.View.render();
         };
@@ -22607,6 +22648,7 @@ var IKUT;
             var self = Controller.getInstance();
             if (self.bDebug)
                 console.log(Controller.TAG + "load friends page.");
+            Controller.startTick();
             IKUT.View.setViewType(3 /* FRIENDS */);
             IKUT.View.render();
         };
@@ -22614,6 +22656,7 @@ var IKUT;
             var self = Controller.getInstance();
             if (self.bDebug)
                 console.log(Controller.TAG + "load pushes page.");
+            Controller.startTick();
             IKUT.View.setViewType(4 /* PUSHES */);
             IKUT.View.render();
         };
@@ -22621,8 +22664,25 @@ var IKUT;
             var self = Controller.getInstance();
             if (self.bDebug)
                 console.log(Controller.TAG + "load star page.");
+            Controller.startTick();
             IKUT.View.setViewType(5 /* STAR */);
             IKUT.View.render();
+        };
+        Controller.loadPopupPage = function (cid) {
+            var self = Controller.getInstance();
+            self.alarmCid = cid;
+            console.log("self.alarmCid: " + self.alarmCid);
+            if (self.bDebug)
+                console.log(Controller.TAG + "load popup page.");
+            Controller.startTick();
+            IKUT.View.setViewType(6 /* POPUP */);
+            IKUT.View.render();
+        };
+        Controller.getCurrentAlarm = function () {
+            var self = Controller.getInstance();
+            // get alarms
+            var alarm = IKUT.Model.actualAlarms.getFromActualcId(self.alarmCid);
+            return alarm;
         };
         Controller.getUpcoming7DaysAlarms = function () {
             return IKUT.Model.getAlarms().getUpcoming7DaysAlarmsForUser(IKUT.Model.getCurUser());
@@ -22653,6 +22713,7 @@ var IKUT;
                 "friends": "friends",
                 "pushes": "pushes",
                 "star": "star",
+                "popup/:cid": "popup",
                 "alarm/:id": "alarm",
             };
             _super.call(this, options);
@@ -22683,6 +22744,10 @@ var IKUT;
         Router.prototype.star = function () {
             console.log(Router.TAG + "we have loaded the star page.");
             Controller.loadStarPage();
+        };
+        Router.prototype.popup = function (cid) {
+            console.log(Router.TAG + "we have loaded the popup cid: " + cid + ".");
+            Controller.loadPopupPage(cid);
         };
         Router.prototype.alarm = function (id) {
             console.log(Router.TAG + "we have loaded the menu id: " + id + ".");
@@ -22727,7 +22792,7 @@ var IKUT;
         Setting.getTimeFormat1 = function () {
             //return "HH:mm:ss ddd MMM Do";
             //return "HH:mm:ss dddd";
-            return "hh:mm A";
+            return "h:mm A";
         };
         Setting.getTimeFormat2 = function () {
             //return "HH:mm:ss ddd MMM Do";
@@ -22752,6 +22817,9 @@ var IKUT;
         Setting.getCoreImageDir = function () {
             return Setting.getBaseUrl() + "core/image/";
         };
+        Setting.getContentFileDir = function () {
+            return Setting.getBaseUrl() + "content/file/";
+        };
         Setting.getBackgroundImage = function () {
             return Setting.getCoreImageDir() + "Gray-Background-101.jpg";
         };
@@ -22774,11 +22842,13 @@ var IKUT;
         Setting.getBackgroundBlackColor = function () {
             return "rgba(0, 0, 0, 0.75)";
         };
+        Setting.getBackgroundWhiteColor = function () {
+            return "rgba(255, 255, 255, 0.5)";
+        };
         Setting.getViewTransitionDuration = function () {
             return 250;
         };
         Setting.getCategoryIcon = function (index) {
-            console.log(index);
             if (index == 0) {
                 return 'fa-blank';
             }
@@ -23051,6 +23121,52 @@ var IKUT;
     IKUT.PushesViewFractory = PushesViewFractory;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=pushesviewfactory.js.map
+///#source 1 1 /core/js/controller/starviewfactory.js
+var IKUT;
+(function (IKUT) {
+    var StarViewFractory = (function () {
+        function StarViewFractory(args) {
+            if (StarViewFractory._instance) {
+                throw new Error("Error: Instantiation failed: Use StarViewFractory.getInstance() instead of new.");
+            }
+            StarViewFractory._instance = this;
+        }
+        StarViewFractory.getInstance = function () {
+            return StarViewFractory._instance;
+        };
+        StarViewFractory.create = function (el) {
+            var view = new IKUT.StarView({ el: el });
+            return view;
+        };
+        StarViewFractory._instance = new StarViewFractory();
+        return StarViewFractory;
+    })();
+    IKUT.StarViewFractory = StarViewFractory;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=starviewfactory.js.map
+///#source 1 1 /core/js/controller/popupviewfactory.js
+var IKUT;
+(function (IKUT) {
+    var PopupViewFractory = (function () {
+        function PopupViewFractory(args) {
+            if (PopupViewFractory._instance) {
+                throw new Error("Error: Instantiation failed: Use PopupViewFractory.getInstance() instead of new.");
+            }
+            PopupViewFractory._instance = this;
+        }
+        PopupViewFractory.getInstance = function () {
+            return PopupViewFractory._instance;
+        };
+        PopupViewFractory.create = function (el) {
+            var view = new IKUT.PopupView({ el: el });
+            return view;
+        };
+        PopupViewFractory._instance = new PopupViewFractory();
+        return PopupViewFractory;
+    })();
+    IKUT.PopupViewFractory = PopupViewFractory;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=popupviewfactory.js.map
 ///#source 1 1 /core/js/model/model.js
 var IKUT;
 (function (IKUT) {
@@ -23073,44 +23189,47 @@ var IKUT;
             self.users = new IKUT.Users();
             self.alarms = new IKUT.Alarms();
             self.nonAddedUsers = new IKUT.Users();
-            var karl = new IKUT.User({ username: 'jkim848', password: '1', firstname: 'Karl', lastname: 'Kim', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: 'My Best Friend' });
-            var john = new IKUT.User({ username: 'jfiorentino3', password: '1', firstname: 'John', lastname: 'Fiorentino', recent: '2015-10-06 08:08:08', created: '2014-08-08 08:08:08', description: 'LMC 3710 Classmate' });
-            var michael = new IKUT.User({ username: 'michaelchi95', password: '1', firstname: 'Michael', lastname: 'Chi', recent: '2015-11-25 05:05:05', created: '2015-06-06 12:12:12', description: 'League Friend' });
+            var karl = new IKUT.User({ username: 'jkim848', password: '1', firstname: 'Karl', lastname: 'Kim', recent: '2015-08-11 11:11:00', created: '2015-08-11 06:06:06', description: 'My Best Friend', stars: 20000000 });
+            var john = new IKUT.User({ username: 'jfiorentino3', password: '1', firstname: 'John', lastname: 'Fiorentino', recent: '2015-10-06 08:08:00', created: '2014-08-08 08:08:08', description: 'LMC 3710 Classmate', stars: 441345 });
+            var michael = new IKUT.User({ username: 'michaelchi95', password: '1', firstname: 'Michael', lastname: 'Chi', recent: '2015-11-25 05:05:00', created: '2015-06-06 12:12:12', description: 'League Friend', stars: 2423356 });
             self.users.add(john);
             self.users.add(michael);
-            var alarm1 = new IKUT.Alarm({ name: 'Weekdays Wake Up', users: "", type: 1 /* DAILY */, date: '2015-11-25 07:05:15', end: '2015-11-25 07:05:15', days: "0000000", category: 3 });
+            var alarm1 = new IKUT.Alarm({ name: 'Weekdays Wake Up', users: "", type: 1 /* DAILY */, date: '2015-11-25 20:44:00', end: '2015-11-25 07:05:15', days: "0000000", category: 3, stars: 5 });
             alarm1.addUsercId(karl.getcId());
             alarm1.addDailyDay(0 /* MONDAY */);
+            alarm1.addDailyDay(1 /* TUESDAY */);
             alarm1.addDailyDay(2 /* WEDNESDAY */);
+            alarm1.addDailyDay(3 /* THURSDAY */);
             alarm1.addDailyDay(4 /* FRIDAY */);
             self.alarms.add(alarm1);
-            var alarm2 = new IKUT.Alarm({ name: 'LMC 3710', users: "", type: 1 /* DAILY */, date: '2015-11-25 15:05:15', end: '2015-11-25 15:05:15', days: "0000000", category: 4 });
+            var alarm2 = new IKUT.Alarm({ name: 'LMC 3710', users: "", type: 1 /* DAILY */, date: '2015-11-25 15:05:00', end: '2015-11-25 15:05:15', days: "0000000", category: 4, stars: 5 });
             alarm2.addUsercId(karl.getcId());
             alarm2.addDailyDay(0 /* MONDAY */);
             alarm2.addDailyDay(2 /* WEDNESDAY */);
             self.alarms.add(alarm2);
-            var alarm3 = new IKUT.Alarm({ name: 'LMC 4803', users: "", type: 1 /* DAILY */, date: '2015-11-25 12:05:15', end: '2015-11-25 12:05:15', days: "0000000", category: 2 });
+            var alarm3 = new IKUT.Alarm({ name: 'LMC 4803', users: "", type: 1 /* DAILY */, date: '2015-11-25 20:46:00', end: '2015-11-25 12:05:15', days: "0000000", category: 2, stars: 5 });
             alarm3.addUsercId(karl.getcId());
             alarm3.addDailyDay(0 /* MONDAY */);
             alarm3.addDailyDay(2 /* WEDNESDAY */);
+            alarm3.addDailyDay(3 /* THURSDAY */);
             alarm3.addDailyDay(4 /* FRIDAY */);
             self.alarms.add(alarm3);
-            var alarm4 = new IKUT.Alarm({ name: 'LMC 3710 Meeting', users: "", type: 2 /* GROUP */, date: '2015-11-30 10:05:15', end: '2015-11-25 10:05:15', days: "0000000", category: 3 });
+            var alarm4 = new IKUT.Alarm({ name: 'LMC 3710 Meeting', users: "", type: 2 /* GROUP */, date: '2015-11-26 21:21:00', end: '2015-11-25 10:05:15', days: "0000000", category: 3, stars: 20 });
             alarm4.addUsercId(karl.getcId());
             alarm4.addUsercId(john.getcId());
             self.alarms.add(alarm4);
-            var alarm5 = new IKUT.Alarm({ name: 'HappyKarl Meeting', users: "", type: 2 /* GROUP */, date: '2015-11-20 10:05:15', end: '2015-11-25 10:05:15', days: "0000000", category: 3 });
+            var alarm5 = new IKUT.Alarm({ name: 'HappyKarl Meeting', users: "", type: 2 /* GROUP */, date: '2015-11-20 10:05:00', end: '2015-11-25 10:05:15', days: "0000000", category: 3, stars: 24 });
             alarm5.addUsercId(karl.getcId());
             alarm5.addUsercId(michael.getcId());
             self.alarms.add(alarm5);
             // Set CurUser
             Model.setCurUser(karl);
-            console.log(Model.getCurUser());
+            console.log(Model.getAlarms());
             //console.log(alarm1.generateUpcoming7DaysDailyAlarmList());
             // add non-added users
-            self.nonAddedUsers.add(new IKUT.User({ username: 'tthomas45', password: '1', firstname: 'Tre\'Saun', lastname: 'Thomas', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: '' }));
-            self.nonAddedUsers.add(new IKUT.User({ username: 'skucheryavykh', password: '1', firstname: 'Slava', lastname: 'Kucheryavykh', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: '' }));
-            self.nonAddedUsers.add(new IKUT.User({ username: 'rramon3', password: '1', firstname: 'Luisito', lastname: 'Ramon', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: '' }));
+            self.nonAddedUsers.add(new IKUT.User({ username: 'tthomas45', password: '1', firstname: 'Tre\'Saun', lastname: 'Thomas', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: '', stars: 345 }));
+            self.nonAddedUsers.add(new IKUT.User({ username: 'skucheryavykh', password: '1', firstname: 'Slava', lastname: 'Kucheryavykh', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: '', stars: 6565134 }));
+            self.nonAddedUsers.add(new IKUT.User({ username: 'rramon3', password: '1', firstname: 'Luisito', lastname: 'Ramon', recent: '2015-08-11 11:11:11', created: '2015-08-11 06:06:06', description: '', stars: 78632566 }));
         };
         Model.getCurUser = function () {
             var self = this._instance;
@@ -23170,6 +23289,7 @@ var IKUT;
                 "firstname": "",
                 "lastname": "",
                 "description": "",
+                "stars": 0,
                 "recent": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
                 "created": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
             };
@@ -23246,6 +23366,10 @@ var IKUT;
             var self = this;
             return this.get('description');
         };
+        User.prototype.getStars = function () {
+            var self = this;
+            return parseInt(this.get('stars'));
+        };
         User.prototype.getFormattedRecentDate = function () {
             var self = this;
             return moment(self.get('recent')).format(IKUT.Setting.getDateTimeFormat2());
@@ -23270,10 +23394,11 @@ var IKUT;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=user.js.map
 ///#source 1 1 /core/js/model/alarm.js
-var __extends = (this && this.__extends) || function (d, b) {
+var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    __.prototype = b.prototype;
+    d.prototype = new __();
 };
 var IKUT;
 (function (IKUT) {
@@ -23311,10 +23436,11 @@ var IKUT;
             var self = this;
             this.defaults = {
                 "cid": "",
-                "category": CATEGORY_LIST.NONE,
-                "type": ALARM_LIST.NONE,
+                "category": 0 /* NONE */,
+                "type": 0 /* NONE */,
                 "name": "",
                 "users": "",
+                "stars": 0,
                 "date": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
                 "end": moment(new Date()).format(IKUT.Setting.getDateTimeFormat1()),
                 "days": "0000000",
@@ -23363,6 +23489,7 @@ var IKUT;
             //if (response.id != null) {
             //response.id = parseInt(response.id);
             //}
+            response.stars = parseInt(response.stars);
             response.category = parseInt(response.category);
             response.type = parseInt(response.type);
             response.date = moment(response.date).format(IKUT.Setting.getDateTimeFormat1());
@@ -23396,6 +23523,10 @@ var IKUT;
             var self = this;
             return this.get('users');
         };
+        Alarm.prototype.getStars = function () {
+            var self = this;
+            return parseInt(this.get('stars'));
+        };
         Alarm.prototype.getDays = function () {
             var self = this;
             return this.get('days');
@@ -23425,6 +23556,10 @@ var IKUT;
         Alarm.prototype.getFormattedTime = function () {
             var self = this;
             return moment(self.get('date')).format(IKUT.Setting.getTimeFormat1());
+        };
+        Alarm.prototype.getFormattedTime2 = function () {
+            var self = this;
+            return moment(self.get('date')).format(IKUT.Setting.getTimeFormat2());
         };
         /*
         public getFormattedEndTime(): string {
@@ -23496,7 +23631,7 @@ var IKUT;
             var result = new Array();
             for (var i = 0; i < 6; i++) {
                 if (self.getIsDailyDayOn(i)) {
-                    var alarm = new Alarm({ cid: self.getId(), name: self.getName(), users: self.getUsers(), type: self.getType(), date: '2015-11-25 07:05:15', days: self.getDays(), category: self.getCategory() });
+                    var alarm = new Alarm({ cid: self.getId(), name: self.getName(), users: self.getUsers(), type: self.getType(), date: '2015-11-25 07:05:15', days: self.getDays(), category: self.getCategory(), stars: self.getStars() });
                     var date = moment(moment().day(i + 1).format(IKUT.Setting.getDateFormat()) + " " + self.getFormattedTime());
                     if (moment(new Date()).valueOf() > moment(date).valueOf()) {
                         var date = moment(moment().day(i + 1 + 7).format(IKUT.Setting.getDateFormat()) + " " + self.getFormattedTime());
@@ -23520,7 +23655,7 @@ var IKUT;
         function Alarms(models, options) {
             _super.call(this, models, options);
             this.url = "";
-            this.sortType = ALARM_SORT_LIST.DAY;
+            this.sortType = 0 /* DAY */;
             this.model = Alarm;
         }
         Alarms.prototype.getUpcoming7DaysAlarmsForUser = function (user) {
@@ -23528,13 +23663,13 @@ var IKUT;
             var alarms = new Alarms();
             $.each(self.models, function (index, model) {
                 if (model.getHasUsercId(user.getcId())) {
-                    if (model.getType() == ALARM_LIST.DAILY) {
+                    if (model.getType() == 1 /* DAILY */) {
                         var temp = model.generateUpcoming7DaysDailyAlarmList();
                         alarms.add(temp);
                     }
                 }
             });
-            self.setSortType(ALARM_SORT_LIST.DAY);
+            alarms.setSortType(0 /* DAY */);
             alarms.sort();
             if (alarms.models.length > 1) {
                 var date = moment(alarms.models[0].getDate());
@@ -23547,13 +23682,16 @@ var IKUT;
                     }
                 });
             }
-            if (alarms.models.length >= 1) {
-                alarms.models[0].setIsBeggingOfTheDay(false);
-            }
-            if (alarms.models.length >= 2) {
-                alarms.models[1].setIsBeggingOfTheDay(true);
-            }
             return alarms;
+        };
+        Alarms.prototype.setBeginningofDays = function () {
+            var self = this;
+            if (self.models.length >= 1) {
+                self.models[0].setIsBeggingOfTheDay(false);
+            }
+            if (self.models.length >= 2) {
+                self.models[1].setIsBeggingOfTheDay(true);
+            }
         };
         Alarms.prototype.setSortType = function (_type) {
             var self = this;
@@ -23564,12 +23702,12 @@ var IKUT;
             var alarms = new Alarms();
             $.each(self.models, function (index, model) {
                 if (model.getHasUsercId(user.getcId())) {
-                    if (model.getType() == ALARM_LIST.DAILY) {
+                    if (model.getType() == 1 /* DAILY */) {
                         alarms.add(model);
                     }
                 }
             });
-            self.setSortType(ALARM_SORT_LIST.TIME);
+            alarms.setSortType(1 /* TIME */);
             alarms.sort();
             return alarms;
         };
@@ -23578,14 +23716,14 @@ var IKUT;
             var alarms = new Alarms();
             $.each(self.models, function (index, model) {
                 if (model.getHasUsercId(user.getcId())) {
-                    if (model.getType() == ALARM_LIST.GROUP) {
+                    if (model.getType() == 2 /* GROUP */) {
                         if (moment(model.getDate()).valueOf() > moment(new Date()).valueOf()) {
                             alarms.add(model);
                         }
                     }
                 }
             });
-            self.setSortType(ALARM_SORT_LIST.DAY);
+            alarms.setSortType(0 /* DAY */);
             alarms.sort();
             return alarms;
         };
@@ -23594,23 +23732,47 @@ var IKUT;
             var alarms = new Alarms();
             $.each(self.models, function (index, model) {
                 if (model.getHasUsercId(user1.getcId()) && model.getHasUsercId(user2.getcId())) {
-                    if (model.getType() == ALARM_LIST.GROUP) {
+                    if (model.getType() == 2 /* GROUP */) {
                         if (moment(model.getDate()).valueOf() <= moment(new Date()).valueOf()) {
                             alarms.add(model);
                         }
                     }
                 }
             });
-            self.setSortType(ALARM_SORT_LIST.DAY);
+            alarms.setSortType(0 /* DAY */);
             alarms.sort();
             return alarms;
         };
+        Alarms.prototype.getFromActualcId = function (cid) {
+            var self = this;
+            var result;
+            $.each(self.models, function (index, model) {
+                if (model.cid == cid) {
+                    result = model;
+                }
+            });
+            return result;
+        };
+        Alarms.prototype.getActiveAlarm = function () {
+            var self = this;
+            var result;
+            self.setSortType(0 /* DAY */);
+            self.sort();
+            $.each(self.models, function (index, model) {
+                var start = moment(new Date()).subtract('seconds', 15);
+                var end = moment(new Date()).add('seconds', 15);
+                if ((model.getDate().valueOf() >= start.valueOf()) && (model.getDate().valueOf() <= end.valueOf())) {
+                    result = model;
+                }
+            });
+            return result;
+        };
         Alarms.prototype.comparator = function (model) {
             var self = this;
-            if (self.sortType == ALARM_SORT_LIST.DAY) {
+            if (self.sortType == 0 /* DAY */) {
                 return moment(model.get("date")).valueOf();
             }
-            else if (self.sortType == ALARM_SORT_LIST.TIME) {
+            else if (self.sortType == 1 /* TIME */) {
                 return moment(moment(model.get("date")).format(IKUT.Setting.getTimeFormat3())).valueOf();
             }
         };
@@ -23776,6 +23938,21 @@ var IKUT;
             template += '</div>';
             return template;
         };
+        Template.getFrameViewTemplate2 = function () {
+            var template = "";
+            template += '<div class="frame">';
+            template += '<div class="frame-inner">';
+            template += '<div class="frame-stroke-left"></div>';
+            template += '<div class="frame-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa <%= icon %> fa-stack-1x"></i></span></div>';
+            template += '<div class="frame-text-center col-xs-10"><%= content %> <span class="badge"><i class="fa fa-star fa-1x"></i> <%= stars %></span></div>';
+            template += '<div class="frame-text-right col-xs-1 btn-detail" data-cid="<%= cid %>"><i class="fa fa-angle-right fa-1-7x"></i></div>';
+            template += '<div class="clear"></div>';
+            template += '<span class="frame-text-top"><%= header %></span>';
+            template += '<div class="frame-stroke-right"></div>';
+            template += '</div>';
+            template += '</div>';
+            return template;
+        };
         Template.getDetailViewTemplate = function () {
             var template = "";
             template += '<div class="detail">';
@@ -23813,7 +23990,7 @@ var IKUT;
             template += '<div class="frame2-inner">';
             template += '<div class="frame2-stroke-left"></div>';
             template += '<div class="frame2-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa <%= icon %> fa-stack-1x"></i></span></div>';
-            template += '<div class="frame2-text-center col-xs-10"><%= content %> <span class="badge"><%= users %></span></div>';
+            template += '<div class="frame2-text-center col-xs-10"><%= content %> <span class="badge"><i class="fa fa-users fa-1x"></i> <%= users %></span></div>';
             template += '<div class="frame2-text-right col-xs-1 btn-detail" data-cid="<%= cid %>"><i class="fa fa-angle-right fa-1-7x"></i></div>';
             template += '<div class="clear"></div>';
             template += '<span class="frame2-text-top"><%= header %></span>';
@@ -23844,6 +24021,100 @@ var IKUT;
             template += '<div class="button-text-center col-xs-10"><%= content %></div>';
             template += '<div class="button-text-right col-xs-1 <%= behavior %>"><i class="fa <%= icon %> fa-1-5x"></i></div>';
             template += '<div class="clear"></div>';
+            template += '</div>';
+            template += '</div>';
+            return template;
+        };
+        Template.getStarViewTemplate = function () {
+            var template = "";
+            template += '<div id="wrapper-star">';
+            // add button
+            template += '<div class="wrapper-connector clear uppercase"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Your Character-</div></div>';
+            /////////////
+            template += '<div class="frame">';
+            template += '<div class="frame-inner">';
+            template += '<div class="frame-stroke-left"></div>';
+            template += '<div class="frame-text-center col-xs-12 iframe-content"><iframe src="<%= character %>" /></div>';
+            template += '<div class="clear"></div>';
+            template += '<span class="frame-text-top">CHARACTER</span>';
+            template += '<div class="frame-stroke-right"></div>';
+            template += '</div>';
+            template += '</div>';
+            ////////////
+            template += '<div class="button">';
+            template += '<div class="button-inner">';
+            template += '<div class="button-text-left col-xs-1"></div>';
+            template += '<div class="button-text-center col-xs-10">SHOP ITEMS</div>';
+            template += '<div class="button-text-right col-xs-1 btn-shop"><i class="fa fa-shopping-cart fa-1-5x"></i></div>';
+            template += '<div class="clear"></div>';
+            template += '</div>';
+            template += '</div>';
+            ////////////
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Your Stars-</div></div>';
+            /////////
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-star fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="stars" value="<%= stars %>" disabled/>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Username-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-user fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="username" value="<%= username %>"/ disabled>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-First Name-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-odnoklassniki fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="firstname" value="<%= firstname %>"/>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Last Name-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-odnoklassniki fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="text" class="form-control" id="lastname" value="<%= lastname %>"/>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Change Password-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-key fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="password" class="form-control" id="password1" value="<%= password %>"/>';
+            template += '</div>';
+            template += '<div class="warn-password1 warn hidden">Please put a password.</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Password Confirm-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-key fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="password" class="form-control" id="password2" value="<%= password %>"/>';
+            template += '</div>';
+            template += '<div class="warn-password2 warn hidden">Please put same passwords.</div>';
+            template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Save-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-save fa-1-5x"></i>';
+            template += '</span>';
+            template += '<div class="form-control btn-save" id="btn-save">SAVE</div>';
+            template += '</div>';
             template += '</div>';
             template += '</div>';
             return template;
@@ -24192,6 +24463,17 @@ var IKUT;
             template += '</div>';
             template += '<div class="warn-name warn hidden">Please put an event name.</div>';
             template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Stars-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-star fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="number" class="form-control no-right-border" id="stars" value="<%=  origstars %>"/>';
+            template += '<span class="input-group-addon no-left-border">/ <%= stars %></span>';
+            template += '</div>';
+            template += '<div class="warn-stars warn hidden">Plase put right number of stars.</div>';
+            template += '</div>';
             template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Participants-</div></div>';
             template += '<div class="form-group">';
             template += '<div class="input-group">';
@@ -24263,6 +24545,17 @@ var IKUT;
             template += '</div>';
             template += '<div class="warn-name warn hidden">Please put an event name.</div>';
             template += '</div>';
+            template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Stars-</div></div>';
+            template += '<div class="form-group">';
+            template += '<div class="input-group">';
+            template += '<span class="input-group-addon">';
+            template += '<i class="fa fa-star fa-1-5x"></i>';
+            template += '</span>';
+            template += '<input type="number" class="form-control no-right-border" id="stars" value="<%= origstars %>"/>';
+            template += '<span class="input-group-addon no-left-border">/ <%= stars %></span>';
+            template += '</div>';
+            template += '<div class="warn-stars warn hidden">Plase put right number of stars.</div>';
+            template += '</div>';
             template += '<div class="wrapper-edit-connector uppercase"><div class="edit-connector-vertical-line"><div class="edit-connector-line"></div></div><div class="edit-connector-content">-Participants-</div></div>';
             template += '<div class="form-group">';
             template += '<div class="input-group">';
@@ -24303,6 +24596,50 @@ var IKUT;
             template += '</div>';
             return template;
         };
+        Template.getPopupViewTemplate = function () {
+            var template = "";
+            template += '<div id="wrapper-popup">';
+            ///////////////////////////////////////////
+            template += '<div class="wrapper-connector clear"><div class="connector-vertical-line"><div class="connector-line"></div></div><div class="connector-content">-Current Alarm-</div></div>';
+            template += '<div class="wrapper-detail">';
+            template += '<div class="detail">';
+            template += '<div class="detail-inner">';
+            template += '<div class="detail-stroke-left"></div>';
+            //template += '<div class="detail-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x"></i></span></div>';
+            template += '<div class="detail-text-center col-xs-12">';
+            template += '<div class="upper-part">';
+            template += '<div class="alarm-name"><%= alarmname %></div>';
+            template += '<div class="alarm-time"><%= alarmtime %><span class="overtime"></span></div>';
+            template += '<div class="alarm-date"><%= alarmdate %></div>';
+            template += '<% if (users.models.length) { %>';
+            template += '<div class="title-users">with</div>';
+            template += '<% } %>';
+            template += '<% _.each(users.models, function (user) { %>';
+            template += '<div class="alarm-user"><%= user.getFirstname() %> <%= user.getLastname() %></div>';
+            template += '<% }); %>';
+            template += '</div>';
+            template += '<div class="bottom-part">';
+            template += '<div class="character-part"></div>';
+            template += '<div class="button">';
+            template += '<div class="button-inner">';
+            template += '<div class="button-text-left col-xs-1  btn-claim"><i class="fa fa-hand-rock-o fa-1-5x"></i></div>';
+            template += '<div class="button-text-center col-xs-10 btn-claim">CLAIM <span class="badge2"><i class="fa fa-star fa-1x"></i> <span id="alarmstars"><%= alarmstars %></span></span></div>';
+            template += '<div class="button-text-right col-xs-1 btn-claim"><i class="fa fa-hand-rock-o fa-1-5x"></i></div>';
+            template += '<div class="clear"></div>';
+            template += '</div>';
+            template += '</div>';
+            template += '</div>';
+            template += '<div class="clear"></div>';
+            template += '</div>';
+            template += '<span class="detail-text-top">CURRENT ALARM</span>';
+            template += '<div class="detail-stroke-right"></div>';
+            template += '</div>';
+            template += '</div>';
+            template += '</div>';
+            ///////////////////////////////////////////
+            template += '</div>';
+            return template;
+        };
         Template._instance = new Template();
         return Template;
     })();
@@ -24325,6 +24662,7 @@ var IKUT;
         VIEWTYPE_LIST[VIEWTYPE_LIST["FRIENDS"] = 3] = "FRIENDS";
         VIEWTYPE_LIST[VIEWTYPE_LIST["PUSHES"] = 4] = "PUSHES";
         VIEWTYPE_LIST[VIEWTYPE_LIST["STAR"] = 5] = "STAR";
+        VIEWTYPE_LIST[VIEWTYPE_LIST["POPUP"] = 6] = "POPUP";
     })(IKUT.VIEWTYPE_LIST || (IKUT.VIEWTYPE_LIST = {}));
     var VIEWTYPE_LIST = IKUT.VIEWTYPE_LIST;
     var View = (function (_super) {
@@ -24347,6 +24685,9 @@ var IKUT;
         };
         View.setViewType = function (viewType) {
             View._viewType = viewType;
+        };
+        View.getViewType = function () {
+            return View._viewType;
         };
         View.setIsLoading = function (bLoading) {
             View._bLoading = bLoading;
@@ -24392,6 +24733,24 @@ var IKUT;
                             self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
                         }
                     }
+                    else if (self._starView) {
+                        self._starView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._starView.destroy();
+                            self._starView = null;
+                        });
+                        if (self._starView.sideView) {
+                            self._starView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._popupView) {
+                        self._popupView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._popupView.destroy();
+                            self._popupView = null;
+                        });
+                        if (self._popupView.sideView) {
+                            self._popupView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
                     break;
                 case 2 /* ALARMS */:
                     setTimeout(function () {
@@ -24423,6 +24782,24 @@ var IKUT;
                         });
                         if (self._pushesView.sideView) {
                             self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._starView) {
+                        self._starView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._starView.destroy();
+                            self._starView = null;
+                        });
+                        if (self._starView.sideView) {
+                            self._starView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._popupView) {
+                        self._popupView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._popupView.destroy();
+                            self._popupView = null;
+                        });
+                        if (self._popupView.sideView) {
+                            self._popupView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
                         }
                     }
                     break;
@@ -24458,6 +24835,24 @@ var IKUT;
                             self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
                         }
                     }
+                    else if (self._starView) {
+                        self._starView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._starView.destroy();
+                            self._starView = null;
+                        });
+                        if (self._starView.sideView) {
+                            self._starView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._popupView) {
+                        self._popupView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._popupView.destroy();
+                            self._popupView = null;
+                        });
+                        if (self._popupView.sideView) {
+                            self._popupView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
                     break;
                 case 4 /* PUSHES */:
                     setTimeout(function () {
@@ -24489,6 +24884,131 @@ var IKUT;
                         });
                         if (self._usersView.sideView) {
                             self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._starView) {
+                        self._starView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._starView.destroy();
+                            self._starView = null;
+                        });
+                        if (self._starView.sideView) {
+                            self._starView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._popupView) {
+                        self._popupView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._popupView.destroy();
+                            self._popupView = null;
+                        });
+                        if (self._popupView.sideView) {
+                            self._popupView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    break;
+                case 5 /* STAR */:
+                    setTimeout(function () {
+                        self._starView = IKUT.StarViewFractory.create($('#wrapper-main')).render();
+                    }, IKUT.Setting.getViewTransitionDuration());
+                    // remove other views
+                    if (self._alarmsView) {
+                        self._alarmsView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._alarmsView.destroy();
+                            self._alarmsView = null;
+                        });
+                        if (self._alarmsView.sideView) {
+                            self._alarmsView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._homeView) {
+                        self._homeView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._homeView.destroy();
+                            self._homeView = null;
+                        });
+                        if (self._homeView.sideView) {
+                            self._homeView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._usersView) {
+                        self._usersView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._usersView.destroy();
+                            self._usersView = null;
+                        });
+                        if (self._usersView.sideView) {
+                            self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._pushesView) {
+                        self._pushesView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._pushesView.destroy();
+                            self._pushesView = null;
+                        });
+                        if (self._pushesView.sideView) {
+                            self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    else if (self._popupView) {
+                        self._popupView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                            self._popupView.destroy();
+                            self._popupView = null;
+                        });
+                        if (self._popupView.sideView) {
+                            self._popupView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                        }
+                    }
+                    break;
+                case 6 /* POPUP */:
+                    var popAlarm = IKUT.Controller.getCurrentAlarm();
+                    console.log("-- popAlarm --");
+                    console.log(popAlarm);
+                    if (popAlarm) {
+                        setTimeout(function () {
+                            self._popupView = IKUT.PopupViewFractory.create($('#wrapper-main')).render(popAlarm);
+                        }, IKUT.Setting.getViewTransitionDuration());
+                        // remove other views
+                        if (self._alarmsView) {
+                            self._alarmsView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                                self._alarmsView.destroy();
+                                self._alarmsView = null;
+                            });
+                            if (self._alarmsView.sideView) {
+                                self._alarmsView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                            }
+                        }
+                        else if (self._homeView) {
+                            self._homeView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                                self._homeView.destroy();
+                                self._homeView = null;
+                            });
+                            if (self._homeView.sideView) {
+                                self._homeView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                            }
+                        }
+                        else if (self._usersView) {
+                            self._usersView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                                self._usersView.destroy();
+                                self._usersView = null;
+                            });
+                            if (self._usersView.sideView) {
+                                self._usersView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                            }
+                        }
+                        else if (self._pushesView) {
+                            self._pushesView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                                self._pushesView.destroy();
+                                self._pushesView = null;
+                            });
+                            if (self._pushesView.sideView) {
+                                self._pushesView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                            }
+                        }
+                        else if (self._starView) {
+                            self._starView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration(), function () {
+                                self._starView.destroy();
+                                self._starView = null;
+                            });
+                            if (self._starView.sideView) {
+                                self._starView.sideView.$el.animate({ left: -self.getWidth(), opacity: 0 }, IKUT.Setting.getViewTransitionDuration());
+                            }
                         }
                     }
                     break;
@@ -24545,6 +25065,11 @@ var IKUT;
                         background: "linear-gradient(" + IKUT.Setting.getBackgroundGreenColor() + ", " + IKUT.Setting.getBackgroundCyanColor() + " 70%, " + IKUT.Setting.getBackgroundBlackColor() + " 95%), " + "url( " + IKUT.Setting.getBackgroundImage() + ")"
                     });
                     break;
+                case 6 /* POPUP */:
+                    self.$el.css({
+                        background: "linear-gradient(" + IKUT.Setting.getBackgroundWhiteColor() + ", " + IKUT.Setting.getBackgroundWhiteColor() + " 70%, " + IKUT.Setting.getBackgroundBlackColor() + " 95%), " + "url( " + IKUT.Setting.getBackgroundImage() + ")"
+                    });
+                    break;
             }
         };
         View._instance = new View();
@@ -24579,6 +25104,9 @@ var IKUT;
                 console.log(HomeView.TAG + "render()");
             // get alarms
             var alarms = IKUT.Controller.getUpcoming7DaysAlarms();
+            alarms.add(IKUT.Controller.getGroupAlarms().models);
+            alarms.setBeginningofDays();
+            IKUT.Model.actualAlarms = alarms;
             // apply template
             var template = _.template(IKUT.Template.getHomeViewTemplate());
             var data = {
@@ -24600,6 +25128,9 @@ var IKUT;
                 console.log(HomeView.TAG + "update()");
             // get alarms
             var alarms = IKUT.Controller.getUpcoming7DaysAlarms();
+            alarms.add(IKUT.Controller.getGroupAlarms().models);
+            alarms.setBeginningofDays();
+            IKUT.Model.actualAlarms = alarms;
             // apply template
             var template = _.template(IKUT.Template.getHomeViewTemplate2());
             var data = {
@@ -24681,7 +25212,7 @@ var IKUT;
         function FrameView(options) {
             _super.call(this, options);
             var self = this;
-            self.bDebug = true;
+            self.bDebug = false;
             //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
         }
         FrameView.prototype.render = function (args) {
@@ -24691,25 +25222,58 @@ var IKUT;
             // apply template
             if (args instanceof IKUT.Alarm) {
                 // apply template
-                var template = _.template(IKUT.Template.getFrameViewTemplate());
+                var stars = args.getStars();
+                var formattedStars = "";
+                if (stars > 1000000) {
+                    formattedStars = Math.floor(stars / 1000000) + "M";
+                }
+                else if (stars > 1000) {
+                    formattedStars = Math.floor(stars / 1000) + "K";
+                }
+                else {
+                    formattedStars = stars.toString();
+                }
                 if (args.getType() == 1 /* DAILY */) {
-                    var data = {
+                    var template6 = _.template(IKUT.Template.getFrameViewTemplate2());
+                    var data6 = {
                         header: args.getName(),
                         //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
                         content: args.getFormattedTime(),
                         cid: args.getId(),
                         icon: IKUT.Setting.getCategoryIcon(args.getCategory()),
+                        stars: formattedStars,
                     };
+                    self.$el.html(template6(data6));
                 }
                 else {
+                    var template6 = _.template(IKUT.Template.getFrameViewTemplate2());
+                    var data6 = {
+                        header: args.getName(),
+                        //content: (<Alarm>args).getFormattedTime() + ' - <span class="invisible">' + (<Alarm>args).getFormattedEndTime() + '</span>',
+                        content: args.getFormattedTime() + " " + args.getFormattedDate(),
+                        cid: args.getId(),
+                        icon: IKUT.Setting.getCategoryIcon(args.getCategory()),
+                        stars: formattedStars,
+                    };
+                    self.$el.html(template6(data6));
                 }
-                self.$el.html(template(data));
             }
             else if (args instanceof IKUT.User) {
+                var stars = args.getStars();
+                var formattedStars = "";
+                if (stars > 1000000) {
+                    formattedStars = Math.floor(stars / 1000000) + "M";
+                }
+                else if (stars > 1000) {
+                    formattedStars = Math.floor(stars / 1000) + "K";
+                }
+                else {
+                    formattedStars = stars.toString();
+                }
                 var template = _.template(IKUT.Template.getFrameViewTemplate());
                 var data = {
                     header: args.getDescription(),
-                    content: args.getFirstname() + " " + args.getLastname(),
+                    content: args.getFirstname() + " " + args.getLastname() + ' <span class="badge"><i class="fa fa-star fa-1x"></i> ' + formattedStars + ' </span>',
                     cid: args.getId(),
                     icon: 'fa-user',
                 };
@@ -24895,22 +25459,24 @@ var IKUT;
             var data = {};
             self.$el.html(template(data));
             $.each(self.$('.wrapper-menu'), function (index, item) {
-                switch (index) {
-                    case 0:
-                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-home', color: '#6E2F1C', hash: 'home' }).render());
-                        break;
-                    case 1:
-                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-clock-o', color: '#8F5C3D', hash: 'alarms' }).render());
-                        break;
-                    case 2:
-                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-group', color: '#AB8349', hash: 'friends' }).render());
-                        break;
-                    case 3:
-                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-paper-plane-o', color: '#5C8A7A', hash: 'pushes' }).render());
-                        break;
-                    case 4:
-                        self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-gear', color: '#5d7422', hash: 'star' }).render());
-                        break;
+                if (IKUT.View.getViewType() != 6 /* POPUP */) {
+                    switch (index) {
+                        case 0:
+                            self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-home', color: '#6E2F1C', hash: 'home' }).render());
+                            break;
+                        case 1:
+                            self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-clock-o', color: '#8F5C3D', hash: 'alarms' }).render());
+                            break;
+                        case 2:
+                            self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-group', color: '#AB8349', hash: 'friends' }).render());
+                            break;
+                        case 3:
+                            self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-paper-plane-o', color: '#5C8A7A', hash: 'pushes' }).render());
+                            break;
+                        case 4:
+                            self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-gear', color: '#5d7422', hash: 'star' }).render());
+                            break;
+                    }
                 }
             });
             return self;
@@ -25156,7 +25722,7 @@ var IKUT;
                     self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
                     self.sideView.setParentView(self);
                     var today = moment(new Date());
-                    var alarm = new IKUT.Alarm({ name: '', users: "", type: 1 /* DAILY */, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
+                    var alarm = new IKUT.Alarm({ name: '', users: "", type: 1 /* DAILY */, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0, stars: 5 });
                     alarm.addDailyDay(moment().day());
                     alarm.addUsercId(IKUT.Model.getCurUser().getcId());
                     //var cid = $(this).attr('data-cid');
@@ -25269,10 +25835,11 @@ var IKUT;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=sideview.js.map
 ///#source 1 1 /core/js/view/detailview.js
-var __extends = (this && this.__extends) || function (d, b) {
+var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    __.prototype = b.prototype;
+    d.prototype = new __();
 };
 var IKUT;
 (function (IKUT) {
@@ -25291,11 +25858,34 @@ var IKUT;
             // apply template
             if (args instanceof IKUT.Alarm) {
                 self.curAlarm = args;
+                self.origstars = self.curAlarm.getStars();
+                console.log("self.origstars: " + self.origstars);
+                var origFormattedStars = "";
+                if (self.origstars > 1000000) {
+                    origFormattedStars = Math.floor(self.origstars / 1000000) + "M";
+                }
+                else if (self.origstars > 1000) {
+                    origFormattedStars = Math.floor(self.origstars / 1000) + "K";
+                }
+                else {
+                    origFormattedStars = self.origstars.toString();
+                }
                 var exist = IKUT.Model.getAlarms().findWhere({ cid: self.curAlarm.getcId() });
+                var stars = IKUT.Model.getCurUser().getStars();
+                var formattedStars = "";
+                if (stars > 1000000) {
+                    formattedStars = Math.floor(stars / 1000000) + "M";
+                }
+                else if (stars > 1000) {
+                    formattedStars = Math.floor(stars / 1000) + "K";
+                }
+                else {
+                    formattedStars = stars.toString();
+                }
                 if (exist) {
                     // apply template
                     var template = _.template(IKUT.Template.getDetailViewTemplate());
-                    if (self.curAlarm.getType() == IKUT.ALARM_LIST.DAILY) {
+                    if (self.curAlarm.getType() == 1 /* DAILY */) {
                         // detail
                         var template2 = _.template(IKUT.Template.getDarilyAlarmEditTemplate());
                         var data2 = {
@@ -25314,6 +25904,8 @@ var IKUT;
                             name: self.curAlarm.getName(),
                             users: IKUT.Model.getUsers(),
                             curUser: IKUT.Model.getCurUser(),
+                            origstars: self.curAlarm.getStars(),
+                            stars: formattedStars,
                         };
                         var data = {
                             header: "Group Alarm Detail",
@@ -25325,7 +25917,7 @@ var IKUT;
                 else {
                     // apply template
                     var template = _.template(IKUT.Template.getDetailViewTemplate());
-                    if (self.curAlarm.getType() == IKUT.ALARM_LIST.DAILY) {
+                    if (self.curAlarm.getType() == 1 /* DAILY */) {
                         // detail
                         var template2 = _.template(IKUT.Template.getDarilyAlarmEditTemplate2());
                         var data2 = {
@@ -25344,6 +25936,8 @@ var IKUT;
                             name: self.curAlarm.getName(),
                             users: IKUT.Model.getUsers(),
                             curUser: IKUT.Model.getCurUser(),
+                            origstars: self.curAlarm.getStars(),
+                            stars: formattedStars,
                         };
                         var data = {
                             header: "New Group Alarm",
@@ -25387,25 +25981,25 @@ var IKUT;
                 $('#participants').selectpicker('val', cids);
                 // composite days
                 var days = new Array();
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.MONDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(0 /* MONDAY */)) {
                     days.push(0);
                 }
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.TUESDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(1 /* TUESDAY */)) {
                     days.push(1);
                 }
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.WEDNESDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(2 /* WEDNESDAY */)) {
                     days.push(2);
                 }
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.THURSDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(3 /* THURSDAY */)) {
                     days.push(3);
                 }
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.FRIDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(4 /* FRIDAY */)) {
                     days.push(4);
                 }
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.SATURDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(5 /* SATURDAY */)) {
                     days.push(5);
                 }
-                if (self.curAlarm.getIsDailyDayOn(IKUT.DAY_LIST.SUNDAY)) {
+                if (self.curAlarm.getIsDailyDayOn(6 /* SUNDAY */)) {
                     days.push(6);
                 }
                 $('#days').selectpicker('val', days);
@@ -25487,11 +26081,16 @@ var IKUT;
             var self = this;
             self.$('#btn-save').off('click');
             self.$('#btn-save').on('click', function () {
+                IKUT.View.setIsLoading(true);
                 // remove all warnings
                 self.$('.warn').addClass('hidden');
                 // check valid time.
                 var isError = false;
                 if (self.$('#datetime').length) {
+                    if (self.$('#stars').val() == 0 || self.$('#stars').val() == "" || (IKUT.Model.getCurUser().getStars() + self.origstars < parseInt(self.$('#stars').val()))) {
+                        self.$('.warn-stars').removeClass('hidden');
+                        isError = true;
+                    }
                     if (moment(self.$('#datetime').data("date")).valueOf() < moment(new Date()).valueOf()) {
                         self.$('.warn-datetime').removeClass('hidden');
                         isError = true;
@@ -25501,6 +26100,7 @@ var IKUT;
                         isError = true;
                     }
                     if (isError) {
+                        IKUT.View.setIsLoading(false);
                         return;
                     }
                 }
@@ -25517,6 +26117,12 @@ var IKUT;
                     //console.log(self.curAlarm.getFormattedTime());
                     self.curAlarm.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
                     orig.set('date', moment(moment(new Date()).format(IKUT.Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(IKUT.Setting.getDateTimeFormat1()));
+                }
+                // stars
+                if (self.$('#datetime').length) {
+                    self.curAlarm.set('stars', parseInt($('#stars').val()));
+                    orig.set('stars', parseInt($('#stars').val()));
+                    IKUT.Model.getCurUser().set('stars', IKUT.Model.getCurUser().getStars() + self.origstars - parseInt($('#stars').val()));
                 }
                 // category
                 self.curAlarm.set('category', parseInt($('#category option:selected').val()));
@@ -25547,11 +26153,16 @@ var IKUT;
             });
             self.$('#btn-create').off('click');
             self.$('#btn-create').on('click', function () {
+                IKUT.View.setIsLoading(true);
                 // remove all warnings
                 self.$('.warn').addClass('hidden');
                 // check valid time.
                 var isError = false;
                 if (self.$('#datetime').length) {
+                    if (self.$('#stars').val() == 0 || self.$('#stars').val() == "" || (IKUT.Model.getCurUser().getStars() < parseInt(self.$('#stars').val()))) {
+                        self.$('.warn-stars').removeClass('hidden');
+                        isError = true;
+                    }
                     if (moment(self.$('#datetime').data("date")).valueOf() < moment(new Date()).valueOf()) {
                         self.$('.warn-datetime').removeClass('hidden');
                         isError = true;
@@ -25561,6 +26172,7 @@ var IKUT;
                         isError = true;
                     }
                     if (isError) {
+                        IKUT.View.setIsLoading(false);
                         return;
                     }
                 }
@@ -25581,6 +26193,9 @@ var IKUT;
                 //orig.set('date', moment(moment(new Date()).format(Setting.getDateFormat()) + " " + self.$('#time-start').data("date")).format(Setting.getDateTimeFormat1()));
                 //console.log(self.curAlarm.getFormattedTime());
                 //console.log($('#time-start').data("date"));
+                // stars
+                self.curAlarm.set('stars', parseInt($('#stars').val()));
+                IKUT.Model.getCurUser().set('stars', IKUT.Model.getCurUser().getStars() - parseInt($('#stars').val()));
                 // category
                 self.curAlarm.set('category', parseInt($('#category option:selected').val()));
                 //orig.set('category', parseInt($('#category option:selected').val()));
@@ -25606,6 +26221,7 @@ var IKUT;
             var self = this;
             self.$('#btn-save').off('click');
             self.$('#btn-save').on('click', function () {
+                IKUT.View.setIsLoading(true);
                 self.curUser.set('description', self.$('#description').val());
                 // back to parentview
                 self.parentView.animInactive();
@@ -25924,3 +26540,276 @@ var IKUT;
     IKUT.PushesView = PushesView;
 })(IKUT || (IKUT = {}));
 //# sourceMappingURL=pushesview.js.map
+///#source 1 1 /core/js/view/starview.js
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var IKUT;
+(function (IKUT) {
+    var StarView = (function (_super) {
+        __extends(StarView, _super);
+        function StarView(options) {
+            _super.call(this, options);
+            var self = this;
+            self.bDebug = true;
+            //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
+        }
+        StarView.prototype.render = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(StarView.TAG + "render()");
+            // apply template
+            if (IKUT.Controller.getIsCharacterHasHairPin()) {
+                var character = IKUT.Setting.getContentFileDir() + 'wendy/index.html';
+            }
+            else {
+                var character = IKUT.Setting.getContentFileDir() + 'wendy/index2.html';
+            }
+            var stars = IKUT.Model.getCurUser().getStars().toString();
+            stars = stars.replace(new RegExp("^(\\d{" + (stars.length % 3 ? stars.length % 3 : 0) + "})(\\d{3})", "g"), "$1 $2").replace(/(\d{3})+?/gi, "$1 ").trim();
+            var sep = ",";
+            stars = stars.replace(/\s/g, sep);
+            var template = _.template(IKUT.Template.getStarViewTemplate());
+            var data = {
+                username: IKUT.Model.getCurUser().getUsername(),
+                firstname: IKUT.Model.getCurUser().getFirstname(),
+                lastname: IKUT.Model.getCurUser().getLastname(),
+                password: IKUT.Model.getCurUser().getPassword(),
+                character: character,
+                stars: stars,
+            };
+            self.$el.html(template(data));
+            // Make the view slowly visible.
+            self.setElement(self.$('#wrapper-star'));
+            self.animVisible();
+            self.addEventListener();
+            return self;
+        };
+        StarView.prototype.update = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(StarView.TAG + "update()");
+            return self;
+        };
+        StarView.prototype.animVisible = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ opacity: 1 }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        StarView.prototype.animActive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: 0 }, function () {
+                    IKUT.View.setIsLoading(false);
+                    self.sideView.destroy();
+                    self.sideView = null;
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        StarView.prototype.animInactive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: -self.getWidth() }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        StarView.prototype.addEventListener = function () {
+            var self = this;
+            self.$('#btn-save').off('click');
+            self.$('#btn-save').on('click', function () {
+                IKUT.View.setIsLoading(true);
+                // remove all warnings
+                self.$('.warn').addClass('hidden');
+                // check valid time.
+                var isError = false;
+                if ($('#password1').val() == "") {
+                    $('.warn-password1').removeClass('hidden');
+                    isError = true;
+                }
+                if ($('#password1').val() != $('#password2').val()) {
+                    $('.warn-password2').removeClass('hidden');
+                    isError = true;
+                }
+                if (isError) {
+                    IKUT.View.setIsLoading(false);
+                    return;
+                }
+                // change info
+                IKUT.Model.getCurUser().set('password', $('#password1').val());
+                IKUT.Model.getCurUser().set('firstname', $('#firstname').val());
+                IKUT.Model.getCurUser().set('lastname', $('#lastname').val());
+                IKUT.View.setIsLoading(false);
+            });
+            self.$('.btn-shop').off('click');
+            self.$('.btn-shop').on('click', function () {
+                console.log("!");
+                if (!IKUT.Controller.getIsCharacterHasHairPin()) {
+                    if (IKUT.Model.getCurUser().getStars() > 10000000) {
+                        IKUT.Model.getCurUser().set('stars', IKUT.Model.getCurUser().getStars() - 10000000);
+                        IKUT.Controller.setIsCharacterHasHairPin(true);
+                        self.render();
+                    }
+                }
+            });
+        };
+        StarView.TAG = "StarView - ";
+        return StarView;
+    })(IKUT.BaseView);
+    IKUT.StarView = StarView;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=starview.js.map
+///#source 1 1 /core/js/view/popupview.js
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var IKUT;
+(function (IKUT) {
+    var PopupView = (function (_super) {
+        __extends(PopupView, _super);
+        function PopupView(options) {
+            _super.call(this, options);
+            var self = this;
+            self.bDebug = true;
+            self.bDotOn = true;
+            //$(window).resize(_.debounce(that.customResize, Setting.getInstance().getResizeTimeout()));
+        }
+        PopupView.prototype.render = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(PopupView.TAG + "render()");
+            if (args instanceof IKUT.Alarm) {
+                self.curAlarm = args;
+                var cids = args.getUsercIds();
+                var users = new IKUT.Users();
+                $.each(cids, function (index, cid) {
+                    var user = IKUT.Model.getUsers().findWhere({ cid: cid });
+                    if (user) {
+                        users.add(user);
+                    }
+                });
+                // apply template
+                var template = _.template(IKUT.Template.getPopupViewTemplate());
+                var data = {
+                    alarmname: args.getName(),
+                    alarmtime: args.getFormattedTime(),
+                    alarmdate: args.getFormattedDate(),
+                    users: users,
+                    alarmstars: args.getStars(),
+                };
+                self.$el.html(template(data));
+                self.$('.wrapper-detail').css({ height: self.getHeight() - parseInt(self.$el.css('padding-top')) - parseInt(self.$el.css('padding-bottom')) - self.$('.wrapper-connector').outerHeight() - 24 });
+                self.$('.upper-part').css({ height: self.$('.detail-inner').innerHeight() - 190 });
+                self.$('.bottom-part').css({ height: 180 });
+                // render character
+                if (IKUT.Controller.getIsCharacterHasHairPin()) {
+                    var character = IKUT.Setting.getContentFileDir() + 'wendy/index.html';
+                }
+                else {
+                    var character = IKUT.Setting.getContentFileDir() + 'wendy/index2.html';
+                }
+                self.$('.character-part').html('<iframe src="' + character + '" />');
+                // tick interval
+                self.startTick();
+                // Make the view slowly visible.
+                self.setElement(self.$('#wrapper-popup'));
+                self.animVisible();
+                self.addEventListener();
+            }
+            return self;
+        };
+        PopupView.prototype.startTick = function () {
+            var self = this;
+            // over time
+            var duration = moment.duration(moment(new Date()).diff(self.curAlarm.getDate()));
+            var minutes = duration.asMinutes();
+            if (minutes > 0) {
+                $('.overtime').html("+" + Math.floor(minutes) + " min");
+            }
+            else {
+                $('.overtime').html(Math.floor(minutes) + " min");
+            }
+            var gap = moment.duration(moment(new Date()).diff(self.curAlarm.getDate()));
+            var gapmin = Math.floor(gap.asMinutes());
+            $('#alarmstars').html((Math.floor(self.curAlarm.getStars() / self.curAlarm.getUsercIds().length - gapmin)).toString());
+            // start interval
+            clearInterval(self.tickInterval);
+            self.tickInterval = setInterval(function () {
+                var duration = moment.duration(moment(new Date()).diff(self.curAlarm.getDate()));
+                var minutes = duration.asMinutes();
+                if (minutes > 0) {
+                    $('.overtime').html("+" + Math.floor(minutes) + " min");
+                }
+                else {
+                    $('.overtime').html(Math.floor(minutes) + " min");
+                }
+                /*
+                self.bDotOn = !self.bDotOn;
+                if (self.bDotOn) {
+                    $('.overtime').removeClass('invisible');
+                } else {
+                    $('.overtime').addClass('invisible');
+                }
+                */
+                var gap = moment.duration(moment(new Date()).diff(self.curAlarm.getDate()));
+                var gapmin = Math.floor(gap.asMinutes());
+                $('#alarmstars').html((Math.floor(self.curAlarm.getStars() / self.curAlarm.getUsercIds().length - gapmin)).toString());
+            }, 15000);
+        };
+        PopupView.prototype.update = function (args) {
+            var self = this;
+            if (self.bDebug)
+                console.log(PopupView.TAG + "update()");
+            return self;
+        };
+        PopupView.prototype.animVisible = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ opacity: 1 }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        PopupView.prototype.animActive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: 0 }, function () {
+                    IKUT.View.setIsLoading(false);
+                    self.sideView.destroy();
+                    self.sideView = null;
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        PopupView.prototype.animInactive = function () {
+            var self = this;
+            setTimeout(function () {
+                self.$el.animate({ left: -self.getWidth() }, function () {
+                    IKUT.View.setIsLoading(false);
+                });
+            }, IKUT.Setting.getViewTransitionDuration() * 2);
+        };
+        PopupView.prototype.addEventListener = function () {
+            var self = this;
+            var gap = moment.duration(moment(new Date()).diff(self.curAlarm.getDate()));
+            var gapmin = Math.floor(gap.asMinutes());
+            $('.btn-claim').off('click');
+            $('.btn-claim').on('click', function () {
+                IKUT.Model.getCurUser().set("stars", IKUT.Model.getCurUser().getStars() + Math.floor(self.curAlarm.getStars() / self.curAlarm.getUsercIds().length - gapmin));
+                IKUT.Router.navigate('star', { trigger: true, replace: true });
+            });
+        };
+        PopupView.TAG = "PopupView - ";
+        return PopupView;
+    })(IKUT.BaseView);
+    IKUT.PopupView = PopupView;
+})(IKUT || (IKUT = {}));
+//# sourceMappingURL=popupview.js.map

@@ -111,7 +111,7 @@ var IKUT;
                     self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
                     self.sideView.setParentView(self);
                     var today = moment(new Date());
-                    var alarm = new IKUT.Alarm({ name: '', users: "", type: 1 /* DAILY */, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
+                    var alarm = new IKUT.Alarm({ name: '', users: "", type: 1 /* DAILY */, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0, stars: 5 });
                     alarm.addDailyDay(moment().day());
                     alarm.addUsercId(IKUT.Model.getCurUser().getcId());
                     //var cid = $(this).attr('data-cid');

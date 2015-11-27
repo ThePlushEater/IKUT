@@ -28,6 +28,8 @@
     <file>/core/css/button.css</file>
     <file>/core/css/menu.css</file>
     <file>/core/css/detail.css</file>
+    <file>/core/css/star.css</file>
+    <file>/core/css/popup.css</file>
     
     
   </files>

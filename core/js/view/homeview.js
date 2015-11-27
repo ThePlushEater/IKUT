@@ -20,6 +20,9 @@ var IKUT;
                 console.log(HomeView.TAG + "render()");
             // get alarms
             var alarms = IKUT.Controller.getUpcoming7DaysAlarms();
+            alarms.add(IKUT.Controller.getGroupAlarms().models);
+            alarms.setBeginningofDays();
+            IKUT.Model.actualAlarms = alarms;
             // apply template
             var template = _.template(IKUT.Template.getHomeViewTemplate());
             var data = {
@@ -41,6 +44,9 @@ var IKUT;
                 console.log(HomeView.TAG + "update()");
             // get alarms
             var alarms = IKUT.Controller.getUpcoming7DaysAlarms();
+            alarms.add(IKUT.Controller.getGroupAlarms().models);
+            alarms.setBeginningofDays();
+            IKUT.Model.actualAlarms = alarms;
             // apply template
             var template = _.template(IKUT.Template.getHomeViewTemplate2());
             var data = {

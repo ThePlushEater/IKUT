@@ -18,6 +18,11 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="content\file\wendy\createjs-2013.12.12.min.js" />
+    <Content Include="content\file\wendy\EncodePath.js" />
+    <Content Include="content\file\wendy\index2.html" />
+    <Content Include="content\file\wendy\index.html" />
+    <Content Include="content\file\wendy\jquery.min.js" />
     <Content Include="core\css\app.css" />
     <Content Include="core\css\base.css" />
     <Content Include="core\css\button.css" />
@@ -25,6 +30,8 @@
     <Content Include="core\css\frame2.css" />
     <Content Include="core\css\menu.css" />
     <Content Include="core\css\detail.css" />
+    <Content Include="core\css\popup.css" />
+    <Content Include="core\css\star.css" />
     <Content Include="core\image\Fake-Frame-101.png" />
     <Content Include="core\image\Green-Background-101.jpg" />
     <Content Include="core\image\Gray-Background-101.jpg" />
@@ -139,9 +146,11 @@
     <TypeScriptCompile Include="core\js\controller\homeviewfactory.ts" />
     <TypeScriptCompile Include="core\js\controller\menusviewfactory.ts" />
     <TypeScriptCompile Include="core\js\controller\menuviewfactory.ts" />
+    <TypeScriptCompile Include="core\js\controller\popupviewfactory.ts" />
     <TypeScriptCompile Include="core\js\controller\pushesviewfactory.ts" />
     <TypeScriptCompile Include="core\js\controller\setting.ts" />
     <TypeScriptCompile Include="core\js\controller\sideviewfactory.ts" />
+    <TypeScriptCompile Include="core\js\controller\starviewfactory.ts" />
     <TypeScriptCompile Include="core\js\controller\usersviewfactory.ts" />
     <TypeScriptCompile Include="core\js\model\alarm.ts" />
     <TypeScriptCompile Include="core\js\model\model.ts" />
@@ -154,8 +163,10 @@
     <TypeScriptCompile Include="core\js\view\homeview.ts" />
     <TypeScriptCompile Include="core\js\view\menusview.ts" />
     <TypeScriptCompile Include="core\js\view\menuview.ts" />
+    <TypeScriptCompile Include="core\js\view\popupview.ts" />
     <TypeScriptCompile Include="core\js\view\pushesview.ts" />
     <TypeScriptCompile Include="core\js\view\sideview.ts" />
+    <TypeScriptCompile Include="core\js\view\starview.ts" />
     <TypeScriptCompile Include="core\js\view\template.ts" />
     <TypeScriptCompile Include="core\js\view\usersview.ts" />
     <TypeScriptCompile Include="core\js\view\view.ts" />
@@ -172,7 +183,6 @@
     <TypeScriptCompile Include="Scripts\typings\underscore\underscore.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="content\file\" />
     <Folder Include="content\image\" />
     <Folder Include="core\php\" />
   </ItemGroup>
