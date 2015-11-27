@@ -22,6 +22,7 @@
                 
             }
             self.$el.html(template(data));
+            $('#wrapper-fakebackground').css({ width: ($(document).innerWidth() - 414), height: View.getInstance().getHeight(), left: 414 });
             
             
             $.each(self.$('.wrapper-menu'), function (index: number, item: JQuery) {

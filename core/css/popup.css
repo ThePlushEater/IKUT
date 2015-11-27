@@ -1,0 +1,96 @@
+﻿@media all {
+    .upper-part {
+        padding: 8px 0 0 0;
+        overflow-y: auto;
+    }
+
+    .alarm-name {
+        display: block;
+        min-width: 10px;
+        padding: 3px 7px;
+        font-size: 30px;
+        font-weight: bold;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-color: #777;
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+
+    .alarm-time {
+        display: block;
+        min-width: 10px;
+        padding: 3px 7px;
+        font-size: 60px;
+        font-weight: bold;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-color: #777;
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+
+    .alarm-date {
+        display: block;
+        min-width: 10px;
+        padding: 3px 7px;
+        font-size: 30px;
+        font-weight: bold;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-color: #777;
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+
+    .title-users {
+        font-size: 20px;
+    }
+
+    .alarm-user {
+        display: block;
+        min-width: 10px;
+        padding: 3px 7px;
+        font-size: 30px;
+        font-weight: bold;
+        line-height: 1;
+        color: #777;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-color: #fff;
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+
+    .overtime {
+        font-weight: 700;
+        font-size: medium;
+        color: rgb(110, 47, 28);
+        text-shadow: none;
+    }
+
+    .badge2 {
+        display: inline-block;
+        min-width: 10px;
+        padding: 3px 7px;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-color: #777;
+        border-radius: 10px;
+    }
+}

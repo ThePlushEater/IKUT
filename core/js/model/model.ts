@@ -56,12 +56,12 @@
             alarm3.addDailyDay(DAY_LIST.FRIDAY);
             self.alarms.add(alarm3);
 
-            var alarm4: Alarm = new Alarm({ name: 'LMC 3710 Meeting', users: "", type: ALARM_LIST.GROUP, date: '2015-11-26 21:21:00', end: '2015-11-25 10:05:15', days: "0000000", category: 3, stars: 20 });
+            var alarm4: Alarm = new Alarm({ name: 'LMC 3710 Meeting', users: "", type: ALARM_LIST.GROUP, date: '2015-11-28 21:27:00', end: '2015-11-25 10:05:15', days: "0000000", category: 3, stars: 20 });
             alarm4.addUsercId(karl.getcId());
             alarm4.addUsercId(john.getcId());
             self.alarms.add(alarm4);
 
-            var alarm5: Alarm = new Alarm({ name: 'HappyKarl Meeting', users: "", type: ALARM_LIST.GROUP, date: '2015-11-20 10:05:00', end: '2015-11-25 10:05:15', days: "0000000", category: 3, stars: 24 });
+            var alarm5: Alarm = new Alarm({ name: 'HappyKarl Meeting', users: "", type: ALARM_LIST.GROUP, date: '2015-11-29 10:05:00', end: '2015-11-25 10:05:15', days: "0000000", category: 3, stars: 24 });
             alarm5.addUsercId(karl.getcId());
             alarm5.addUsercId(michael.getcId());
             self.alarms.add(alarm5);

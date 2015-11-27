@@ -9764,7 +9764,7 @@ button.close {
         font-family: Archivo Narrow, sans-serif;
         text-align: center;
         color: rgba(255,255,255,0.7);
-        background-color: #000000;
+        background-color: #eeeeee;
     }
 
     img, div {
@@ -9824,6 +9824,16 @@ button.close {
 
 }
 @media all {
+    #wrapper-fakebackground {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        background-color: #eeeeee;
+        z-index: 9999;
+    }
+
     #wrapper-main {
         width: 100%;
         height: 100%;

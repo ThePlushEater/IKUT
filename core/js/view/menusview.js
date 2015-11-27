@@ -1,8 +1,7 @@
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var IKUT;
 (function (IKUT) {
@@ -22,8 +21,9 @@ var IKUT;
             var template = _.template(IKUT.Template.getMenusViewTemplate());
             var data = {};
             self.$el.html(template(data));
+            $('#wrapper-fakebackground').css({ width: ($(document).innerWidth() - 414), height: IKUT.View.getInstance().getHeight(), left: 414 });
             $.each(self.$('.wrapper-menu'), function (index, item) {
-                if (IKUT.View.getViewType() != 6 /* POPUP */) {
+                if (IKUT.View.getViewType() != IKUT.VIEWTYPE_LIST.POPUP) {
                     switch (index) {
                         case 0:
                             self.views.push(IKUT.MenuViewFractory.create($(item), { icon: 'fa-home', color: '#6E2F1C', hash: 'home' }).render());
@@ -48,9 +48,9 @@ var IKUT;
         MenusView.prototype.setCurrentMenu = function (viewType) {
             var self = this;
             switch (viewType) {
-                case 0 /* NONE */:
+                case IKUT.VIEWTYPE_LIST.NONE:
                     break;
-                case 1 /* HOME */:
+                case IKUT.VIEWTYPE_LIST.HOME:
                     $.each(self.views, function (index, item) {
                         if (index == 0) {
                             item.setIsActive(true);
@@ -60,7 +60,7 @@ var IKUT;
                         }
                     });
                     break;
-                case 2 /* ALARMS */:
+                case IKUT.VIEWTYPE_LIST.ALARMS:
                     $.each(self.views, function (index, item) {
                         if (index == 1) {
                             item.setIsActive(true);
@@ -70,7 +70,7 @@ var IKUT;
                         }
                     });
                     break;
-                case 3 /* FRIENDS */:
+                case IKUT.VIEWTYPE_LIST.FRIENDS:
                     $.each(self.views, function (index, item) {
                         if (index == 2) {
                             item.setIsActive(true);
@@ -80,7 +80,7 @@ var IKUT;
                         }
                     });
                     break;
-                case 4 /* PUSHES */:
+                case IKUT.VIEWTYPE_LIST.PUSHES:
                     $.each(self.views, function (index, item) {
                         if (index == 3) {
                             item.setIsActive(true);
@@ -90,7 +90,7 @@ var IKUT;
                         }
                     });
                     break;
-                case 5 /* STAR */:
+                case IKUT.VIEWTYPE_LIST.STAR:
                     $.each(self.views, function (index, item) {
                         if (index == 4) {
                             item.setIsActive(true);
