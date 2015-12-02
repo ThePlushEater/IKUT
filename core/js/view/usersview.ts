@@ -106,6 +106,8 @@
             var self: UsersView = this;
             self.$('.btn-detail').off('click');
             self.$('.btn-detail').on('click', function () {
+                click1.play();
+
                 if (!View.getIsLoading()) {
                     View.setIsLoading(true);
                     self.sideView = SideViewFractory.create($('#wrapper-main'));
@@ -123,8 +125,11 @@
                 }
             });
 
+            self.$('.btn-add').addClass('btn-color1');
             self.$('.btn-add').off('click');
             self.$('.btn-add').on('click', function () {
+                click1.play();
+
                 if (!View.getIsLoading()) {
                     View.setIsLoading(true);
                     self.sideView = SideViewFractory.create($('#wrapper-main'));

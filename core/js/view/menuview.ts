@@ -53,6 +53,7 @@
             var self: MenuView = this;
             self.$el.off('click');
             self.$el.on('click', function () {
+                click1.play();
                 if (!View.getIsLoading()) {
                     Router.navigate(self._hash, { trigger: true, replace: false });
                 }

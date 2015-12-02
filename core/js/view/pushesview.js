@@ -1,8 +1,7 @@
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var IKUT;
 (function (IKUT) {
@@ -89,6 +88,7 @@ var IKUT;
             var self = this;
             self.$('.btn-detail').off('click');
             self.$('.btn-detail').on('click', function () {
+                click1.play();
                 if (!IKUT.View.getIsLoading()) {
                     IKUT.View.setIsLoading(true);
                     self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
@@ -104,14 +104,16 @@ var IKUT;
                     }
                 }
             });
+            self.$('.btn-add').addClass('btn-color1');
             self.$('.btn-add').off('click');
             self.$('.btn-add').on('click', function () {
+                click1.play();
                 if (!IKUT.View.getIsLoading()) {
                     IKUT.View.setIsLoading(true);
                     self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
                     self.sideView.setParentView(self);
                     var today = moment(new Date());
-                    var alarm = new IKUT.Alarm({ name: '', users: "", type: 2 /* GROUP */, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
+                    var alarm = new IKUT.Alarm({ name: '', users: "", type: IKUT.ALARM_LIST.GROUP, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0 });
                     alarm.addUsercId(IKUT.Model.getCurUser().getcId());
                     //var cid = $(this).attr('data-cid');
                     //var alarm: Alarm = Model.getAlarms().findWhere({ cid: cid });

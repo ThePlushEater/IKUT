@@ -8,5 +8,17 @@ $(document).ready(function () {
     IKUT.Setting.setBaseUrl(url.origin + window.location.pathname);
     // Start Router
     Backbone.history.start();
+    alarm1 = new Howl({
+        urls: [IKUT.Setting.getContentFileDir() + "wakeupmercy.mp3"],
+        loop: true,
+        autoplay: false,
+    });
+    click1 = new Howl({
+        urls: [IKUT.Setting.getContentFileDir() + "click.mp3"],
+        loop: false,
+        autoplay: false,
+    });
 });
+var click1;
+var alarm1;
 //# sourceMappingURL=app.js.map

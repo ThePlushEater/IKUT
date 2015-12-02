@@ -36,8 +36,6 @@
 
                 self.addEventListener();
             } else if (args instanceof User) {
-                console.log(args);
-
                 // apply template
                 var template = _.template(Template.getSideViewTemplate());
                 var data = {
@@ -93,8 +91,11 @@
         public addEventListener(): void {
             var self: SideView = this;
 
+            self.$('.wrapper-button .btn-back').addClass('btn-color1');
             self.$('.wrapper-button .btn-back').off('click');
             self.$('.wrapper-button .btn-back').on('click', function () {
+                click1.play();
+
                 View.setIsLoading(true);
                 self.animInactive();
             });

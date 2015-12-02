@@ -244,6 +244,7 @@ var IKUT;
             var self = this;
             self.$('#btn-save').off('click');
             self.$('#btn-save').on('click', function () {
+                click1.play();
                 IKUT.View.setIsLoading(true);
                 // remove all warnings
                 self.$('.warn').addClass('hidden');
@@ -309,6 +310,7 @@ var IKUT;
             });
             self.$('#btn-delete').off('click');
             self.$('#btn-delete').on('click', function () {
+                click1.play();
                 IKUT.View.setIsLoading(true);
                 var orig = IKUT.Model.getAlarms().findWhere({ cid: self.curAlarm.getcId() });
                 IKUT.Model.getAlarms().remove(orig);
@@ -316,6 +318,7 @@ var IKUT;
             });
             self.$('#btn-create').off('click');
             self.$('#btn-create').on('click', function () {
+                click1.play();
                 IKUT.View.setIsLoading(true);
                 // remove all warnings
                 self.$('.warn').addClass('hidden');
@@ -357,8 +360,13 @@ var IKUT;
                 //console.log(self.curAlarm.getFormattedTime());
                 //console.log($('#time-start').data("date"));
                 // stars
-                self.curAlarm.set('stars', parseInt($('#stars').val()));
-                IKUT.Model.getCurUser().set('stars', IKUT.Model.getCurUser().getStars() - parseInt($('#stars').val()));
+                if (self.$('#stars').length) {
+                    self.curAlarm.set('stars', parseInt($('#stars').val()));
+                    IKUT.Model.getCurUser().set('stars', IKUT.Model.getCurUser().getStars() - parseInt($('#stars').val()));
+                }
+                else {
+                    self.curAlarm.set('stars', 5);
+                }
                 // category
                 self.curAlarm.set('category', parseInt($('#category option:selected').val()));
                 //orig.set('category', parseInt($('#category option:selected').val()));
@@ -384,6 +392,7 @@ var IKUT;
             var self = this;
             self.$('#btn-save').off('click');
             self.$('#btn-save').on('click', function () {
+                click1.play();
                 IKUT.View.setIsLoading(true);
                 self.curUser.set('description', self.$('#description').val());
                 // back to parentview
@@ -391,6 +400,7 @@ var IKUT;
             });
             self.$('#btn-delete').off('click');
             self.$('#btn-delete').on('click', function () {
+                click1.play();
                 IKUT.View.setIsLoading(true);
                 IKUT.Model.getUsers().remove(self.curUser);
                 IKUT.Model.getNonAddedUsers().add(self.curUser);
@@ -401,6 +411,7 @@ var IKUT;
             var self = this;
             self.$('#searchname').off('keydown');
             self.$('#searchname').on('keydown', function () {
+                click1.play();
                 IKUT.View.setIsLoading(true);
                 setTimeout(function () {
                     if (self.$('#searchname').val() != "") {
@@ -414,6 +425,7 @@ var IKUT;
             });
             self.$('.btn-add').off('click');
             self.$('.btn-add').on('click', function () {
+                click1.play();
                 IKUT.View.setIsLoading(true);
                 var cid = $(this).attr('data-cid');
                 var user = IKUT.Model.getNonAddedUsers().findWhere({ cid: cid });

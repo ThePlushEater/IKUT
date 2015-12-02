@@ -18,6 +18,8 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="content\file\click.mp3" />
+    <Content Include="content\file\wakeupmercy.mp3" />
     <Content Include="content\file\wendy\createjs-2013.12.12.min.js" />
     <Content Include="content\file\wendy\EncodePath.js" />
     <Content Include="content\file\wendy\index2.html" />
@@ -78,6 +80,7 @@
     </Content>
     <Content Include="core\lib\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="core\lib\font-awesome\HELP-US-OUT.txt" />
+    <Content Include="core\lib\howler\howler.js" />
     <Content Include="core\lib\jquery\jquery-2.1.4.js" />
     <Content Include="core\lib\momentjs\moment.js" />
     <Content Include="core\lib\underscore\underscore.js" />

@@ -101,6 +101,7 @@
             var self: HomeView = this;
             self.$('.btn-detail').off('click');
             self.$('.btn-detail').on('click', function () {
+                click1.play();
                 if (!View.getIsLoading()) {
                     View.setIsLoading(true);
                     self.sideView = SideViewFractory.create($('#wrapper-main'));

@@ -264,6 +264,7 @@
             var self: DetailView = this;
             self.$('#btn-save').off('click');
             self.$('#btn-save').on('click', function () {
+                click1.play();
                 View.setIsLoading(true);
                 // remove all warnings
                 self.$('.warn').addClass('hidden');
@@ -344,6 +345,7 @@
 
             self.$('#btn-delete').off('click');
             self.$('#btn-delete').on('click', function () {
+                click1.play();
                 View.setIsLoading(true);
                 var orig: Alarm = Model.getAlarms().findWhere({ cid: self.curAlarm.getcId() });
                 Model.getAlarms().remove(orig);
@@ -352,6 +354,7 @@
 
             self.$('#btn-create').off('click');
             self.$('#btn-create').on('click', function () {
+                click1.play();
                 View.setIsLoading(true);
                 // remove all warnings
                 self.$('.warn').addClass('hidden');
@@ -401,8 +404,13 @@
                 //console.log($('#time-start').data("date"));
 
                 // stars
-                self.curAlarm.set('stars', parseInt($('#stars').val()));
-                Model.getCurUser().set('stars', Model.getCurUser().getStars() - parseInt($('#stars').val()));
+                if (self.$('#stars').length) {
+                    self.curAlarm.set('stars', parseInt($('#stars').val()));
+                    Model.getCurUser().set('stars', Model.getCurUser().getStars() - parseInt($('#stars').val()));
+                } else {
+                    self.curAlarm.set('stars', 5);
+                }
+                
 
 
                 // category
@@ -434,6 +442,7 @@
             var self: DetailView = this;
             self.$('#btn-save').off('click');
             self.$('#btn-save').on('click', function () {
+                click1.play();
                 View.setIsLoading(true);
                 self.curUser.set('description', self.$('#description').val());
                 // back to parentview
@@ -441,6 +450,7 @@
             });
             self.$('#btn-delete').off('click');
             self.$('#btn-delete').on('click', function () {
+                click1.play();
                 View.setIsLoading(true);
                 Model.getUsers().remove(self.curUser);
                 Model.getNonAddedUsers().add(self.curUser);
@@ -452,6 +462,7 @@
             var self: DetailView = this;
             self.$('#searchname').off('keydown');
             self.$('#searchname').on('keydown', function () {
+                click1.play();
                 View.setIsLoading(true);
                 setTimeout(function () {
                     if (self.$('#searchname').val() != "") {
@@ -464,6 +475,7 @@
             });
             self.$('.btn-add').off('click');
             self.$('.btn-add').on('click', function () {
+                click1.play();
                 View.setIsLoading(true);
                 var cid = $(this).attr('data-cid');
 

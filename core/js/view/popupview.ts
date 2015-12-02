@@ -19,6 +19,8 @@
             if (args instanceof Alarm) {
                 self.curAlarm = (<Alarm>args);
 
+                console.log(self.curAlarm);
+
                 var cids: Array<string> = (<Alarm>args).getUsercIds();
                 var users: Users = new Users();
                 $.each(cids, function (index: number, cid: string) {
@@ -39,6 +41,7 @@
                 }
                 self.$el.html(template(data));
 
+                self.$('#alarmstars').html(self.curAlarm.getStars().toString());
 
                 self.$('.wrapper-detail').css({ height: self.getHeight() - parseInt(self.$el.css('padding-top')) - parseInt(self.$el.css('padding-bottom')) - self.$('.wrapper-connector').outerHeight() - 24 });
 
@@ -60,6 +63,9 @@
                 // Make the view slowly visible.
                 self.setElement(self.$('#wrapper-popup'));
                 self.animVisible();
+
+                // Play sound
+                alarm1.play();
 
                 self.addEventListener();
             }
@@ -147,6 +153,9 @@
             var gapmin = Math.floor(gap.asMinutes());
             $('.btn-claim').off('click');
             $('.btn-claim').on('click', function () {
+                alarm1.pause();
+                click1.play();
+                clearInterval(self.tickInterval);
                 Model.getCurUser().set("stars", Model.getCurUser().getStars() + Math.floor(self.curAlarm.getStars() / self.curAlarm.getUsercIds().length - gapmin));
                 Router.navigate('star', { trigger: true, replace: true });
             });

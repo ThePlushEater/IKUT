@@ -112,6 +112,8 @@
 
                         self.animInactive();
                         self.sideView.animActive();
+
+                        click1.play();
                     } else {
                         // Error handling
                     }
@@ -119,6 +121,7 @@
             });
 
 
+            self.$('.btn-add').addClass('btn-color1');
             self.$('.btn-add').off('click');
             self.$('.btn-add').on('click', function () {
                 if (!View.getIsLoading()) {
@@ -136,6 +139,8 @@
 
                         self.animInactive();
                         self.sideView.animActive();
+
+                        click1.play();
                     } else {
                         // Error handling
                     }

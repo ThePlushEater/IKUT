@@ -10,4 +10,20 @@ $(document).ready(function () {
 
     // Start Router
     Backbone.history.start();
+
+    alarm1 = new Howl({
+        urls: [IKUT.Setting.getContentFileDir() + "wakeupmercy.mp3"],
+        loop: true,
+        autoplay: false,
+    });
+
+    click1 = new Howl({
+        urls: [IKUT.Setting.getContentFileDir() + "click.mp3"],
+        loop: false,
+        autoplay: false,
+    });
 });
+
+declare var Howl;
+var click1: any;
+var alarm1: any;

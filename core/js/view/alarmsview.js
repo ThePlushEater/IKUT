@@ -1,8 +1,7 @@
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var IKUT;
 (function (IKUT) {
@@ -99,11 +98,13 @@ var IKUT;
                         self.sideView.render(alarm);
                         self.animInactive();
                         self.sideView.animActive();
+                        click1.play();
                     }
                     else {
                     }
                 }
             });
+            self.$('.btn-add').addClass('btn-color1');
             self.$('.btn-add').off('click');
             self.$('.btn-add').on('click', function () {
                 if (!IKUT.View.getIsLoading()) {
@@ -111,7 +112,7 @@ var IKUT;
                     self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));
                     self.sideView.setParentView(self);
                     var today = moment(new Date());
-                    var alarm = new IKUT.Alarm({ name: '', users: "", type: 1 /* DAILY */, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0, stars: 5 });
+                    var alarm = new IKUT.Alarm({ name: '', users: "", type: IKUT.ALARM_LIST.DAILY, date: today.format(IKUT.Setting.getDateTimeFormat1()), end: today.format(IKUT.Setting.getDateTimeFormat1()), days: "0000000", category: 0, stars: 5 });
                     alarm.addDailyDay(moment().day());
                     alarm.addUsercId(IKUT.Model.getCurUser().getcId());
                     //var cid = $(this).attr('data-cid');
@@ -120,6 +121,7 @@ var IKUT;
                         self.sideView.render(alarm);
                         self.animInactive();
                         self.sideView.animActive();
+                        click1.play();
                     }
                     else {
                     }

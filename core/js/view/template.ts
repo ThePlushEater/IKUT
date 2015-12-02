@@ -74,7 +74,7 @@
             template +=         '<div class="frame-stroke-left"></div>';
 
             template +=         '<div class="frame-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa <%= icon %> fa-stack-1x"></i></span></div>';
-            template +=         '<div class="frame-text-center col-xs-10"><%= content %></div>';
+            template +=         '<div class="frame-text-center col-xs-10 btn-detail" data-cid="<%= cid %>"><%= content %></div>';
             template +=         '<div class="frame-text-right col-xs-1 btn-detail" data-cid="<%= cid %>"><i class="fa fa-angle-right fa-1-7x"></i></div>';
             template +=         '<div class="clear"></div>';
             template +=         '<span class="frame-text-top"><%= header %></span>';
@@ -92,7 +92,7 @@
             template +=         '<div class="frame-stroke-left"></div>';
 
             template +=         '<div class="frame-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa <%= icon %> fa-stack-1x"></i></span></div>';
-            template +=         '<div class="frame-text-center col-xs-10"><%= content %> <span class="badge"><i class="fa fa-star fa-1x"></i> <%= stars %></span></div>';
+            template +=         '<div class="frame-text-center col-xs-10 btn-detail" data-cid="<%= cid %>"><%= content %> <span class="badge"><i class="fa fa-star fa-1x"></i> <%= stars %></span></div>';
             template +=         '<div class="frame-text-right col-xs-1 btn-detail" data-cid="<%= cid %>"><i class="fa fa-angle-right fa-1-7x"></i></div>';
             template +=         '<div class="clear"></div>';
             template +=         '<span class="frame-text-top"><%= header %></span>';
@@ -128,7 +128,7 @@
             template += '<div class="frame2-stroke-left"></div>';
 
             template += '<div class="frame2-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa <%= icon %> fa-stack-1x"></i></span></div>';
-            template += '<div class="frame2-text-center col-xs-10"><%= content %></div>';
+            template += '<div class="frame2-text-center col-xs-10 btn-detail" data-cid="<%= cid %>"><%= content %></div>';
             template += '<div class="frame2-text-right col-xs-1 btn-detail" data-cid="<%= cid %>"><i class="fa fa-angle-right fa-1-7x"></i></div>';
             template += '<div class="clear"></div>';
 
@@ -150,7 +150,7 @@
             template += '<div class="frame2-stroke-left"></div>';
 
             template += '<div class="frame2-text-left col-xs-1"><span class="fa-stack"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa <%= icon %> fa-stack-1x"></i></span></div>';
-            template += '<div class="frame2-text-center col-xs-10"><%= content %> <span class="badge"><i class="fa fa-users fa-1x"></i> <%= users %></span></div>';
+            template += '<div class="frame2-text-center col-xs-10 btn-detail" data-cid="<%= cid %>"><%= content %> <span class="badge"><i class="fa fa-users fa-1x"></i> <%= users %></span></div>';
             template += '<div class="frame2-text-right col-xs-1 btn-detail" data-cid="<%= cid %>"><i class="fa fa-angle-right fa-1-7x"></i></div>';
             template += '<div class="clear"></div>';
 
@@ -168,8 +168,8 @@
         public static getButtonViewTemplate(): string {
             var template = "";
             template += '<div class="button">';
-            template += '<div class="button-inner">';
-            template += '<div class="button-text-left col-xs-1 <%= behavior %>"><i class="fa <%= icon %> fa-1-5x"></i></div>';
+            template += '<div class="button-inner <%= behavior %>">';
+            template += '<div class="button-text-left col-xs-1"><i class="fa <%= icon %> fa-1-5x"></i></div>';
             template += '<div class="button-text-center col-xs-10"><%= content %></div>';
             template += '<div class="button-text-right col-xs-1"></div>';
             template += '<div class="clear"></div>';
@@ -182,10 +182,10 @@
         public static getButtonViewTemplate2(): string {
             var template = "";
             template += '<div class="button">';
-            template += '<div class="button-inner">';
+            template += '<div class="button-inner <%= behavior %>">';
             template += '<div class="button-text-left col-xs-1"></div>';
             template += '<div class="button-text-center col-xs-10"><%= content %></div>';
-            template += '<div class="button-text-right col-xs-1 <%= behavior %>"><i class="fa <%= icon %> fa-1-5x"></i></div>';
+            template += '<div class="button-text-right col-xs-1"><i class="fa <%= icon %> fa-1-5x"></i></div>';
             template += '<div class="clear"></div>';
 
             template += '</div>';
@@ -212,10 +212,20 @@
             template += '</div>';
             ////////////
             template += '<div class="button">';
-            template += '<div class="button-inner">';
+            template += '<div class="button-inner btn-shop">';
             template += '<div class="button-text-left col-xs-1"></div>';
             template += '<div class="button-text-center col-xs-10">SHOP ITEMS</div>';
-            template += '<div class="button-text-right col-xs-1 btn-shop"><i class="fa fa-shopping-cart fa-1-5x"></i></div>';
+            template += '<div class="button-text-right col-xs-1"><i class="fa fa-shopping-cart fa-1-5x"></i></div>';
+            template += '<div class="clear"></div>';
+
+            template += '</div>';
+            template += '</div>';
+
+            template += '<div class="button">';
+            template += '<div class="button-inner btn-coupon">';
+            template += '<div class="button-text-left col-xs-1"></div>';
+            template += '<div class="button-text-center col-xs-10">SHOP COUPONS</div>';
+            template += '<div class="button-text-right col-xs-1"><i class="fa fa-dollar fa-1-5x"></i></div>';
             template += '<div class="clear"></div>';
 
             template += '</div>';

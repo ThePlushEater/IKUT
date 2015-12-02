@@ -6,6 +6,7 @@
         background: rgba(3,11,51,.1);
         border-radius: 2px;
         /*box-shadow: inset 0 0 1px 0 rgba(0,0,0,0.25);*/
+        cursor: pointer;
     }
 
     .button-inner {
@@ -63,5 +64,24 @@
         color: rgba(225,225,225,0.75);
         text-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
         font-size: small;
+    }
+
+
+
+
+    .btn-color1 {
+        background-color: hsla(210,60%,25%,0.35);
+    }
+
+    .btn-color1:active {
+        background-color: hsla(210,60%,25%,0.5);
+    }
+
+    .btn-color2 {
+        background-color: hsla(0, 59%, 27%, 0.35);
+    }
+
+    .btn-color2:active {
+        background-color: hsla(0, 59%, 27%, 0.5);
     }
 }

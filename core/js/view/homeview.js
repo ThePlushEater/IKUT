@@ -92,6 +92,7 @@ var IKUT;
             var self = this;
             self.$('.btn-detail').off('click');
             self.$('.btn-detail').on('click', function () {
+                click1.play();
                 if (!IKUT.View.getIsLoading()) {
                     IKUT.View.setIsLoading(true);
                     self.sideView = IKUT.SideViewFractory.create($('#wrapper-main'));

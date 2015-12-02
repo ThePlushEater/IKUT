@@ -1,8 +1,7 @@
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var IKUT;
 (function (IKUT) {
@@ -35,7 +34,6 @@ var IKUT;
                 self.addEventListener();
             }
             else if (args instanceof IKUT.User) {
-                console.log(args);
                 // apply template
                 var template = _.template(IKUT.Template.getSideViewTemplate());
                 var data = {};
@@ -76,8 +74,10 @@ var IKUT;
         };
         SideView.prototype.addEventListener = function () {
             var self = this;
+            self.$('.wrapper-button .btn-back').addClass('btn-color1');
             self.$('.wrapper-button .btn-back').off('click');
             self.$('.wrapper-button .btn-back').on('click', function () {
+                click1.play();
                 IKUT.View.setIsLoading(true);
                 self.animInactive();
             });

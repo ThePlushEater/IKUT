@@ -84,6 +84,8 @@
             var self: StarView = this;
             self.$('#btn-save').off('click');
             self.$('#btn-save').on('click', function () {
+                click1.play();
+
                 View.setIsLoading(true);
                 // remove all warnings
                 self.$('.warn').addClass('hidden');
@@ -107,10 +109,16 @@
                 Model.getCurUser().set('lastname', $('#lastname').val());
                 View.setIsLoading(false);
             });
+            
+            self.$('.btn-coupon').addClass('btn-color1');
+            self.$('.btn-shop').addClass('btn-color1');
 
+            self.$('.btn-shop').addClass('btn-color1');
             self.$('.btn-shop').off('click');
             self.$('.btn-shop').on('click', function () {
-                console.log("!");
+                click1.play();
+
+                
                 if (!Controller.getIsCharacterHasHairPin()) {
                     if (Model.getCurUser().getStars() > 10000000) {
                         Model.getCurUser().set('stars', Model.getCurUser().getStars() - 10000000);
